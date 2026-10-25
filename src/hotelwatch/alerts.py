@@ -1,9 +1,12 @@
 """Alert rules and delivery.
 
+The budget rule compares in INR; the movement rules compare in the engine's own currency so a
+drifting exchange rate never looks like the hotel changing its price.
+
 Rules (each fires at most once per run per target):
-* ``threshold``  price crossed below ``alert_below`` (was at/above it, or no prior reading)
-* ``new_low``    price is below every earlier reading
-* ``drop``       price fell by at least ``DROP_PCT`` since the previous reading
+* ``threshold``  INR price crossed below ``alert_below`` (was at/above it, or no prior reading)
+* ``new_low``    native price is below every earlier reading
+* ``drop``       native price fell by at least ``DROP_PCT`` since the previous reading
 """
 
 from __future__ import annotations
@@ -16,6 +19,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from hotelwatch.fx import to_inr
 from hotelwatch.models import Reading, Target
 
 log = logging.getLogger(__name__)
@@ -28,25 +32,51 @@ class Alert:
     target_id: str
     target_name: str
     kind: str
-    price: float
-    previous: float | None
+    price: float  # INR
+    previous: float | None  # INR
     message: str
     url: str
 
 
-def _fmt(amount: float, currency: str) -> str:
-    symbol = {"INR": "₹", "USD": "$", "EUR": "€", "GBP": "£"}.get(currency, currency + " ")
-    return f"{symbol}{amount:,.0f}"
+def fmt_inr(amount: float) -> str:
+    return f"₹{amount:,.0f}"
+
+
+def _native(reading: Reading) -> str:
+    if reading.currency == "INR" or reading.price is None:
+        return ""
+    return f" ({reading.currency} {reading.price:,.0f})"
+
+
+def row_inr(row: dict[str, Any]) -> float | None:
+    """INR value of a stored history row; INR rows need no rate."""
+    if row.get("price") is None:
+        return None
+    if (row.get("currency") or "INR") == "INR":
+        return float(row["price"])
+    return to_inr(row["price"], row.get("fx_rate"))
 
 
 def evaluate(target: Target, reading: Reading, prior: list[dict[str, Any]]) -> list[Alert]:
     if not reading.available or reading.price is None:
         return []
-    price = reading.price
-    cur = reading.currency
-    prior_prices = [p["price"] for p in prior if p.get("price") is not None]
-    prev = prior_prices[-1] if prior_prices else None
+    rate = 1.0 if reading.currency == "INR" else reading.fx_rate
+    price = to_inr(reading.price, rate)
+    if price is None:
+        log.warning("%s: no exchange rate, skipping alert evaluation", target.id)
+        return []
+    prior_inr = [v for v in (row_inr(p) for p in prior) if v is not None]
+    prev = prior_inr[-1] if prior_inr else None
+    same_currency = [
+        p
+        for p in prior
+        if (p.get("currency") or "INR") == reading.currency and p.get("price") is not None
+    ]
+    prior_native = [float(p["price"]) for p in same_currency]
+    prev_native = prior_native[-1] if prior_native else None
+    prev_native_inr = row_inr(same_currency[-1]) if same_currency else None
     alerts: list[Alert] = []
+    native = _native(reading)
 
     def add(kind: str, msg: str) -> None:
         alerts.append(
@@ -68,20 +98,24 @@ def evaluate(target: Target, reading: Reading, prior: list[dict[str, Any]]) -> l
     ):
         add(
             "threshold",
-            f"{target.name}: {_fmt(price, cur)} is under your "
-            f"{_fmt(target.alert_below, cur)} alert",
+            f"{target.name}: {fmt_inr(price)}{native} is under your "
+            f"{fmt_inr(target.alert_below)} alert",
         )
-    if prior_prices and price < min(prior_prices):
+    if prior_native and reading.price < min(prior_native):
+        low_row = min(same_currency, key=lambda p: p["price"])
+        was = row_inr(low_row)
         add(
             "new_low",
-            f"{target.name}: new low {_fmt(price, cur)} (was {_fmt(min(prior_prices), cur)})",
+            f"{target.name}: new low {fmt_inr(price)}{native}"
+            + (f" (was {fmt_inr(was)})" if was is not None else ""),
         )
-    if prev and prev > 0:
-        drop = (prev - price) / prev * 100
+    if prev_native and prev_native > 0:
+        drop = (prev_native - reading.price) / prev_native * 100
         if drop >= DROP_PCT:
             add(
                 "drop",
-                f"{target.name}: down {drop:.0f}% to {_fmt(price, cur)} from {_fmt(prev, cur)}",
+                f"{target.name}: down {drop:.0f}% to {fmt_inr(price)}{native}"
+                + (f" from {fmt_inr(prev_native_inr)}" if prev_native_inr is not None else ""),
             )
     return alerts
 

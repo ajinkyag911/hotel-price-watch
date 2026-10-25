@@ -8,6 +8,7 @@ from pathlib import Path
 from statistics import median
 from typing import Any
 
+from hotelwatch.fx import to_inr
 from hotelwatch.models import Reading, ScanTarget, Target, Watchlist
 from hotelwatch.scan import ScanResult
 
@@ -68,6 +69,8 @@ def _stats(points: list[dict[str, Any]], alert_below: float | None) -> dict[str,
     )
     return {
         "current": current["price"],
+        "current_native": current["native"],
+        "current_fx_rate": current["fx_rate"],
         "current_after_tax": current["after_tax"],
         "current_plan": current["plan"],
         "current_promo": current["promo"],
@@ -82,20 +85,28 @@ def _stats(points: list[dict[str, Any]], alert_below: float | None) -> dict[str,
     }
 
 
+def _rate(row: dict[str, Any]) -> float | None:
+    return 1.0 if (row.get("currency") or "INR") == "INR" else row.get("fx_rate")
+
+
 def _target_block(t: Target, rows: list[dict[str, Any]]) -> dict[str, Any]:
+    # ``price``/``after_tax`` are INR at the day's rate; ``native`` keeps the engine's figure.
     points = [
         {
             "t": row["observed_at"],
-            "price": row["price"],
-            "after_tax": row["price_after_tax"],
+            "price": to_inr(row["price"], _rate(row)),
+            "after_tax": to_inr(row["price_after_tax"], _rate(row)),
+            "native": row["price"],
+            "native_after_tax": row["price_after_tax"],
+            "fx_rate": _rate(row),
             "plan": row["plan_name"],
             "promo": row["promo"],
             "available": row["available"],
             "plans": [
                 {
                     "name": p["name"],
-                    "before_tax": p["before_tax"],
-                    "after_tax": p["after_tax"],
+                    "before_tax": to_inr(p["before_tax"], _rate(row)),
+                    "after_tax": to_inr(p["after_tax"], _rate(row)),
                     "refundable": p["refundable"],
                     "promo": p["promo"],
                 }
@@ -104,11 +115,16 @@ def _target_block(t: Target, rows: list[dict[str, Any]]) -> dict[str, Any]:
         }
         for row in rows
     ]
+    # Readings whose rate was unavailable can't be placed on an INR axis; keep them as gaps.
+    for pt in points:
+        if pt["native"] is not None and pt["price"] is None:
+            pt["available"] = False
     latest = rows[-1] if rows else {}
     return {
         **t.to_public_dict(),
         "currency": latest.get("currency") or "INR",
         "price_basis": latest.get("price_basis", "before_tax"),
+        "fx_rate": _rate(latest) if rows else None,
         "stats": _stats(points, t.alert_below),
         "readings": points,
     }
@@ -120,7 +136,8 @@ def _target_block(t: Target, rows: list[dict[str, Any]]) -> dict[str, Any]:
 def _scan_block(s: ScanTarget, runs: list[dict[str, Any]]) -> dict[str, Any]:
     history = []
     for run in runs:
-        priced = [p for p in run["points"] if p["price"] is not None]
+        rate = _rate(run)
+        priced = [p for p in run["points"] if to_inr(p["price"], rate) is not None]
         if not priced:
             history.append({"t": run["run_at"], "min": None, "min_date": None, "available": 0})
             continue
@@ -128,24 +145,38 @@ def _scan_block(s: ScanTarget, runs: list[dict[str, Any]]) -> dict[str, Any]:
         history.append(
             {
                 "t": run["run_at"],
-                "min": best["price"],
+                "min": to_inr(best["price"], rate),
+                "min_native": best["price"],
                 "min_date": best["check_in"],
-                "median": round(median(p["price"] for p in priced), 2),
+                "median": to_inr(median(p["price"] for p in priced), rate),
+                "fx_rate": rate,
                 "available": len(priced),
             }
         )
     latest = runs[-1] if runs else None
     # A run can lose dates to transient refusals. The grid shows, for every check-in date, the
-    # newest point any run produced, each stamped with when it was scanned.
+    # newest point any run produced, each stamped with when it was scanned and converted at
+    # that run's rate.
     merged: dict[str, dict[str, Any]] = {}
     for run in reversed(runs):
+        rate = _rate(run)
         for p in run["points"]:
-            merged.setdefault(p["check_in"], {**p, "t": run["run_at"]})
+            merged.setdefault(
+                p["check_in"],
+                {
+                    **p,
+                    "native": p["price"],
+                    "price": to_inr(p["price"], rate),
+                    "fx_rate": rate,
+                    "t": run["run_at"],
+                },
+            )
     points = [merged[d] for d in sorted(merged)]
     return {
         **s.to_public_dict(),
         "currency": (latest or {}).get("currency") or "INR",
         "price_basis": (latest or {}).get("price_basis", "before_tax"),
+        "fx_rate": _rate(latest) if latest else None,
         "latest": (
             {
                 "run_at": latest["run_at"],

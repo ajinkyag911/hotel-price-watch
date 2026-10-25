@@ -73,3 +73,15 @@ def test_run_scan_collects_points_and_counts_failures() -> None:
     assert by_date["2027-01-02"].price == 3000.0  # Saturday
     rec = result.to_record()
     assert rec["scan_id"] == "s" and len(rec["points"]) == 6 and "run_at" in rec
+    assert rec["fx_rate"] is None
+
+
+def test_run_scan_attaches_rate_for_currency() -> None:
+    from hotelwatch.fx import Converter
+
+    s = ScanTarget(
+        id="s", name="n", url="u", provider="fake", room="r", nights=2,
+        from_date=date(2027, 1, 1), to_date=date(2027, 1, 2),
+    )  # fmt: skip
+    fx = Converter(lambda url, **kw: {"rates": {"INR": 2.75}})
+    assert run_scan(s, DateProvider(), fx).fx_rate == 2.75

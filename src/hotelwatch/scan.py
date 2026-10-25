@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from typing import Any
 
+from hotelwatch.fx import Converter
 from hotelwatch.models import Reading, ScanTarget
 from hotelwatch.providers.base import Provider, ProviderError
 
@@ -31,6 +32,7 @@ class ScanResult:
     price_basis: str
     points: tuple[ScanPoint, ...]
     failures: int
+    fx_rate: float | None = None
 
     def to_record(self) -> dict[str, Any]:
         return {
@@ -39,12 +41,13 @@ class ScanResult:
             "nights": self.nights,
             "currency": self.currency,
             "price_basis": self.price_basis,
+            "fx_rate": self.fx_rate,
             "failures": self.failures,
             "points": [asdict(p) for p in self.points],
         }
 
 
-def run_scan(scan: ScanTarget, provider: Provider) -> ScanResult:
+def run_scan(scan: ScanTarget, provider: Provider, fx: Converter | None = None) -> ScanResult:
     points: list[ScanPoint] = []
     failures = 0
     currency = ""
@@ -76,4 +79,5 @@ def run_scan(scan: ScanTarget, provider: Provider) -> ScanResult:
         price_basis=basis,
         points=tuple(points),
         failures=failures,
+        fx_rate=fx.rate(currency) if fx and currency else None,
     )

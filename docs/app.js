@@ -43,6 +43,11 @@ const luminance = (hex) => {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 };
 const roomTitle = (name) => name.split(" · ").slice(1).join(" · ") || name;
+const INR = money("INR");
+const nativeNote = (currency, amount, rate) =>
+  currency && currency !== "INR" && amount != null
+    ? `${money(currency).format(amount)}${rate ? ` at ₹${rate.toFixed(2)}` : ""}`
+    : "";
 const basisLabel = (basis) => (basis === "after_tax" ? "incl. taxes & fees" : "before tax");
 const localDate = (iso) => new Date(iso + "T00:00:00");
 
@@ -100,14 +105,15 @@ function placeTooltip(tooltip, wrap, x, y) {
 
 function renderCard(target) {
   const currency = target.currency || "INR";
-  const fmt = money(currency);
+  const fmt = INR;
   const frag = document.getElementById("card").content.cloneNode(true);
   const card = frag.querySelector(".card");
   card.querySelector(".card-title").textContent = roomTitle(target.name);
   card.querySelector(".card-meta").textContent =
     `${fmtDate.format(localDate(target.check_in))} → ${fmtDateYear.format(localDate(target.check_out))} · ` +
     `${target.nights} night${target.nights === 1 ? "" : "s"} · ${guestsLabel(target)}` +
-    `${target.rate_plan ? ` · ${target.rate_plan} plans` : ""} · totals ${basisLabel(target.price_basis)}`;
+    `${target.rate_plan ? ` · ${target.rate_plan} plans` : ""} · totals ${basisLabel(target.price_basis)}` +
+    `${currency !== "INR" ? ` · priced in ${currency}, shown in ₹ at the day's rate` : ""}`;
   card.querySelector(".book-link").href = target.url;
 
   const s = target.stats;
@@ -120,10 +126,11 @@ function renderCard(target) {
       const down = s.change_pct_vs_prev < 0;
       delta = { dir: down ? "down" : "up", text: `${down ? "↓" : "↑"} ${Math.abs(s.change_pct_vs_prev)}%` };
     }
+    const native = nativeNote(currency, s.current_native, s.current_fx_rate);
     renderTile(tiles, "Current", fmt.format(s.current), {
       delta,
       note: s.available
-        ? `${s.current_plan ?? ""}${s.current_promo ? ` · ${s.current_promo}` : ""}`
+        ? `${native ? native + " · " : ""}${s.current_plan ?? ""}${s.current_promo ? ` · ${s.current_promo}` : ""}`
         : "Last seen price · currently unavailable",
     });
     renderTile(tiles, "Lowest seen", fmt.format(s.lowest), { note: `on ${fmtDateYear.format(new Date(s.lowest_at))}` });
@@ -163,6 +170,7 @@ function renderCard(target) {
     ["Observed", ""],
     [afterTax ? "Total incl. taxes" : "Before tax", "num"],
     ...(afterTax ? [] : [["After tax", "num"]]),
+    ...(currency !== "INR" ? [[`In ${currency}`, "num"]] : []),
     ["Plan", ""],
     ["Offer", ""],
   ]) {
@@ -173,12 +181,13 @@ function renderCard(target) {
     const tr = el("tr");
     tr.append(el("td", null, fmtDateTime.format(new Date(r.t))));
     if (r.price == null) {
-      const td = el("td", "soldout", "Unavailable");
-      td.colSpan = afterTax ? 3 : 4;
+      const td = el("td", "soldout", r.native != null ? "No exchange rate" : "Unavailable");
+      td.colSpan = (afterTax ? 3 : 4) + (currency !== "INR" ? 1 : 0);
       tr.append(td);
     } else {
       tr.append(el("td", "num", fmt.format(r.price)));
       if (!afterTax) tr.append(el("td", "num", r.after_tax != null ? fmt.format(r.after_tax) : "—"));
+      if (currency !== "INR") tr.append(el("td", "num", money(currency).format(r.native)));
       tr.append(el("td", null, r.plan ?? "—"));
       tr.append(el("td", null, r.promo ?? "—"));
     }
@@ -190,6 +199,7 @@ function renderCard(target) {
 /* ---------- line chart (shared by spot cards and scan trends) ---------- */
 
 function drawLineChart(svg, tooltip, caption, { label, currency, alertBelow, basis, readings }) {
+  // Values are INR; ``currency`` is only used to label the engine's native figure.
   svg.replaceChildren();
   tooltip.hidden = true;
   const width = svg.clientWidth || 600;
@@ -208,8 +218,8 @@ function drawLineChart(svg, tooltip, caption, { label, currency, alertBelow, bas
     return;
   }
 
-  const fmt = money(currency);
-  const cmp = compact(currency);
+  const fmt = INR;
+  const cmp = compact("INR");
   // Right margin holds the end label and the alert label; size it for the longest one.
   const longest = Math.max(
     fmt.format(Math.max(...points.map((p) => p.price))).length,
@@ -312,6 +322,7 @@ function drawLineChart(svg, tooltip, caption, { label, currency, alertBelow, bas
     tooltip.replaceChildren(
       el("div", "tt-value", fmt.format(p.price)),
       el("div", "tt-row", `${p.plan ?? "—"}${basis !== "after_tax" && p.after_tax != null ? ` · ${fmt.format(p.after_tax)} incl. tax` : ""}`),
+      ...(p.native != null && p.fx_rate && p.fx_rate !== 1 ? [el("div", "tt-row plain", nativeNote(currency, p.native, p.fx_rate))] : []),
       el("div", "tt-row plain", `${p.promo ? p.promo + " · " : ""}${fmtDateTime.format(new Date(p.time))}`),
     );
     placeTooltip(tooltip, svg, (x / width) * svg.clientWidth, 8);
@@ -346,13 +357,14 @@ function drawLineChart(svg, tooltip, caption, { label, currency, alertBelow, bas
 
 function renderScanCard(scan) {
   const currency = scan.currency || "INR";
-  const fmt = money(currency);
+  const fmt = INR;
   const frag = document.getElementById("scan-card").content.cloneNode(true);
   const card = frag.querySelector(".card");
   card.querySelector(".card-title").textContent = roomTitle(scan.name);
   card.querySelector(".card-meta").textContent =
     `${scan.nights}-night stays · check-ins ${fmtDate.format(localDate(scan.from))} → ${fmtDateYear.format(localDate(scan.to))} · ` +
-    `${guestsLabel(scan)}${scan.rate_plan ? ` · ${scan.rate_plan} plans` : ""} · totals ${basisLabel(scan.price_basis)}`;
+    `${guestsLabel(scan)}${scan.rate_plan ? ` · ${scan.rate_plan} plans` : ""} · totals ${basisLabel(scan.price_basis)}` +
+    `${currency !== "INR" ? ` · priced in ${currency}, shown in ₹ at the day's rate` : ""}`;
   card.querySelector(".book-link").href = scan.url;
 
   const tiles = card.querySelector(".tiles");
@@ -379,7 +391,7 @@ function renderScanCard(scan) {
     }
     renderTile(tiles, "Cheapest check-in", fmt.format(best.price), {
       delta,
-      note: `${fmtWeekdayDate.format(localDate(best.check_in))}${best.promo ? ` · ${best.promo}` : ""}`,
+      note: `${fmtWeekdayDate.format(localDate(best.check_in))}${best.native != null && currency !== "INR" ? ` · ${money(currency).format(best.native)}` : ""}${best.promo ? ` · ${best.promo}` : ""}`,
     });
     renderTile(tiles, "Median across dates", fmt.format(med), { note: `${priced.length} of ${latest.points.length} dates available` });
     renderTile(tiles, "Most expensive", fmt.format(sorted[sorted.length - 1].price), {
@@ -398,7 +410,7 @@ function renderScanCard(scan) {
     for (const p of sorted.slice(0, CHEAPEST_N)) {
       const tr = el("tr");
       tr.append(el("td", null, fmtWeekdayDate.format(localDate(p.check_in))));
-      tr.append(el("td", "num", fmt.format(p.price)));
+      tr.append(el("td", "num", `${fmt.format(p.price)}${currency !== "INR" ? ` (${money(currency).format(p.native)})` : ""}`));
       tr.append(el("td", null, p.plan ?? "—"));
       tr.append(el("td", null, p.promo ?? "—"));
       cheapestBody.append(tr);
@@ -437,7 +449,7 @@ function renderScanCard(scan) {
 function drawHeatmap(container, legend, tooltip, scan, points, cheapestIds, currency) {
   container.replaceChildren();
   legend.replaceChildren();
-  const fmt = money(currency);
+  const fmt = INR;
   const ramp = RAMP[isDark() ? "dark" : "light"];
   const byDate = new Map(points.map((p) => [p.check_in, p]));
   const priced = points.filter((p) => p.price != null).map((p) => p.price).sort((a, b) => a - b);
@@ -487,6 +499,7 @@ function drawHeatmap(container, legend, tooltip, scan, points, cheapestIds, curr
         const show = () => {
           tooltip.replaceChildren(
             el("div", "tt-value", p.price != null ? fmt.format(p.price) : "Unavailable"),
+            ...(p.native != null && currency !== "INR" ? [el("div", "tt-row plain", nativeNote(currency, p.native, p.fx_rate))] : []),
             el("div", "tt-row plain", `${fmtWeekdayDate.format(date)} · ${scan.nights} nights`),
             ...(p.t ? [el("div", "tt-row plain", `scanned ${fmtDateTime.format(new Date(p.t))}`)] : []),
             ...(p.plan ? [el("div", "tt-row plain", `${p.plan}${p.promo ? ` · ${p.promo}` : ""}`)] : []),
@@ -564,7 +577,7 @@ function overviewRow(group) {
   const lines = el("ul", "hotel-row__lines");
 
   for (const t of group.targets) {
-    const fmt = money(t.currency || "INR");
+    const fmt = INR;
     const li = el("li", "line");
     const label = el("span", "line__label");
     label.append(el("span", "line__room", t.room.split(" · ").pop()));
@@ -587,7 +600,7 @@ function overviewRow(group) {
     lines.append(li);
   }
   for (const sc of group.scans) {
-    const fmt = money(sc.currency || "INR");
+    const fmt = INR;
     const li = el("li", "line");
     const label = el("span", "line__label");
     label.append(el("span", "line__room", `${sc.nights}-night stays`));
@@ -618,9 +631,9 @@ function overviewRow(group) {
 
 function navSummary(group) {
   const t = group.targets.find((x) => x.stats.current != null);
-  if (t) return `${money(t.currency || "INR").format(t.stats.current)} · ${t.nights}n`;
+  if (t) return `${INR.format(t.stats.current)} · ${t.nights}n`;
   const s = group.scans.find((x) => x.history.length && x.history[x.history.length - 1].min != null);
-  if (s) return `from ${money(s.currency || "INR").format(s.history[s.history.length - 1].min)}`;
+  if (s) return `from ${INR.format(s.history[s.history.length - 1].min)}`;
   return "no data yet";
 }
 
@@ -664,7 +677,7 @@ function renderOverview(data) {
   const list = el("div", "overview");
   for (const g of groups) list.append(overviewRow(g));
   view.append(list);
-  view.append(el("p", "page-footer", "Prices are totals for the whole stay as the booking engine shows them; each card says whether that is before or after tax."));
+  view.append(el("p", "page-footer", "All prices in ₹, converted at the ECB reference rate of the day each reading was taken. Hotels priced in another currency show the original figure alongside. Each card says whether totals are before or after tax."));
 }
 
 function renderDetail(group) {

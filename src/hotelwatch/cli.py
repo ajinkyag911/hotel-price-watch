@@ -6,10 +6,12 @@ import argparse
 import json
 import logging
 import sys
+from dataclasses import replace
 from pathlib import Path
 
 from hotelwatch import __version__
 from hotelwatch.alerts import evaluate, send_ntfy, write_alerts
+from hotelwatch.fx import Converter
 from hotelwatch.models import Reading, Watchlist, WatchlistError, load_watchlist
 from hotelwatch.providers import ProviderError, get_provider
 from hotelwatch.scan import ScanResult, run_scan
@@ -68,6 +70,7 @@ def cmd_run(args: argparse.Namespace) -> int:
     wl = _read_watchlist(args.watchlist)
     history = load_history(args.history)
     providers: dict[str, object] = {}
+    fx = Converter()
     readings: list[Reading] = []
     alerts = []
     failures = 0
@@ -81,6 +84,7 @@ def cmd_run(args: argparse.Namespace) -> int:
             failures += 1
             log.error("%s: %s", t.id, exc)
             continue
+        reading = replace(reading, fx_rate=fx.rate(reading.currency))
         readings.append(reading)
         new_alerts = evaluate(t, reading, prior)
         alerts.extend(new_alerts)
@@ -116,6 +120,7 @@ def cmd_scan(args: argparse.Namespace) -> int:
         log.error("no scans to run")
         return 2
     providers: dict[str, object] = {}
+    fx = Converter()
     results: list[ScanResult] = []
     for s in scans:
         try:
@@ -123,7 +128,7 @@ def cmd_scan(args: argparse.Namespace) -> int:
         except ProviderError as exc:
             log.error("%s: %s", s.id, exc)
             continue
-        result = run_scan(s, provider)  # type: ignore[arg-type]
+        result = run_scan(s, provider, fx)  # type: ignore[arg-type]
         results.append(result)
         priced = [p for p in result.points if p.price is not None]
         if priced:

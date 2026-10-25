@@ -64,3 +64,31 @@ def test_unpriced_prior_rows_are_ignored(riva_target) -> None:
     # 2.5% drop is under the threshold; 39,000 is still a new low against the one priced row.
     assert [a.kind for a in alerts] == ["new_low"]
     assert alerts[0].previous == 40000
+
+
+def test_foreign_currency_is_converted_before_comparing(riva_target) -> None:
+    from dataclasses import replace
+
+    target = replace(riva_target, alert_below=95000)  # INR
+    thb = replace(_reading("riva", 32000), currency="THB", fx_rate=2.8)  # ₹89,600
+    alerts = evaluate(target, thb, [{"price": 40500, "currency": "THB", "fx_rate": 2.8}])
+    kinds = {a.kind for a in alerts}
+    assert kinds == {"threshold", "new_low", "drop"}
+    assert alerts[0].price == 89600.0
+    assert "₹89,600 (THB 32,000)" in alerts[0].message
+
+
+def test_missing_rate_skips_evaluation(riva_target) -> None:
+    from dataclasses import replace
+
+    thb = replace(_reading("riva", 32000), currency="THB", fx_rate=None)
+    assert evaluate(riva_target, thb, []) == []
+
+
+def test_exchange_rate_drift_alone_does_not_alert(riva_target) -> None:
+    from dataclasses import replace
+
+    target = replace(riva_target, alert_below=95000)
+    thb = replace(_reading("riva", 40500), currency="THB", fx_rate=2.80)
+    prior = [{"price": 40500, "currency": "THB", "fx_rate": 2.8135}]  # same baht, stronger rupee
+    assert evaluate(target, thb, prior) == []

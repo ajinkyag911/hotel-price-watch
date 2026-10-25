@@ -76,8 +76,25 @@ def test_site_data_target_stats(riva_target) -> None:
     assert s["below_alert"] is True
     assert s["readings"] == 4
     assert target["readings"][1]["available"] is False
+    assert target["readings"][0]["native"] == 42000 and target["readings"][0]["fx_rate"] == 1.0
     assert target["nights"] == 4
     assert data["scans"] == []
+
+
+def test_site_data_converts_foreign_currency(riva_target) -> None:
+    t0 = datetime(2026, 10, 25, tzinfo=UTC)
+    row = _reading(40500, t0).to_record()
+    row.update(currency="THB", fx_rate=2.8, price_basis="after_tax")
+    no_rate = _reading(41000, t0.replace(hour=6)).to_record()
+    no_rate.update(currency="THB", fx_rate=None)
+    target = build_site_data(Watchlist((riva_target,), ()), [row, no_rate])["targets"][0]
+    assert target["currency"] == "THB"
+    first, second = target["readings"]
+    assert first["price"] == 113400.0 and first["native"] == 40500 and first["fx_rate"] == 2.8
+    assert first["plans"][0]["before_tax"] == 113400.0
+    assert second["price"] is None and second["available"] is False  # unconvertible → gap
+    assert target["stats"]["current"] == 113400.0
+    assert target["stats"]["current_native"] == 40500
 
 
 def test_site_data_without_readings(riva_target) -> None:
@@ -93,7 +110,7 @@ def test_site_data_scans(tmp_path: Path) -> None:
     )  # fmt: skip
     r1 = ScanResult(
         scan_id="s", run_at=datetime(2026, 10, 25, tzinfo=UTC), nights=5, currency="THB",
-        price_basis="after_tax", failures=0,
+        price_basis="after_tax", failures=0, fx_rate=2.0,
         points=(
             ScanPoint("2027-01-01", 50000.0, "A", None, True),
             ScanPoint("2027-01-02", 40000.0, "A", "deal", True),
@@ -102,7 +119,7 @@ def test_site_data_scans(tmp_path: Path) -> None:
     )  # fmt: skip
     r2 = ScanResult(
         scan_id="s", run_at=datetime(2026, 10, 26, tzinfo=UTC), nights=5, currency="THB",
-        price_basis="after_tax", failures=1,
+        price_basis="after_tax", failures=1, fx_rate=2.5,
         points=(ScanPoint("2027-01-01", 45000.0, "A", None, True),),
     )  # fmt: skip
     path = tmp_path / "scans.jsonl"
@@ -114,18 +131,23 @@ def test_site_data_scans(tmp_path: Path) -> None:
     assert block["currency"] == "THB" and block["price_basis"] == "after_tax"
     # Newest value per date wins; dates the latest run missed fall back to the earlier run.
     pts = {p["check_in"]: p for p in block["latest"]["points"]}
-    assert pts["2027-01-01"]["price"] == 45000.0 and pts["2027-01-01"]["t"].startswith("2026-10-26")
-    assert pts["2027-01-02"]["price"] == 40000.0 and pts["2027-01-02"]["t"].startswith("2026-10-25")
+    # INR at each run's own rate; native figure kept.
+    assert pts["2027-01-01"]["price"] == 112500.0 and pts["2027-01-01"]["native"] == 45000.0
+    assert pts["2027-01-01"]["t"].startswith("2026-10-26")
+    assert pts["2027-01-02"]["price"] == 80000.0 and pts["2027-01-02"]["t"].startswith("2026-10-25")
     assert pts["2027-01-03"]["available"] is False
     assert block["latest"]["failures"] == 1 and block["latest"]["fresh"] == 1
+    assert block["fx_rate"] == 2.5
     assert block["history"][0] == {
         "t": "2026-10-25T00:00:00+00:00",
-        "min": 40000.0,
+        "min": 80000.0,
+        "min_native": 40000.0,
         "min_date": "2027-01-02",
-        "median": 45000.0,
+        "median": 90000.0,
+        "fx_rate": 2.0,
         "available": 2,
     }
-    assert block["history"][1]["min"] == 45000.0
+    assert block["history"][1]["min"] == 112500.0
 
 
 def test_write_json_is_compact(tmp_path: Path) -> None:

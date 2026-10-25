@@ -95,7 +95,7 @@ class Target:
             "adults": self.adults,
             "children": list(self.children),
             "rate_plan": self.rate_plan,
-            "alert_below": self.alert_below,
+            "alert_below": self.alert_below,  # INR
         }
 
 
@@ -203,6 +203,7 @@ class Reading:
     plans: tuple[PlanQuote, ...] = ()
     note: str | None = None
     price_basis: PriceBasis = "before_tax"
+    fx_rate: float | None = None  # INR per unit of ``currency`` on the observation day
 
     @staticmethod
     def now() -> datetime:

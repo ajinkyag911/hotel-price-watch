@@ -26,6 +26,10 @@ watchlist.json ─┬─► hotelwatch run   (every 6 h) ──► data/history.
   Each reading carries `price_basis` (`before_tax` or `after_tax`) and the page labels it.
   Add an engine by implementing `fetch(target) -> Reading` in `src/hotelwatch/providers/` and
   registering it in `providers/__init__.py`.
+* **Currency.** Everything is shown in INR. Engines that quote in another currency are converted
+  at that day's rate, fetched once per run (open.er-api.com, falling back to the ECB rates on
+  api.frankfurter.dev) and stored with the reading as `fx_rate`, so history never shifts when
+  rates move. The native figure is kept and shown alongside. `alert_below` is always in INR.
 * **Alerts** fire when a spot price crosses below `alert_below`, hits a new all-time low, or
   drops 5% or more since the previous reading. The workflow opens or comments on a GitHub issue
   labelled `price-alert` (GitHub emails you) and pushes to an [ntfy](https://ntfy.sh) topic if
