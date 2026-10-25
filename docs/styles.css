@@ -165,6 +165,8 @@ p { margin: 0; }
 .chart-svg .hit { fill: transparent; cursor: crosshair; }
 .chart-caption { font-size: 12px; color: var(--muted); margin-top: 6px; }
 .chart-empty { color: var(--ink-2); font-size: 14px; padding: 48px 0; text-align: center; }
+.chart.is-empty .chart-svg { height: 120px; }
+.chart.is-empty .chart-empty { padding: 40px 0; }
 
 .tooltip {
   position: absolute;

@@ -115,6 +115,10 @@ function renderCard(target, currency) {
   }
 
   const figure = card.querySelector(".chart");
+  if (!target.readings.length) {
+    figure.classList.add("is-empty");
+    card.querySelector(".readings").remove();
+  }
   const svg = card.querySelector(".chart-svg");
   const tooltip = card.querySelector(".tooltip");
   const caption = card.querySelector(".chart-caption");
@@ -231,7 +235,7 @@ function drawChart(svg, tooltip, caption, target, currency, readings) {
   // markers: lowest (hollow) + latest (filled), with direct labels
   const last = points[points.length - 1];
   const low = points.reduce((a, b) => (b.price < a.price ? b : a));
-  if (low !== last) {
+  if (low.price < last.price) {
     svg.append(svgEl("circle", { class: "dot low", cx: sx(low.time), cy: sy(low.price), r: 4 }));
     const lbl = svgEl("text", { class: "label muted", x: sx(low.time), y: sy(low.price) + 18, "text-anchor": "middle" });
     lbl.textContent = `Low ${money.format(low.price)}`;
