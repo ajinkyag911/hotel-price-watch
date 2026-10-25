@@ -42,6 +42,7 @@ const luminance = (hex) => {
     .map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 };
+const roomTitle = (name) => name.split(" · ").slice(1).join(" · ") || name;
 const basisLabel = (basis) => (basis === "after_tax" ? "incl. taxes & fees" : "before tax");
 const localDate = (iso) => new Date(iso + "T00:00:00");
 
@@ -102,7 +103,7 @@ function renderCard(target) {
   const fmt = money(currency);
   const frag = document.getElementById("card").content.cloneNode(true);
   const card = frag.querySelector(".card");
-  card.querySelector(".card-title").textContent = target.name;
+  card.querySelector(".card-title").textContent = roomTitle(target.name);
   card.querySelector(".card-meta").textContent =
     `${fmtDate.format(localDate(target.check_in))} → ${fmtDateYear.format(localDate(target.check_out))} · ` +
     `${target.nights} night${target.nights === 1 ? "" : "s"} · ${guestsLabel(target)}` +
@@ -343,7 +344,7 @@ function renderScanCard(scan) {
   const fmt = money(currency);
   const frag = document.getElementById("scan-card").content.cloneNode(true);
   const card = frag.querySelector(".card");
-  card.querySelector(".card-title").textContent = scan.name;
+  card.querySelector(".card-title").textContent = roomTitle(scan.name);
   card.querySelector(".card-meta").textContent =
     `${scan.nights}-night stays · check-ins ${fmtDate.format(localDate(scan.from))} → ${fmtDateYear.format(localDate(scan.to))} · ` +
     `${guestsLabel(scan)}${scan.rate_plan ? ` · ${scan.rate_plan} plans` : ""} · totals ${basisLabel(scan.price_basis)}`;
@@ -515,26 +516,153 @@ function drawHeatmap(container, legend, tooltip, scan, points, cheapestIds, curr
   }
 }
 
-/* ---------- page ---------- */
+/* ---------- page: overview list + per-hotel detail, hash-routed ---------- */
 
-function render() {
-  const main = document.getElementById("targets");
-  main.replaceChildren();
-  const { data } = state;
-  if (!data || (!data.targets.length && !data.scans?.length)) {
-    main.append(el("p", "empty", "Nothing in the watchlist yet."));
+const hotelKey = (name) => name.split(" · ")[0].trim();
+const hotelHash = (key) => `#/hotel/${encodeURIComponent(key)}`;
+
+function groupHotels(data) {
+  const map = new Map();
+  const add = (item, kind) => {
+    const key = hotelKey(item.name);
+    if (!map.has(key)) map.set(key, { key, name: key, targets: [], scans: [] });
+    map.get(key)[kind].push(item);
+  };
+  for (const t of data.targets) add(t, "targets");
+  for (const s of data.scans ?? []) add(s, "scans");
+  return [...map.values()];
+}
+
+function route() {
+  const m = location.hash.match(/^#\/hotel\/(.+)$/);
+  return m ? decodeURIComponent(m[1]) : null;
+}
+
+function sparkline(readings) {
+  const pts = readings.filter((r) => r.price != null).slice(-30);
+  const w = 120, h = 32;
+  const svg = svgEl("svg", { class: "spark", viewBox: `0 0 ${w} ${h}`, "aria-hidden": "true" });
+  if (pts.length < 2) return svg;
+  const lo = Math.min(...pts.map((p) => p.price)), hi = Math.max(...pts.map((p) => p.price));
+  const sx = (i) => 2 + (i / (pts.length - 1)) * (w - 4);
+  const sy = (v) => (hi === lo ? h / 2 : 4 + (1 - (v - lo) / (hi - lo)) * (h - 8));
+  svg.append(svgEl("path", { class: "spark-line", d: pts.map((p, i) => `${i ? "L" : "M"}${sx(i).toFixed(1)},${sy(p.price).toFixed(1)}`).join(" ") }));
+  svg.append(svgEl("circle", { class: "spark-dot", cx: sx(pts.length - 1), cy: sy(pts[pts.length - 1].price), r: 2.5 }));
+  return svg;
+}
+
+function overviewRow(group) {
+  const a = el("a", "hotel-row");
+  a.href = hotelHash(group.key);
+  const left = el("div", "hotel-row__main");
+  left.append(el("h2", "hotel-row__name", group.name));
+  const lines = el("ul", "hotel-row__lines");
+
+  for (const t of group.targets) {
+    const fmt = money(t.currency || "INR");
+    const li = el("li", "line");
+    const label = el("span", "line__label");
+    label.append(el("span", "line__room", t.room.split(" · ").pop()));
+    label.append(document.createTextNode(` · ${fmtDate.format(localDate(t.check_in))} → ${fmtDate.format(localDate(t.check_out))}, ${t.nights}n`));
+    li.append(label);
+    const val = el("span", "line__value");
+    const s = t.stats;
+    if (s.current == null) {
+      val.append(el("span", "muted", t.readings.length ? "Unavailable" : "No reading yet"));
+    } else {
+      val.append(el("strong", null, fmt.format(s.current)));
+      if (s.change_pct_vs_prev) {
+        const down = s.change_pct_vs_prev < 0;
+        val.append(el("span", "delta " + (down ? "down" : "up"), `${down ? "↓" : "↑"}${Math.abs(s.change_pct_vs_prev)}%`));
+      }
+      if (s.below_alert) val.append(el("span", "pill good", "below alert"));
+      else if (!s.available) val.append(el("span", "pill neutral", "last seen"));
+    }
+    li.append(val);
+    lines.append(li);
+  }
+  for (const sc of group.scans) {
+    const fmt = money(sc.currency || "INR");
+    const li = el("li", "line");
+    const label = el("span", "line__label");
+    label.append(el("span", "line__room", `${sc.nights}-night stays`));
+    label.append(document.createTextNode(` · ${fmtDate.format(localDate(sc.from))} → ${fmtDate.format(localDate(sc.to))}`));
+    li.append(label);
+    const val = el("span", "line__value");
+    const last = sc.history[sc.history.length - 1];
+    if (!last || last.min == null) {
+      val.append(el("span", "muted", "No scan yet"));
+    } else {
+      val.append(document.createTextNode("cheapest "));
+      val.append(el("strong", null, fmt.format(last.min)));
+      val.append(document.createTextNode(` on ${fmtDate.format(localDate(last.min_date))}`));
+    }
+    li.append(val);
+    lines.append(li);
+  }
+  left.append(lines);
+  a.append(left);
+
+  const right = el("div", "hotel-row__side");
+  const primary = group.targets.find((t) => t.readings.length);
+  if (primary) right.append(sparkline(primary.readings));
+  right.append(el("span", "chev", "›"));
+  a.append(right);
+  return a;
+}
+
+function renderOverview(data) {
+  const view = document.getElementById("view");
+  view.replaceChildren();
+  document.title = "Hotel price watch";
+  document.querySelector(".filters").hidden = true;
+  const groups = groupHotels(data);
+  if (!groups.length) {
+    view.append(el("p", "empty", "Nothing in the watchlist yet."));
     return;
   }
-  for (const t of data.targets) main.append(renderCard(t));
-  const scansSection = document.getElementById("scans");
-  const scanCards = document.getElementById("scan-cards");
-  scanCards.replaceChildren();
-  if (data.scans?.length) {
-    scansSection.hidden = false;
-    for (const s of data.scans) scanCards.append(renderScanCard(s));
-  } else {
-    scansSection.hidden = true;
+  const strip = el("p", "summary-strip",
+    `${groups.length} hotel${groups.length === 1 ? "" : "s"} · ${data.targets.length} stay${data.targets.length === 1 ? "" : "s"} watched · ${(data.scans ?? []).length} date scan${(data.scans ?? []).length === 1 ? "" : "s"}`);
+  view.append(strip);
+  const list = el("div", "overview");
+  for (const g of groups) list.append(overviewRow(g));
+  view.append(list);
+}
+
+function renderDetail(group) {
+  const view = document.getElementById("view");
+  view.replaceChildren();
+  document.title = `${group.name} · Hotel price watch`;
+  const back = el("a", "back-link", "← All hotels");
+  back.href = "#/";
+  view.append(back);
+  view.append(el("h1", "detail-title", group.name));
+  document.querySelector(".filters").hidden = false;
+  view.append(document.querySelector(".filters"));
+  if (group.targets.length) {
+    view.append(el("h2", "section-title", "Watched stays"));
+    for (const t of group.targets) view.append(renderCard(t));
   }
+  if (group.scans.length) {
+    view.append(el("h2", "section-title", "Cheapest dates"));
+    view.append(el("p", "section-sub", "Every check-in date in the window, priced daily for a fixed stay length. Colour runs from cheapest to priciest; outlined cells are the five cheapest."));
+    for (const s of group.scans) view.append(renderScanCard(s));
+  }
+}
+
+function render() {
+  const { data } = state;
+  if (!data) return;
+  // Park the range filter outside the view so replacing the view never destroys it.
+  document.getElementById("filters-slot").append(document.querySelector(".filters"));
+  const key = route();
+  const group = key && groupHotels(data).find((g) => g.key === key);
+  if (group) renderDetail(group);
+  else {
+    if (key) history.replaceState(null, "", "#/");
+    renderOverview(data);
+  }
+  window.scrollTo(0, 0);
 }
 
 function setRange(range) {
@@ -561,7 +689,8 @@ async function init() {
     b.setAttribute("aria-checked", String(b.dataset.range === state.range));
     b.addEventListener("click", () => setRange(b.dataset.range));
   }
-  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => state.data && render());
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
+  window.addEventListener("hashchange", render);
   try {
     const res = await fetch(DATA_URL, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -571,7 +700,7 @@ async function init() {
     updated.dateTime = state.data.generated_at;
     render();
   } catch (err) {
-    document.getElementById("targets").replaceChildren(
+    document.getElementById("view").replaceChildren(
       el("p", "empty", "Could not load price data yet. The first scheduled run creates it."),
     );
     console.error(err);

@@ -12,28 +12,23 @@
 <body>
   <header class="page-header">
     <div>
-      <h1>Hotel price watch</h1>
+      <h1><a class="home-link" href="#/">Hotel price watch</a></h1>
       <p class="sub">Updated <time id="updated">—</time> · spot prices every six hours, date scans daily</p>
     </div>
     <a id="repo-link" class="repo-link" href="#" hidden>Source</a>
   </header>
 
-  <div class="filters" role="radiogroup" aria-label="Time range for history charts">
+  <div class="filters" role="radiogroup" aria-label="Time range for history charts" hidden>
     <button type="button" data-range="7" aria-checked="false" role="radio">7 days</button>
     <button type="button" data-range="30" aria-checked="false" role="radio">30 days</button>
     <button type="button" data-range="90" aria-checked="false" role="radio">90 days</button>
     <button type="button" data-range="all" aria-checked="true" role="radio">All</button>
   </div>
 
-  <main>
-    <section id="targets" aria-live="polite">
-      <p class="loading">Loading…</p>
-    </section>
-    <section id="scans" aria-live="polite" hidden>
-      <h2 class="section-title">Cheapest dates</h2>
-      <p class="section-sub">Every check-in date in the window, priced daily for a fixed stay length. Colour runs from cheapest to priciest; outlined cells are the five cheapest.</p>
-      <div id="scan-cards"></div>
-    </section>
+  <div id="filters-slot" hidden></div>
+
+  <main id="view">
+    <p class="loading">Loading…</p>
   </main>
 
   <footer class="page-footer">
