@@ -199,10 +199,18 @@ function drawChart(svg, tooltip, caption, target, currency, readings) {
 
   // x ticks
   const spanDays = (tMax - tMin) / 86400e3;
-  const xfmt = spanDays > 180 ? new Intl.DateTimeFormat(undefined, { month: "short", year: "2-digit" }) : spanDays > 2 ? fmtDate : new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", hour: "2-digit" });
+  const xfmt =
+    spanDays > 180 ? new Intl.DateTimeFormat(undefined, { month: "short", year: "2-digit" })
+    : spanDays > 2 ? fmtDate
+    : spanDays > 0.5 ? new Intl.DateTimeFormat(undefined, { day: "numeric", month: "short", hour: "2-digit" })
+    : new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" });
+  let prevLabel = null;
   for (const t of timeTicks(tMin, tMax, x1 - x0)) {
+    const label = xfmt.format(new Date(t));
+    if (label === prevLabel) continue; // minutes-apart readings would otherwise repeat the same tick
+    prevLabel = label;
     const txt = svgEl("text", { class: "tick", x: sx(t), y: y1 + 18, "text-anchor": "middle" });
-    txt.textContent = xfmt.format(new Date(t));
+    txt.textContent = label;
     svg.append(txt);
   }
 
