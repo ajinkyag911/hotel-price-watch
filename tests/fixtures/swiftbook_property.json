@@ -1,0 +1,359 @@
+{
+ "PropertyList": [
+  {
+   "PropertyData": {
+    "PropertyId": "2476",
+    "PropertyName": "Riva Beach Resort",
+    "Currency": "INR",
+    "TaxTitle": "Tax Exclusive",
+    "Website": "https://rivaresorts.com/"
+   },
+   "RoomData": [
+    {
+     "RoomId": "128427",
+     "RoomName": "Deluxe  Room"
+    },
+    {
+     "RoomId": "128445",
+     "RoomName": "Super Deluxe Pool View Room"
+    },
+    {
+     "RoomId": "128446",
+     "RoomName": "Luxury Garden View Room"
+    },
+    {
+     "RoomId": "128447",
+     "RoomName": "Coco Wood Cottage with Balcony"
+    },
+    {
+     "RoomId": "128448",
+     "RoomName": "Superior Deluxe Room with Balcony"
+    },
+    {
+     "RoomId": "128449",
+     "RoomName": "Premium River View Room"
+    },
+    {
+     "RoomId": "128450",
+     "RoomName": "Premium River View Cottage"
+    },
+    {
+     "RoomId": "128451",
+     "RoomName": "Executive Suite"
+    },
+    {
+     "RoomId": "136632",
+     "RoomName": "Platinum Room"
+    },
+    {
+     "RoomId": "185204",
+     "RoomName": "Heritage Room with Balcony"
+    }
+   ],
+   "RateData": [
+    {
+     "RateId": "464800000000003",
+     "RateName": "Staycation Package \u2013 Breakfast and Dinner"
+    },
+    {
+     "RateId": "464800000000004",
+     "RateName": "Staycation Package \u2013 Free Breakfast"
+    },
+    {
+     "RateId": "464800000000016",
+     "RateName": "Staycation Package \u2013 Free Breakfast - Non Refundab"
+    },
+    {
+     "RateId": "464800000000017",
+     "RateName": "Staycation Package \u2013 Breakfast and Dinner - NRF"
+    },
+    {
+     "RateId": "464800000000018",
+     "RateName": "Riva Escape & Indulge"
+    }
+   ],
+   "Mapping": [
+    {
+     "MappingId": "128427_464800000000003",
+     "RoomId": "128427",
+     "RateId": "464800000000003",
+     "Meal": "MAP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128427_464800000000004",
+     "RoomId": "128427",
+     "RateId": "464800000000004",
+     "Meal": "CP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128427_464800000000016",
+     "RoomId": "128427",
+     "RateId": "464800000000016",
+     "Meal": "CP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "128427_464800000000017",
+     "RoomId": "128427",
+     "RateId": "464800000000017",
+     "Meal": "MAP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "128427_464800000000018",
+     "RoomId": "128427",
+     "RateId": "464800000000018",
+     "Meal": "Breakfast",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128445_464800000000003",
+     "RoomId": "128445",
+     "RateId": "464800000000003",
+     "Meal": "MAP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128445_464800000000004",
+     "RoomId": "128445",
+     "RateId": "464800000000004",
+     "Meal": "CP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128445_464800000000016",
+     "RoomId": "128445",
+     "RateId": "464800000000016",
+     "Meal": "CP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "128445_464800000000017",
+     "RoomId": "128445",
+     "RateId": "464800000000017",
+     "Meal": "MAP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "128445_464800000000018",
+     "RoomId": "128445",
+     "RateId": "464800000000018",
+     "Meal": "Breakfast",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128446_464800000000003",
+     "RoomId": "128446",
+     "RateId": "464800000000003",
+     "Meal": "MAP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128446_464800000000004",
+     "RoomId": "128446",
+     "RateId": "464800000000004",
+     "Meal": "CP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128446_464800000000016",
+     "RoomId": "128446",
+     "RateId": "464800000000016",
+     "Meal": "CP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "128446_464800000000017",
+     "RoomId": "128446",
+     "RateId": "464800000000017",
+     "Meal": "MAP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "128447_464800000000003",
+     "RoomId": "128447",
+     "RateId": "464800000000003",
+     "Meal": "MAP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128447_464800000000004",
+     "RoomId": "128447",
+     "RateId": "464800000000004",
+     "Meal": "CP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128447_464800000000016",
+     "RoomId": "128447",
+     "RateId": "464800000000016",
+     "Meal": "CP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "128447_464800000000017",
+     "RoomId": "128447",
+     "RateId": "464800000000017",
+     "Meal": "MAP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "128448_464800000000003",
+     "RoomId": "128448",
+     "RateId": "464800000000003",
+     "Meal": "MAP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128448_464800000000004",
+     "RoomId": "128448",
+     "RateId": "464800000000004",
+     "Meal": "CP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128448_464800000000016",
+     "RoomId": "128448",
+     "RateId": "464800000000016",
+     "Meal": "CP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "128448_464800000000017",
+     "RoomId": "128448",
+     "RateId": "464800000000017",
+     "Meal": "MAP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "128448_464800000000018",
+     "RoomId": "128448",
+     "RateId": "464800000000018",
+     "Meal": "Breakfast",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128449_464800000000003",
+     "RoomId": "128449",
+     "RateId": "464800000000003",
+     "Meal": "MAP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128449_464800000000004",
+     "RoomId": "128449",
+     "RateId": "464800000000004",
+     "Meal": "CP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128449_464800000000016",
+     "RoomId": "128449",
+     "RateId": "464800000000016",
+     "Meal": "CP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "128449_464800000000017",
+     "RoomId": "128449",
+     "RateId": "464800000000017",
+     "Meal": "MAP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "128450_464800000000003",
+     "RoomId": "128450",
+     "RateId": "464800000000003",
+     "Meal": "MAP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128450_464800000000004",
+     "RoomId": "128450",
+     "RateId": "464800000000004",
+     "Meal": "CP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "128450_464800000000016",
+     "RoomId": "128450",
+     "RateId": "464800000000016",
+     "Meal": "CP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "128450_464800000000017",
+     "RoomId": "128450",
+     "RateId": "464800000000017",
+     "Meal": "MAP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "136632_464800000000003",
+     "RoomId": "136632",
+     "RateId": "464800000000003",
+     "Meal": "MAP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "136632_464800000000004",
+     "RoomId": "136632",
+     "RateId": "464800000000004",
+     "Meal": "CP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "136632_464800000000016",
+     "RoomId": "136632",
+     "RateId": "464800000000016",
+     "Meal": "CP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "136632_464800000000017",
+     "RoomId": "136632",
+     "RateId": "464800000000017",
+     "Meal": "MAP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "185204_464800000000004",
+     "RoomId": "185204",
+     "RateId": "464800000000004",
+     "Meal": "CP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "185204_464800000000003",
+     "RoomId": "185204",
+     "RateId": "464800000000003",
+     "Meal": "MAP",
+     "CancellationPolicyType": "PR"
+    },
+    {
+     "MappingId": "185204_464800000000016",
+     "RoomId": "185204",
+     "RateId": "464800000000016",
+     "Meal": "CP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "185204_464800000000017",
+     "RoomId": "185204",
+     "RateId": "464800000000017",
+     "Meal": "MAP",
+     "CancellationPolicyType": "NR"
+    },
+    {
+     "MappingId": "185204_464800000000018",
+     "RoomId": "185204",
+     "RateId": "464800000000018",
+     "Meal": "Breakfast",
+     "CancellationPolicyType": "PR"
+    }
+   ]
+  }
+ ]
+}

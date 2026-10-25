@@ -1,0 +1,18 @@
+{
+  "targets": [
+    {
+      "id": "riva-superior-deluxe-balcony-2027-01-29",
+      "name": "Riva Beach Resort · Superior Deluxe Room with Balcony",
+      "url": "https://www.swiftbook.io/inst/#home?propertyId=382MjlOX1HhWa8BZLxcp5d96Q3Ng==&JDRN=Y",
+      "provider": "swiftbook",
+      "room": "Superior Deluxe Room with Balcony",
+      "rate_plan": "Breakfast and Dinner",
+      "check_in": "2027-01-29",
+      "check_out": "2027-02-02",
+      "adults": 2,
+      "children": [],
+      "alert_below": 36000,
+      "country": "IN"
+    }
+  ]
+}

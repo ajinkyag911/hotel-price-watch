@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hotel price watch</title>
+  <meta name="description" content="Price history for watched hotel rooms, updated every six hours." />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 17l5-6 4 4 6-8 3 3' fill='none' stroke='%232a78d6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <header class="page-header">
+    <div>
+      <h1>Hotel price watch</h1>
+      <p class="sub">Updated <time id="updated">—</time> · readings every six hours</p>
+    </div>
+    <a id="repo-link" class="repo-link" href="#" hidden>Source</a>
+  </header>
+
+  <div class="filters" role="radiogroup" aria-label="Time range">
+    <button type="button" data-range="7" aria-checked="false" role="radio">7 days</button>
+    <button type="button" data-range="30" aria-checked="false" role="radio">30 days</button>
+    <button type="button" data-range="90" aria-checked="false" role="radio">90 days</button>
+    <button type="button" data-range="all" aria-checked="true" role="radio">All</button>
+  </div>
+
+  <main id="targets" aria-live="polite">
+    <p class="loading">Loading…</p>
+  </main>
+
+  <footer class="page-footer">
+    Prices are the booking engine's before-tax total for the whole stay, as shown on the booking page.
+    Hover or use arrow keys on a chart to read individual points.
+  </footer>
+
+  <template id="card">
+    <article class="card">
+      <header class="card-head">
+        <div>
+          <h2 class="card-title"></h2>
+          <p class="card-meta"></p>
+        </div>
+        <a class="book-link" target="_blank" rel="noopener">Booking page ↗</a>
+      </header>
+      <div class="tiles"></div>
+      <figure class="chart">
+        <div class="chart-wrap">
+          <svg class="chart-svg" role="img" tabindex="0"></svg>
+          <div class="tooltip" hidden></div>
+        </div>
+        <figcaption class="chart-caption"></figcaption>
+      </figure>
+      <details class="readings">
+        <summary>All readings</summary>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Observed</th><th class="num">Before tax</th><th class="num">After tax</th><th>Plan</th><th>Offer</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </details>
+    </article>
+  </template>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
