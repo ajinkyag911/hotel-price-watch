@@ -5,21 +5,23 @@ from __future__ import annotations
 import json
 from datetime import UTC, datetime
 from pathlib import Path
+from statistics import median
 from typing import Any
 
-from hotelwatch.models import Reading, Target
+from hotelwatch.models import Reading, ScanTarget, Target, Watchlist
+from hotelwatch.scan import ScanResult
 
 
-def append_readings(path: Path, readings: list[Reading]) -> None:
-    if not readings:
+def _append_jsonl(path: Path, records: list[dict[str, Any]]) -> None:
+    if not records:
         return
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as fh:
-        for r in readings:
-            fh.write(json.dumps(r.to_record(), ensure_ascii=False) + "\n")
+        for rec in records:
+            fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
 
-def load_history(path: Path) -> list[dict[str, Any]]:
+def _load_jsonl(path: Path, sort_key: str) -> list[dict[str, Any]]:
     if not path.exists():
         return []
     rows: list[dict[str, Any]] = []
@@ -28,8 +30,27 @@ def load_history(path: Path) -> list[dict[str, Any]]:
             line = line.strip()
             if line:
                 rows.append(json.loads(line))
-    rows.sort(key=lambda r: r["observed_at"])
+    rows.sort(key=lambda r: r[sort_key])
     return rows
+
+
+def append_readings(path: Path, readings: list[Reading]) -> None:
+    _append_jsonl(path, [r.to_record() for r in readings])
+
+
+def load_history(path: Path) -> list[dict[str, Any]]:
+    return _load_jsonl(path, "observed_at")
+
+
+def append_scan_results(path: Path, results: list[ScanResult]) -> None:
+    _append_jsonl(path, [r.to_record() for r in results])
+
+
+def load_scans(path: Path) -> list[dict[str, Any]]:
+    return _load_jsonl(path, "run_at")
+
+
+# -- spot targets --------------------------------------------------------------------------------
 
 
 def _stats(points: list[dict[str, Any]], alert_below: float | None) -> dict[str, Any]:
@@ -61,42 +82,93 @@ def _stats(points: list[dict[str, Any]], alert_below: float | None) -> dict[str,
     }
 
 
-def build_site_data(targets: list[Target], history: list[dict[str, Any]]) -> dict[str, Any]:
-    by_target: dict[str, list[dict[str, Any]]] = {t.id: [] for t in targets}
+def _target_block(t: Target, rows: list[dict[str, Any]]) -> dict[str, Any]:
+    points = [
+        {
+            "t": row["observed_at"],
+            "price": row["price"],
+            "after_tax": row["price_after_tax"],
+            "plan": row["plan_name"],
+            "promo": row["promo"],
+            "available": row["available"],
+            "plans": [
+                {
+                    "name": p["name"],
+                    "before_tax": p["before_tax"],
+                    "after_tax": p["after_tax"],
+                    "refundable": p["refundable"],
+                    "promo": p["promo"],
+                }
+                for p in row.get("plans", [])
+            ],
+        }
+        for row in rows
+    ]
+    latest = rows[-1] if rows else {}
+    return {
+        **t.to_public_dict(),
+        "currency": latest.get("currency") or "INR",
+        "price_basis": latest.get("price_basis", "before_tax"),
+        "stats": _stats(points, t.alert_below),
+        "readings": points,
+    }
+
+
+# -- scans ---------------------------------------------------------------------------------------
+
+
+def _scan_block(s: ScanTarget, runs: list[dict[str, Any]]) -> dict[str, Any]:
+    history = []
+    for run in runs:
+        priced = [p for p in run["points"] if p["price"] is not None]
+        if not priced:
+            history.append({"t": run["run_at"], "min": None, "min_date": None, "available": 0})
+            continue
+        best = min(priced, key=lambda p: p["price"])
+        history.append(
+            {
+                "t": run["run_at"],
+                "min": best["price"],
+                "min_date": best["check_in"],
+                "median": round(median(p["price"] for p in priced), 2),
+                "available": len(priced),
+            }
+        )
+    latest = runs[-1] if runs else None
+    return {
+        **s.to_public_dict(),
+        "currency": (latest or {}).get("currency") or "INR",
+        "price_basis": (latest or {}).get("price_basis", "before_tax"),
+        "latest": (
+            {
+                "run_at": latest["run_at"],
+                "failures": latest.get("failures", 0),
+                "points": latest["points"],
+            }
+            if latest
+            else None
+        ),
+        "history": history,
+    }
+
+
+def build_site_data(
+    watchlist: Watchlist,
+    history: list[dict[str, Any]],
+    scans: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    by_target: dict[str, list[dict[str, Any]]] = {t.id: [] for t in watchlist.targets}
     for row in history:
         if row["target_id"] in by_target:
-            by_target[row["target_id"]].append(
-                {
-                    "t": row["observed_at"],
-                    "price": row["price"],
-                    "after_tax": row["price_after_tax"],
-                    "plan": row["plan_name"],
-                    "promo": row["promo"],
-                    "available": row["available"],
-                    "plans": [
-                        {
-                            "name": p["name"],
-                            "before_tax": p["before_tax"],
-                            "after_tax": p["after_tax"],
-                            "refundable": p["refundable"],
-                            "promo": p["promo"],
-                        }
-                        for p in row.get("plans", [])
-                    ],
-                }
-            )
-    currency = next((r["currency"] for r in reversed(history) if r.get("currency")), "INR")
+            by_target[row["target_id"]].append(row)
+    by_scan: dict[str, list[dict[str, Any]]] = {s.id: [] for s in watchlist.scans}
+    for run in scans or []:
+        if run["scan_id"] in by_scan:
+            by_scan[run["scan_id"]].append(run)
     return {
         "generated_at": datetime.now(UTC).replace(microsecond=0).isoformat(),
-        "currency": currency,
-        "targets": [
-            {
-                **t.to_public_dict(),
-                "stats": _stats(by_target[t.id], t.alert_below),
-                "readings": by_target[t.id],
-            }
-            for t in targets
-        ],
+        "targets": [_target_block(t, by_target[t.id]) for t in watchlist.targets],
+        "scans": [_scan_block(s, by_scan[s.id]) for s in watchlist.scans],
     }
 
 

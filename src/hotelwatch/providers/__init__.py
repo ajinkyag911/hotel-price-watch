@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 from hotelwatch.providers.base import Provider, ProviderError
+from hotelwatch.providers.propertyibe import PropertyIbeProvider
 from hotelwatch.providers.swiftbook import SwiftbookProvider
 
 _PROVIDERS: dict[str, type[Provider]] = {
     SwiftbookProvider.name: SwiftbookProvider,
+    PropertyIbeProvider.name: PropertyIbeProvider,
 }
 
 
@@ -20,11 +22,18 @@ def get_provider(name: str, **kwargs: object) -> Provider:
 
 
 def detect_provider(url: str) -> str | None:
-    """Best-effort guess from a booking URL, used by `hotelwatch add`."""
+    """Best-effort guess from a booking URL."""
     for name, cls in _PROVIDERS.items():
         if cls.matches_url(url):
             return name
     return None
 
 
-__all__ = ["Provider", "ProviderError", "SwiftbookProvider", "detect_provider", "get_provider"]
+__all__ = [
+    "PropertyIbeProvider",
+    "Provider",
+    "ProviderError",
+    "SwiftbookProvider",
+    "detect_provider",
+    "get_provider",
+]

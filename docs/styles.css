@@ -216,3 +216,62 @@ td.soldout { color: var(--muted); }
 @media (prefers-reduced-motion: no-preference) {
   .filters button, .book-link, .repo-link { transition: color 120ms, background 120ms; }
 }
+
+/* ---------- scans ---------- */
+.section-title { font-size: 19px; margin: 28px 0 2px; }
+.section-sub { color: var(--ink-2); font-size: 14px; margin-bottom: 14px; }
+.scan-card h3 { font-size: 17px; }
+.heatmap-wrap { position: relative; margin-top: 8px; }
+.heatmap {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px 20px;
+}
+.month-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.month-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; }
+.month { min-width: 0; }
+.month-grid .wd { font-size: 11px; color: var(--muted); text-align: center; padding-bottom: 2px; }
+.cell {
+  font: inherit;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 4px;
+  background: var(--grid);
+  color: var(--ink);
+  padding: 0;
+  min-width: 0;
+  cursor: default;
+  position: relative;
+}
+.cell:not(.blank):not(:disabled) { cursor: pointer; }
+.cell.on-dark { color: #fff; }
+.cell.blank { background: transparent; }
+.cell.missing { background: transparent; color: var(--muted); box-shadow: inset 0 0 0 1px var(--grid); }
+.cell.soldout {
+  color: var(--muted);
+  background: repeating-linear-gradient(45deg, var(--grid) 0 2px, var(--surface) 2px 6px);
+}
+.cell.cheapest { box-shadow: inset 0 0 0 2px var(--ink); font-weight: 700; }
+.cell:focus-visible { outline: 2px solid var(--series); outline-offset: 1px; }
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--ink-2);
+  flex-wrap: wrap;
+}
+.legend-bar { display: flex; height: 10px; border-radius: 3px; overflow: hidden; }
+.legend-bar span { width: 18px; display: block; }
+.legend-key { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; }
+.legend-key .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; margin-left: 8px; }
+.legend-key .swatch.cheapest { box-shadow: inset 0 0 0 2px var(--ink); }
+.legend-key .swatch.soldout { background: repeating-linear-gradient(45deg, var(--grid) 0 2px, var(--surface) 2px 6px); }
+.cheapest { margin-top: 16px; }
+.cheapest h4 { font-size: 13px; font-weight: 600; color: var(--ink-2); margin: 0 0 4px; }
+.trend { margin-top: 16px; border-top: 1px solid var(--border); padding-top: 12px; }
+.trend-title { font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 4px; }
+.heatmap-wrap .tooltip { top: auto; }

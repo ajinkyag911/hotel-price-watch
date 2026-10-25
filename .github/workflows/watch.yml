@@ -10,7 +10,7 @@ permissions:
   issues: write
 
 concurrency:
-  group: watch
+  group: commit-data
   cancel-in-progress: false
 
 jobs:
@@ -43,6 +43,7 @@ jobs:
             echo "no new readings"
           else
             git commit -m "chore: price reading $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull --rebase --autostash
             git push
           fi
 

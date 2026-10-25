@@ -13,6 +13,46 @@
       "children": [],
       "alert_below": 36000,
       "country": "IN"
+    },
+    {
+      "id": "tolani-deluxe-garden-villa-2027-01-06",
+      "name": "Tolani Resort Koh Samui · Deluxe Garden Villa",
+      "url": "https://booking.tolanihotels.com/propertyibe2/?propertyId=859&onlineId=4",
+      "provider": "propertyibe",
+      "room": "Deluxe Garden Villa",
+      "check_in": "2027-01-06",
+      "check_out": "2027-01-11",
+      "adults": 2,
+      "children": [],
+      "alert_below": 36500,
+      "country": "TH"
+    }
+  ],
+  "scans": [
+    {
+      "id": "riva-superior-deluxe-balcony-4n",
+      "name": "Riva Beach Resort · Superior Deluxe Room with Balcony",
+      "url": "https://www.swiftbook.io/inst/#home?propertyId=382MjlOX1HhWa8BZLxcp5d96Q3Ng==&JDRN=Y",
+      "provider": "swiftbook",
+      "room": "Superior Deluxe Room with Balcony",
+      "rate_plan": "Breakfast and Dinner",
+      "nights": 4,
+      "from": "2026-12-01",
+      "to": "2027-03-31",
+      "adults": 2,
+      "country": "IN"
+    },
+    {
+      "id": "tolani-deluxe-garden-villa-5n",
+      "name": "Tolani Resort Koh Samui · Deluxe Garden Villa",
+      "url": "https://booking.tolanihotels.com/propertyibe2/?propertyId=859&onlineId=4",
+      "provider": "propertyibe",
+      "room": "Deluxe Garden Villa",
+      "nights": 5,
+      "from": "2026-12-01",
+      "to": "2027-02-28",
+      "adults": 2,
+      "country": "TH"
     }
   ]
 }

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hotel price watch</title>
-  <meta name="description" content="Price history for watched hotel rooms, updated every six hours." />
+  <meta name="description" content="Price history and cheapest-date scans for watched hotel rooms, updated automatically." />
   <meta name="color-scheme" content="light dark" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 17l5-6 4 4 6-8 3 3' fill='none' stroke='%232a78d6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
@@ -13,24 +13,31 @@
   <header class="page-header">
     <div>
       <h1>Hotel price watch</h1>
-      <p class="sub">Updated <time id="updated">—</time> · readings every six hours</p>
+      <p class="sub">Updated <time id="updated">—</time> · spot prices every six hours, date scans daily</p>
     </div>
     <a id="repo-link" class="repo-link" href="#" hidden>Source</a>
   </header>
 
-  <div class="filters" role="radiogroup" aria-label="Time range">
+  <div class="filters" role="radiogroup" aria-label="Time range for history charts">
     <button type="button" data-range="7" aria-checked="false" role="radio">7 days</button>
     <button type="button" data-range="30" aria-checked="false" role="radio">30 days</button>
     <button type="button" data-range="90" aria-checked="false" role="radio">90 days</button>
     <button type="button" data-range="all" aria-checked="true" role="radio">All</button>
   </div>
 
-  <main id="targets" aria-live="polite">
-    <p class="loading">Loading…</p>
+  <main>
+    <section id="targets" aria-live="polite">
+      <p class="loading">Loading…</p>
+    </section>
+    <section id="scans" aria-live="polite" hidden>
+      <h2 class="section-title">Cheapest dates</h2>
+      <p class="section-sub">Every check-in date in the window, priced daily for a fixed stay length. Colour runs from cheapest to priciest; outlined cells are the five cheapest.</p>
+      <div id="scan-cards"></div>
+    </section>
   </main>
 
   <footer class="page-footer">
-    Prices are the booking engine's before-tax total for the whole stay, as shown on the booking page.
+    Prices are totals for the whole stay as the booking engine shows them; each card says whether that is before or after tax.
     Hover or use arrow keys on a chart to read individual points.
   </footer>
 
@@ -55,13 +62,46 @@
         <summary>All readings</summary>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr><th>Observed</th><th class="num">Before tax</th><th class="num">After tax</th><th>Plan</th><th>Offer</th></tr>
-            </thead>
+            <thead><tr></tr></thead>
             <tbody></tbody>
           </table>
         </div>
       </details>
+    </article>
+  </template>
+
+  <template id="scan-card">
+    <article class="card scan-card">
+      <header class="card-head">
+        <div>
+          <h3 class="card-title"></h3>
+          <p class="card-meta"></p>
+        </div>
+        <a class="book-link" target="_blank" rel="noopener">Booking page ↗</a>
+      </header>
+      <div class="tiles"></div>
+      <div class="heatmap-wrap">
+        <div class="heatmap"></div>
+        <div class="tooltip" hidden></div>
+      </div>
+      <div class="heatmap-legend"></div>
+      <div class="cheapest">
+        <h4>Cheapest check-ins</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Check-in</th><th class="num">Total</th><th>Plan</th><th>Offer</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <figure class="chart trend">
+        <figcaption class="trend-title">Cheapest available total over time</figcaption>
+        <div class="chart-wrap">
+          <svg class="chart-svg" role="img" tabindex="0"></svg>
+          <div class="tooltip" hidden></div>
+        </div>
+        <figcaption class="chart-caption"></figcaption>
+      </figure>
     </article>
   </template>
 
