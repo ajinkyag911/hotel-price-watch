@@ -10,31 +10,33 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 17l5-6 4 4 6-8 3 3' fill='none' stroke='%232a78d6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
 </head>
 <body>
-  <header class="page-header">
-    <div>
-      <h1><a class="home-link" href="#/">Hotel price watch</a></h1>
-      <p class="sub">Updated <time id="updated">—</time> · spot prices every six hours, date scans daily</p>
-    </div>
-    <a id="repo-link" class="repo-link" href="#" hidden>Source</a>
-  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <a class="brand" href="#/">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Hotel price watch</span>
+      </a>
+      <nav id="hotel-nav" aria-label="Hotels"></nav>
+      <div class="sidebar-foot">
+        <p>Updated <time id="updated">—</time></p>
+        <p>Spot prices every six hours · date scans daily</p>
+        <a id="repo-link" class="repo-link" href="#" hidden>Source on GitHub</a>
+      </div>
+    </aside>
 
-  <div class="filters" role="radiogroup" aria-label="Time range for history charts" hidden>
-    <button type="button" data-range="7" aria-checked="false" role="radio">7 days</button>
-    <button type="button" data-range="30" aria-checked="false" role="radio">30 days</button>
-    <button type="button" data-range="90" aria-checked="false" role="radio">90 days</button>
-    <button type="button" data-range="all" aria-checked="true" role="radio">All</button>
+    <div id="filters-slot" hidden></div>
+    <div class="filters" role="radiogroup" aria-label="Time range for history charts" hidden>
+      <button type="button" data-range="7" aria-checked="false" role="radio">7 days</button>
+      <button type="button" data-range="30" aria-checked="false" role="radio">30 days</button>
+      <button type="button" data-range="90" aria-checked="false" role="radio">90 days</button>
+      <button type="button" data-range="all" aria-checked="true" role="radio">All</button>
+    </div>
+
+    <main id="view">
+      <p class="loading">Loading…</p>
+    </main>
   </div>
 
-  <div id="filters-slot" hidden></div>
-
-  <main id="view">
-    <p class="loading">Loading…</p>
-  </main>
-
-  <footer class="page-footer">
-    Prices are totals for the whole stay as the booking engine shows them; each card says whether that is before or after tax.
-    Hover or use arrow keys on a chart to read individual points.
-  </footer>
 
   <template id="card">
     <article class="card">

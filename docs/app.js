@@ -210,7 +210,12 @@ function drawLineChart(svg, tooltip, caption, { label, currency, alertBelow, bas
 
   const fmt = money(currency);
   const cmp = compact(currency);
-  const x0 = MARGIN.left, x1 = width - MARGIN.right;
+  // Right margin holds the end label and the alert label; size it for the longest one.
+  const longest = Math.max(
+    fmt.format(Math.max(...points.map((p) => p.price))).length,
+    alertBelow != null ? cmp.format(alertBelow).length + 6 : 0,
+  );
+  const x0 = MARGIN.left, x1 = width - Math.max(MARGIN.right, 16 + longest * 7.4);
   const y0 = MARGIN.top, y1 = height - MARGIN.bottom;
 
   const times = points.map((p) => p.time);
@@ -611,12 +616,44 @@ function overviewRow(group) {
   return a;
 }
 
+function navSummary(group) {
+  const t = group.targets.find((x) => x.stats.current != null);
+  if (t) return `${money(t.currency || "INR").format(t.stats.current)} · ${t.nights}n`;
+  const s = group.scans.find((x) => x.history.length && x.history[x.history.length - 1].min != null);
+  if (s) return `from ${money(s.currency || "INR").format(s.history[s.history.length - 1].min)}`;
+  return "no data yet";
+}
+
+function renderNav(data, activeKey) {
+  const nav = document.getElementById("hotel-nav");
+  nav.replaceChildren();
+  const overview = el("a", "nav-item" + (activeKey ? "" : " active"));
+  overview.href = "#/";
+  overview.append(el("span", "nav-item__name", "Overview"));
+  overview.append(el("span", "nav-item__sub", `${groupHotels(data).length} hotels`));
+  if (!activeKey) overview.setAttribute("aria-current", "page");
+  nav.append(overview);
+  nav.append(el("div", "nav-label", "Hotels"));
+  for (const g of groupHotels(data)) {
+    const a = el("a", "nav-item" + (g.key === activeKey ? " active" : ""));
+    a.href = hotelHash(g.key);
+    if (g.key === activeKey) a.setAttribute("aria-current", "page");
+    a.append(el("span", "nav-item__name", g.name));
+    const sub = el("span", "nav-item__sub", navSummary(g));
+    const flagged = g.targets.some((t) => t.stats.below_alert);
+    if (flagged) sub.prepend(el("span", "nav-dot", ""));
+    a.append(sub);
+    nav.append(a);
+  }
+}
+
 function renderOverview(data) {
   const view = document.getElementById("view");
   view.replaceChildren();
   document.title = "Hotel price watch";
   document.querySelector(".filters").hidden = true;
   const groups = groupHotels(data);
+  view.append(el("h1", "detail-title", "Overview"));
   if (!groups.length) {
     view.append(el("p", "empty", "Nothing in the watchlist yet."));
     return;
@@ -627,16 +664,20 @@ function renderOverview(data) {
   const list = el("div", "overview");
   for (const g of groups) list.append(overviewRow(g));
   view.append(list);
+  view.append(el("p", "page-footer", "Prices are totals for the whole stay as the booking engine shows them; each card says whether that is before or after tax."));
 }
 
 function renderDetail(group) {
   const view = document.getElementById("view");
   view.replaceChildren();
   document.title = `${group.name} · Hotel price watch`;
-  const back = el("a", "back-link", "← All hotels");
-  back.href = "#/";
-  view.append(back);
-  view.append(el("h1", "detail-title", group.name));
+  const head = el("div", "detail-head");
+  head.append(el("h1", "detail-title", group.name));
+  const link = el("a", "book-link", "Booking page ↗");
+  link.href = (group.targets[0] || group.scans[0]).url;
+  link.target = "_blank"; link.rel = "noopener";
+  head.append(link);
+  view.append(head);
   document.querySelector(".filters").hidden = false;
   view.append(document.querySelector(".filters"));
   if (group.targets.length) {
@@ -657,11 +698,13 @@ function render() {
   document.getElementById("filters-slot").append(document.querySelector(".filters"));
   const key = route();
   const group = key && groupHotels(data).find((g) => g.key === key);
+  renderNav(data, group ? group.key : null);
   if (group) renderDetail(group);
   else {
     if (key) history.replaceState(null, "", "#/");
     renderOverview(data);
   }
+  document.getElementById("view").scrollTo?.(0, 0);
   window.scrollTo(0, 0);
 }
 
