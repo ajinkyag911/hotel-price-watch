@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "41 2 * * *" # daily, 02:41 UTC (08:11 IST)
   workflow_dispatch:
+    inputs:
+      only:
+        description: "Scan ids to run, space-separated (default: all)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -15,7 +20,7 @@ concurrency:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -29,7 +34,15 @@ jobs:
       - name: Scan
         id: scan
         continue-on-error: true
-        run: hotelwatch scan
+        env:
+          # Slower pacing from datacenter IPs keeps the edge happy.
+          HOTELWATCH_DELAY: "2.5"
+        run: |
+          if [ -n "${{ inputs.only }}" ]; then
+            hotelwatch scan --only ${{ inputs.only }}
+          else
+            hotelwatch scan
+          fi
 
       - name: Commit results
         run: |

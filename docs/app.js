@@ -381,7 +381,9 @@ function renderScanCard(scan) {
     });
     renderTile(tiles, "Last scanned", fmtDateTime.format(new Date(latest.run_at)), {
       small: true,
-      note: latest.failures ? `${latest.failures} date${latest.failures === 1 ? "" : "s"} failed to load` : `${scan.history.length} scan${scan.history.length === 1 ? "" : "s"} so far`,
+      note: latest.failures
+        ? `${latest.failures} date${latest.failures === 1 ? "" : "s"} did not answer; older values shown for those`
+        : `${scan.history.length} scan${scan.history.length === 1 ? "" : "s"} so far`,
     });
 
     const cheapestIds = new Set(sorted.slice(0, CHEAPEST_N).map((p) => p.check_in));
@@ -480,6 +482,7 @@ function drawHeatmap(container, legend, tooltip, scan, points, cheapestIds, curr
           tooltip.replaceChildren(
             el("div", "tt-value", p.price != null ? fmt.format(p.price) : "Unavailable"),
             el("div", "tt-row plain", `${fmtWeekdayDate.format(date)} · ${scan.nights} nights`),
+            ...(p.t ? [el("div", "tt-row plain", `scanned ${fmtDateTime.format(new Date(p.t))}`)] : []),
             ...(p.plan ? [el("div", "tt-row plain", `${p.plan}${p.promo ? ` · ${p.promo}` : ""}`)] : []),
           );
           const wrap = container.parentElement;

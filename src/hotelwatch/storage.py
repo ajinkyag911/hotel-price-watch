@@ -135,6 +135,13 @@ def _scan_block(s: ScanTarget, runs: list[dict[str, Any]]) -> dict[str, Any]:
             }
         )
     latest = runs[-1] if runs else None
+    # A run can lose dates to transient refusals. The grid shows, for every check-in date, the
+    # newest point any run produced, each stamped with when it was scanned.
+    merged: dict[str, dict[str, Any]] = {}
+    for run in reversed(runs):
+        for p in run["points"]:
+            merged.setdefault(p["check_in"], {**p, "t": run["run_at"]})
+    points = [merged[d] for d in sorted(merged)]
     return {
         **s.to_public_dict(),
         "currency": (latest or {}).get("currency") or "INR",
@@ -143,7 +150,8 @@ def _scan_block(s: ScanTarget, runs: list[dict[str, Any]]) -> dict[str, Any]:
             {
                 "run_at": latest["run_at"],
                 "failures": latest.get("failures", 0),
-                "points": latest["points"],
+                "fresh": len(latest["points"]),
+                "points": points,
             }
             if latest
             else None

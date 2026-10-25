@@ -182,6 +182,33 @@ def test_expired_session_is_restarted_once(
     assert len(client.posts) == 2
 
 
+def test_refused_request_pauses_and_retries_with_new_session(
+    rates_page: str, rate_views: str, tolani_target: Target
+) -> None:
+    from hotelwatch.http import HttpError
+
+    class RefusingClient(FakeClient):
+        def post(self, url, data, headers=None):
+            if len(self.posts) == 0:
+                self.posts.append({"url": url, "data": data, "headers": headers or {}})
+                raise HttpError(f"HTTP 403 from {url}")
+            return super().post(url, data, headers)
+
+    sleeps: list[float] = []
+    client = RefusingClient(rates_page, [_partial_response(rate_views, "VS-2")])
+    provider = PropertyIbeProvider(client=client, delay=0, sleep=sleeps.append)
+    r = provider.fetch(tolani_target)
+    assert r.price == 40500.0
+    assert PropertyIbeProvider.REFUSED_PAUSE in sleeps
+    assert len(client.gets) == 4  # bootstrapped twice
+    assert len(client.posts) == 2
+
+
+def test_delay_can_come_from_environment(monkeypatch, rates_page: str) -> None:
+    monkeypatch.setenv("HOTELWATCH_DELAY", "2.5")
+    assert PropertyIbeProvider(client=FakeClient(rates_page, []))._delay == 2.5
+
+
 def test_throttle_sleeps_between_requests(rates_page: str, rate_views: str, tolani_target) -> None:
     sleeps: list[float] = []
     client = FakeClient(rates_page, [_partial_response(rate_views, "a")] * 2)

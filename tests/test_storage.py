@@ -112,8 +112,12 @@ def test_site_data_scans(tmp_path: Path) -> None:
 
     block = build_site_data(Watchlist((), (scan,)), [], runs)["scans"][0]
     assert block["currency"] == "THB" and block["price_basis"] == "after_tax"
-    assert block["latest"]["points"][0]["price"] == 45000.0
-    assert block["latest"]["failures"] == 1
+    # Newest value per date wins; dates the latest run missed fall back to the earlier run.
+    pts = {p["check_in"]: p for p in block["latest"]["points"]}
+    assert pts["2027-01-01"]["price"] == 45000.0 and pts["2027-01-01"]["t"].startswith("2026-10-26")
+    assert pts["2027-01-02"]["price"] == 40000.0 and pts["2027-01-02"]["t"].startswith("2026-10-25")
+    assert pts["2027-01-03"]["available"] is False
+    assert block["latest"]["failures"] == 1 and block["latest"]["fresh"] == 1
     assert block["history"][0] == {
         "t": "2026-10-25T00:00:00+00:00",
         "min": 40000.0,

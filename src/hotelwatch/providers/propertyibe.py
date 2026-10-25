@@ -18,6 +18,7 @@ the sum over the stay, so ``price_basis`` is ``after_tax``.
 from __future__ import annotations
 
 import logging
+import os
 import re
 import time
 import urllib.parse
@@ -153,10 +154,16 @@ class PropertyIbeSession:
 class PropertyIbeProvider:
     name: ClassVar[str] = "propertyibe"
 
-    def __init__(self, client: Any | None = None, delay: float = 0.6, sleep=time.sleep) -> None:
+    # Pause before retrying a date the edge refused; long enough for a rate limit to clear.
+    REFUSED_PAUSE = 30.0
+
+    def __init__(
+        self, client: Any | None = None, delay: float | None = None, sleep=time.sleep
+    ) -> None:
         self._client = client or HtmlClient()
         self._sessions: dict[str, PropertyIbeSession] = {}
-        self._delay = delay
+        env_delay = os.environ.get("HOTELWATCH_DELAY")
+        self._delay = delay if delay is not None else float(env_delay) if env_delay else 0.6
         self._sleep = sleep
         self._last_request = 0.0
 
@@ -195,8 +202,19 @@ class PropertyIbeProvider:
             markup = session.search(target)
         except ProviderError as exc:
             log.warning("%s; restarting session and retrying once", exc)
-            session.start()
+            session.start(sleep=self._sleep)
             markup = session.search(target)
+        except HttpError as exc:
+            if "403" not in str(exc):
+                raise
+            # The edge refused this request outright. Back off, open a fresh session, retry once.
+            log.warning(
+                "%s; pausing %.0fs and retrying with a new session", exc, self.REFUSED_PAUSE
+            )
+            self._sleep(self.REFUSED_PAUSE)
+            session.start(sleep=self._sleep)
+            markup = session.search(target)
+        self._last_request = time.monotonic()
         return parse_rooms(markup, target)
 
 
