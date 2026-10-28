@@ -170,10 +170,11 @@ def cmd_show(args: argparse.Namespace) -> int:
     for t in data["targets"]:
         s = t["stats"]
         if s.get("current") is None:
-            print(f"{t['name']}: no readings yet")
+            state = "unavailable" if t["readings"] else "no readings yet"
+            print(f"{t['name']}: {state}")
             continue
         print(
-            f"{t['name']}\n  current {s['current']:,.0f} {t['currency']}  lowest {s['lowest']:,.0f}"
+            f"{t['name']}\n  current {s['current']:,.0f} INR  lowest {s['lowest']:,.0f}"
             f"  highest {s['highest']:,.0f}  readings {s['readings']}  plan: {s['current_plan']}"
         )
     for sc in data["scans"]:
@@ -183,7 +184,7 @@ def cmd_show(args: argparse.Namespace) -> int:
             continue
         print(
             f"{sc['name']} (scan, {_nights(sc['nights'])})\n  cheapest check-in "
-            f"{last['min_date']} at {last['min']:,.0f} {sc['currency']}  "
+            f"{last['min_date']} at {last['min']:,.0f} INR  "
             f"median {last['median']:,.0f}  "
             f"{last['available']} dates available  runs {len(sc['history'])}"
         )
