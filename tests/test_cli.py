@@ -159,6 +159,17 @@ def test_scan_with_no_data_fails(workspace: Path, monkeypatch) -> None:
     assert cli.main(_argv(workspace, "scan")) == 1
 
 
+def test_build_writes_site_from_stored_data(workspace: Path, monkeypatch) -> None:
+    monkeypatch.setattr(cli, "get_provider", lambda name: FakeProvider(price=35000.0))
+    monkeypatch.setattr(cli, "send_ntfy", lambda alerts: False)
+    assert cli.main(_argv(workspace, "run", "--alerts", str(workspace / "a.json"))) == 0
+    site = workspace / "docs/data/history.json"
+    site.unlink()
+    assert cli.main(_argv(workspace, "build")) == 0
+    data = json.loads(site.read_text())
+    assert data["targets"][0]["stats"]["current"] == 35000.0
+
+
 def test_show_without_history(workspace: Path, capsys) -> None:
     assert cli.main(_argv(workspace, "show")) == 0
     out = capsys.readouterr().out

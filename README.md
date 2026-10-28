@@ -72,6 +72,7 @@ uv venv --python 3.12 .venv && uv pip install -e ".[dev]" --python .venv/bin/pyt
 .venv/bin/ruff check . && .venv/bin/ruff format --check .
 .venv/bin/hotelwatch run --dry-run          # fetch spot prices and print, write nothing
 .venv/bin/hotelwatch scan --only <scan-id>  # price one window and record it
+.venv/bin/hotelwatch build                   # rebuild docs/data/history.json from data/
 python3 -m http.server -d docs 8765         # view the page at http://localhost:8765
 ```
 
@@ -80,6 +81,9 @@ python3 -m http.server -d docs 8765         # view the page at http://localhost:
 * GitHub disables scheduled workflows after 60 days without repository activity. The
   workflows' own commits count as activity, so this only matters if every target stops
   producing readings.
+* Workflows commit through `scripts/commit-data.sh`: it rebases the append-only JSONL file
+  (`.gitattributes` unions it) and rebuilds the generated site file instead of merging it, so
+  runs that overlap never conflict.
 * `X-Api-Key` for SwiftBook is a public key embedded in the booking page's JavaScript.
   Override with the `SWIFTBOOK_API_KEY` environment variable if it rotates.
 * The propertyibe provider keeps one server session per property and waits 0.6 s between

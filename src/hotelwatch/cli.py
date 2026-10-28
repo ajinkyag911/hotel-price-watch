@@ -1,4 +1,4 @@
-"""Command line: `hotelwatch run | scan | validate | show`."""
+"""Command line: `hotelwatch run | scan | build | validate | show`."""
 
 from __future__ import annotations
 
@@ -158,6 +158,12 @@ def cmd_scan(args: argparse.Namespace) -> int:
     return 1 if any(not r.points for r in results) else 0
 
 
+def cmd_build(args: argparse.Namespace) -> int:
+    _rebuild_site(args, _read_watchlist(args.watchlist))
+    print(f"wrote {args.site}")
+    return 0
+
+
 def cmd_show(args: argparse.Namespace) -> int:
     wl = _read_watchlist(args.watchlist)
     data = build_site_data(wl, load_history(args.history), load_scans(args.scans))
@@ -206,6 +212,9 @@ def build_parser() -> argparse.ArgumentParser:
     scan.add_argument("--dry-run", action="store_true", help="fetch and print, write nothing")
     scan.set_defaults(func=cmd_scan)
 
+    sub.add_parser(
+        "build", help="rebuild site data from the stored history and scans"
+    ).set_defaults(func=cmd_build)
     sub.add_parser("validate", help="check watchlist.json").set_defaults(func=cmd_validate)
     sub.add_parser("show", help="print current stats").set_defaults(func=cmd_show)
     return p
