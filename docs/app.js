@@ -500,7 +500,7 @@ function drawHeatmap(container, legend, tooltip, scan, points, cheapestIds, curr
           tooltip.replaceChildren(
             el("div", "tt-value", p.price != null ? fmt.format(p.price) : "Unavailable"),
             ...(p.native != null && currency !== "INR" ? [el("div", "tt-row plain", nativeNote(currency, p.native, p.fx_rate))] : []),
-            el("div", "tt-row plain", `${fmtWeekdayDate.format(date)} · ${scan.nights} nights`),
+            el("div", "tt-row plain", `${fmtWeekdayDate.format(date)} · ${scan.nights} night${scan.nights === 1 ? "" : "s"}`),
             ...(p.t ? [el("div", "tt-row plain", `scanned ${fmtDateTime.format(new Date(p.t))}`)] : []),
             ...(p.plan ? [el("div", "tt-row plain", `${p.plan}${p.promo ? ` · ${p.promo}` : ""}`)] : []),
           );

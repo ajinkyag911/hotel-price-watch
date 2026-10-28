@@ -35,6 +35,10 @@ DEFAULTS = {
 }
 
 
+def _nights(n: int) -> str:
+    return f"{n} night" if n == 1 else f"{n} nights"
+
+
 def _read_watchlist(path: Path) -> Watchlist:
     try:
         return load_watchlist(json.loads(path.read_text()))
@@ -55,11 +59,11 @@ def cmd_validate(args: argparse.Namespace) -> int:
     wl = _read_watchlist(args.watchlist)
     for t in wl.targets:
         get_provider(t.provider)
-        print(f"ok  {t.id}: {t.room} · {t.check_in} → {t.check_out} ({t.nights} nights)")
+        print(f"ok  {t.id}: {t.room} · {t.check_in} → {t.check_out} ({_nights(t.nights)})")
     for s in wl.scans:
         get_provider(s.provider)
         print(
-            f"ok  {s.id}: {s.room} · {s.nights} nights · check-ins {s.from_date} → {s.to_date} "
+            f"ok  {s.id}: {s.room} · {_nights(s.nights)} · check-ins {s.from_date} → {s.to_date} "
             f"({len(s.check_in_dates())} dates)"
         )
     print(f"{len(wl.targets)} target(s), {len(wl.scans)} scan(s) valid")
@@ -172,7 +176,7 @@ def cmd_show(args: argparse.Namespace) -> int:
             print(f"{sc['name']} (scan): no results yet")
             continue
         print(
-            f"{sc['name']} (scan, {sc['nights']} nights)\n  cheapest check-in "
+            f"{sc['name']} (scan, {_nights(sc['nights'])})\n  cheapest check-in "
             f"{last['min_date']} at {last['min']:,.0f} {sc['currency']}  "
             f"median {last['median']:,.0f}  "
             f"{last['available']} dates available  runs {len(sc['history'])}"

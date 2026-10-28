@@ -77,6 +77,18 @@
       "to": "2027-02-28",
       "adults": 2,
       "country": "TH"
+    },
+    {
+      "id": "canary-woodpecker-cottage-1n",
+      "name": "Canary Islands Resort & Spa · Woodpecker Cottage",
+      "url": "https://booking.canaryislands.co.in/inst/#home?propertyId=421MIjpanNavYrHhAT6mu5E3cjI2MDI=&JDRN=Y",
+      "provider": "swiftbook",
+      "room": "Woodpecker Cottage",
+      "nights": 1,
+      "from": "2026-11-01",
+      "to": "2027-01-31",
+      "adults": 2,
+      "country": "IN"
     }
   ]
 }
