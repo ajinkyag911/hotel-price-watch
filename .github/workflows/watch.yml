@@ -35,7 +35,8 @@ jobs:
         run: hotelwatch run
 
       - name: Commit readings
-        run: scripts/commit-data.sh data/history.jsonl "chore: price reading $(date -u +%Y-%m-%dT%H:%MZ)"
+        run: |
+          scripts/commit-data.sh data/history.jsonl "chore: price reading $(date -u +%Y-%m-%dT%H:%MZ)"
 
       - name: Open or update alert issue
         if: hashFiles('data/alerts.json') != ''

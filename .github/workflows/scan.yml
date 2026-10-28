@@ -45,7 +45,8 @@ jobs:
           fi
 
       - name: Commit results
-        run: scripts/commit-data.sh data/scans.jsonl "chore: date scan $(date -u +%Y-%m-%dT%H:%MZ)"
+        run: |
+          scripts/commit-data.sh data/scans.jsonl "chore: date scan $(date -u +%Y-%m-%dT%H:%MZ)"
 
       - name: Fail if scan failed
         if: steps.scan.outcome == 'failure'
