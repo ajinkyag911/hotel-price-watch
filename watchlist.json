@@ -38,6 +38,18 @@
       "adults": 2,
       "children": [],
       "country": "TH"
+    },
+    {
+      "id": "tolani-deluxe-pool-villa-2027-01-09",
+      "name": "Tolani Resort Koh Samui · Deluxe Pool Villa",
+      "url": "https://booking.tolanihotels.com/propertyibe2/?propertyId=859&onlineId=4",
+      "provider": "propertyibe",
+      "room": "Deluxe Pool Villa",
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-14",
+      "adults": 2,
+      "children": [],
+      "country": "TH"
     }
   ],
   "scans": [
