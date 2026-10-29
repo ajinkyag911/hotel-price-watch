@@ -108,12 +108,13 @@ function renderCard(target) {
   const fmt = INR;
   const frag = document.getElementById("card").content.cloneNode(true);
   const card = frag.querySelector(".card");
+  card.id = `stay-${target.id}`;
   card.querySelector(".card-title").textContent = roomTitle(target.name);
   card.querySelector(".card-meta").textContent =
     `${fmtDate.format(localDate(target.check_in))} → ${fmtDateYear.format(localDate(target.check_out))} · ` +
     `${target.nights} night${target.nights === 1 ? "" : "s"} · ${guestsLabel(target)}` +
     `${target.rate_plan ? ` · ${target.rate_plan} plans` : ""} · totals ${basisLabel(target.price_basis)}` +
-    `${currency !== "INR" ? ` · priced in ${currency}, shown in ₹ at the day's rate` : ""}`;
+    `${currency !== "INR" ? ` · priced in ${currency}, shown in ₹ at the latest rate` : ""}`;
   card.querySelector(".book-link").href = target.url;
 
   const s = target.stats;
@@ -360,11 +361,12 @@ function renderScanCard(scan) {
   const fmt = INR;
   const frag = document.getElementById("scan-card").content.cloneNode(true);
   const card = frag.querySelector(".card");
+  card.dataset.scanId = scan.id;
   card.querySelector(".card-title").textContent = roomTitle(scan.name);
   card.querySelector(".card-meta").textContent =
     `${scan.nights}-night stays · check-ins ${fmtDate.format(localDate(scan.from))} → ${fmtDateYear.format(localDate(scan.to))} · ` +
     `${guestsLabel(scan)}${scan.rate_plan ? ` · ${scan.rate_plan} plans` : ""} · totals ${basisLabel(scan.price_basis)}` +
-    `${currency !== "INR" ? ` · priced in ${currency}, shown in ₹ at the day's rate` : ""}`;
+    `${currency !== "INR" ? ` · priced in ${currency}, shown in ₹ at the latest rate` : ""}`;
   card.querySelector(".book-link").href = scan.url;
 
   const tiles = card.querySelector(".tiles");
@@ -394,9 +396,7 @@ function renderScanCard(scan) {
       note: `${fmtWeekdayDate.format(localDate(best.check_in))}${best.native != null && currency !== "INR" ? ` · ${money(currency).format(best.native)}` : ""}${best.promo ? ` · ${best.promo}` : ""}`,
     });
     renderTile(tiles, "Median across dates", fmt.format(med), { note: `${priced.length} of ${latest.points.length} dates available` });
-    renderTile(tiles, "Most expensive", fmt.format(sorted[sorted.length - 1].price), {
-      note: fmtWeekdayDate.format(localDate(sorted[sorted.length - 1].check_in)),
-    });
+    renderChangedTile(tiles, scan);
     renderTile(tiles, "Last scanned", fmtDateTime.format(new Date(latest.run_at)), {
       small: true,
       note: latest.failures
@@ -416,6 +416,9 @@ function renderScanCard(scan) {
       cheapestBody.append(tr);
     }
   }
+
+  wireBoard(card, scan);
+  card._redraw = () => renderBoard(card, scan);
 
   const trend = card.querySelector(".trend");
   const trendReadings = scan.history.map((h) => ({
@@ -441,9 +444,29 @@ function renderScanCard(scan) {
       });
     new ResizeObserver(draw).observe(trend);
     draw();
-    card._redraw = draw;
+    card._redraw = () => { draw(); renderBoard(card, scan); };
   }
   return card;
+}
+
+function renderChangedTile(tiles, scan) {
+  if (scan.history.length < 2) {
+    renderTile(tiles, "Changed in latest scan", "—", { note: "Changes show from the second scan" });
+    return;
+  }
+  const latestT = Date.parse(scan.latest.run_at);
+  const counts = { down: 0, up: 0, soldout: 0, back: 0 };
+  for (const r of scanRows(scan)) if (r.kind && r.changedAt === latestT) counts[r.kind]++;
+  const n = counts.down + counts.up + counts.soldout + counts.back;
+  const note = [
+    counts.down && `↓ ${counts.down} cheaper`,
+    counts.up && `↑ ${counts.up} pricier`,
+    counts.soldout && `${counts.soldout} sold out`,
+    counts.back && `${counts.back} back on sale`,
+  ].filter(Boolean).join(" · ");
+  renderTile(tiles, "Changed in latest scan", n ? `${n} date${n === 1 ? "" : "s"}` : "None", {
+    note: n ? note : "Same prices as the scan before",
+  });
 }
 
 function drawHeatmap(container, legend, tooltip, scan, points, cheapestIds, currency) {
@@ -477,7 +500,7 @@ function drawHeatmap(container, legend, tooltip, scan, points, cheapestIds, curr
     const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
     for (let day = 1; day <= days; day++) {
       const date = new Date(month.getFullYear(), month.getMonth(), day);
-      const iso = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+      const iso = isoDay(date);
       const p = byDate.get(iso);
       const cell = el("button", "cell", String(day));
       cell.type = "button";
@@ -534,6 +557,631 @@ function drawHeatmap(container, legend, tooltip, scan, points, cheapestIds, curr
   }
 }
 
+/* ---------- price changes: per-date history (scans) and consecutive readings (stays) ---------- */
+
+const DAY = 86400e3;
+const fmtShortDay = new Intl.DateTimeFormat(undefined, { weekday: "short", day: "numeric", month: "short" });
+const CMP = compact("INR");
+const isoDay = (d) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+function ago(iso) {
+  const s = (Date.now() - Date.parse(iso)) / 1000;
+  if (s < 3600) return `${Math.max(1, Math.round(s / 60))}m ago`;
+  if (s < 86400) return `${Math.round(s / 3600)}h ago`;
+  if (s < 14 * 86400) return `${Math.round(s / 86400)}d ago`;
+  return fmtDate.format(new Date(iso));
+}
+
+// History is compared in the hotel's own currency and shown in ₹ at the latest rate, so a
+// currency move never looks like a price change.
+const toInr = (native, rate) => (native == null || !rate ? null : Math.round(native * rate));
+const priceText = (native, rate, currency) =>
+  native == null ? "Sold out" : rate ? INR.format(toInr(native, rate)) : money(currency).format(native);
+const pctChange = (from, to) => (from && to != null ? ((to - from) / from) * 100 : null);
+const pctText = (pct) => `${pct < 0 ? "↓" : "↑"} ${Math.abs(pct) < 10 ? Math.abs(pct).toFixed(1) : Math.round(Math.abs(pct))}%`;
+
+function changeKind(from, to) {
+  if (from == null && to == null) return null;
+  if (from == null) return "back";
+  if (to == null) return "soldout";
+  return to < from ? "down" : to > from ? "up" : null;
+}
+
+function rangeStart(first) {
+  return state.range === "all" ? first : Math.max(first, Date.now() - Number(state.range) * DAY);
+}
+const rangeLabel = () => (state.range === "all" ? "since tracking began" : `in the last ${state.range} days`);
+
+/** One row per upcoming check-in date, with its change history and summary figures. */
+function scanRows(scan) {
+  if (!scan.latest) return [];
+  const today = isoDay(new Date());
+  return scan.latest.points
+    .filter((p) => p.check_in >= today)
+    .map((p) => {
+      const h = (p.h ?? [[p.t, p.native]]).map(([t, v]) => ({ t, time: Date.parse(t), v }));
+      const last = h[h.length - 1];
+      const prev = h.length > 1 ? h[h.length - 2] : null;
+      const priced = h.filter((x) => x.v != null).map((x) => x.v);
+      return {
+        p,
+        date: p.check_in,
+        h,
+        now: last.v,
+        prev: prev ? prev.v : undefined,
+        changedAt: prev ? last.time : null,
+        kind: prev ? changeKind(prev.v, last.v) : null,
+        pct: prev ? pctChange(prev.v, last.v) : null,
+        lo: priced.length ? Math.min(...priced) : null,
+        hi: priced.length ? Math.max(...priced) : null,
+        distinct: new Set(priced).size,
+      };
+    });
+}
+
+/* ---------- step chart: a price holds until the next change ---------- */
+
+function stepPoints(h, t0, t1) {
+  let i = -1;
+  h.forEach((x, k) => { if (x.time <= t0) i = k; });
+  const pts = i >= 0 ? [{ ...h[i], time: t0 }] : [];
+  for (const x of h) if (x.time > t0 && x.time <= t1) pts.push(x);
+  return pts;
+}
+
+function drawStep(svg, row, t0, t1, { w, h, m = { t: 4, r: 4, b: 4, l: 4 }, minFrac = 0.1, dotR = 2.5 }) {
+  svg.replaceChildren();
+  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  const flat = t1 - t0 < 60e3;
+  const pts = flat ? [{ ...row.h[row.h.length - 1], time: t0 }] : stepPoints(row.h, t0, t1);
+  const vals = pts.filter((p) => p.v != null).map((p) => p.v);
+  const x0 = m.l, x1 = w - m.r, y0 = m.t, y1 = h - m.b;
+  const sx = flat ? (t) => (t <= t0 ? x0 : x1) : (t) => x0 + ((t - t0) / (t1 - t0)) * (x1 - x0);
+  let lo = Math.min(...vals), hi = Math.max(...vals);
+  const span = Math.max(hi - lo, hi * minFrac) || 1;
+  const mid = (lo + hi) / 2;
+  lo = mid - span / 2; hi = mid + span / 2;
+  const sy = (v) => y1 - ((v - lo) / (hi - lo)) * (y1 - y0);
+
+  let d = "";
+  let prevPriced = false;
+  pts.forEach((p, k) => {
+    const xa = sx(p.time), xb = sx(k + 1 < pts.length ? pts[k + 1].time : t1);
+    if (p.v == null) {
+      svg.append(svgEl("line", { class: "step-gap", x1: xa, x2: xb, y1: y1 - 1, y2: y1 - 1 }));
+      prevPriced = false;
+      return;
+    }
+    const y = sy(p.v).toFixed(1);
+    d += `${prevPriced ? "L" : "M"}${xa.toFixed(1)},${y} L${xb.toFixed(1)},${y} `;
+    prevPriced = true;
+  });
+  if (d) svg.append(svgEl("path", { class: "step-line", d }));
+  const last = pts[pts.length - 1];
+  if (last && last.v != null) svg.append(svgEl("circle", { class: "step-dot", cx: x1, cy: sy(last.v), r: dotR }));
+  return { pts, sx, sy, x0, x1, y0, y1, lo: Math.min(...vals), hi: Math.max(...vals), priced: vals.length > 0 };
+}
+
+/* ---------- price board ---------- */
+
+const BOARD_DEFAULTS = { view: "board", sort: "date", changedOnly: false, hideSoldOut: false };
+const boardPrefs = (() => {
+  try { return { ...BOARD_DEFAULTS, ...JSON.parse(localStorage.getItem("hpw.board") || "{}") }; }
+  catch { return { ...BOARD_DEFAULTS }; }
+})();
+const saveBoardPrefs = () => {
+  try { localStorage.setItem("hpw.board", JSON.stringify(boardPrefs)); } catch { /* storage unavailable */ }
+};
+
+const SORTS = {
+  date: (a, b) => a.date.localeCompare(b.date),
+  price: (a, b) => (a.now ?? Infinity) - (b.now ?? Infinity) || a.date.localeCompare(b.date),
+  drop: (a, b) => (a.pct ?? Infinity) - (b.pct ?? Infinity) || a.date.localeCompare(b.date),
+  recent: (a, b) => (b.changedAt ?? -Infinity) - (a.changedAt ?? -Infinity) || a.date.localeCompare(b.date),
+};
+
+function lastChangeCell(row, rate, currency) {
+  const td = el("td", "change");
+  if (!row.kind) {
+    td.append(el("span", "muted", "no change"));
+    return td;
+  }
+  const when = el("span", "when", ago(row.h[row.h.length - 1].t));
+  if (row.kind === "down" || row.kind === "up") {
+    td.append(el("span", `delta ${row.kind}`, pctText(row.pct)), when);
+    td.title = `was ${priceText(row.prev, rate, currency)}`;
+  } else if (row.kind === "back") {
+    td.append(el("span", "pill neutral", "back on sale"), when);
+  } else {
+    td.append(el("span", "muted", `sold out · was ${priceText(row.prev, rate, currency)}`), when);
+  }
+  return td;
+}
+
+function renderBoard(card, scan) {
+  const rate = scan.fx_rate, currency = scan.currency || "INR";
+  const board = card._board;
+  const rows = scanRows(scan);
+  const tbody = card.querySelector(".board-table tbody");
+  const count = card.querySelector(".board-count");
+  for (const box of tbody.querySelectorAll(".date-detail")) box._observer?.disconnect();
+  tbody.replaceChildren();
+  if (!rows.length) {
+    count.textContent = scan.latest ? "No upcoming dates in the window." : "No scan yet.";
+    card.querySelector(".board-scroll").hidden = true;
+    return;
+  }
+  card.querySelector(".board-scroll").hidden = false;
+
+  const tEnd = Date.parse(scan.latest.run_at);
+  const tStart = Math.min(rangeStart(Date.parse(scan.history[0].t)), tEnd);
+  const changedInRange = (r) => r.h.some((x, i) => i > 0 && x.time >= tStart && changeKind(r.h[i - 1].v, x.v));
+  card.querySelector(".col-hist").textContent =
+    tEnd - tStart < 60e3 ? "History" : `History since ${fmtDate.format(new Date(tStart))}`;
+
+  const changed = rows.filter(changedInRange);
+  const shown = rows
+    .filter((r) => !board.changedOnly || changedInRange(r))
+    .filter((r) => !board.hideSoldOut || r.now != null)
+    .sort(SORTS[board.sort]);
+  count.textContent =
+    `${shown.length === rows.length ? `${rows.length} dates` : `${shown.length} of ${rows.length} dates`} · ` +
+    `${changed.length} changed ${rangeLabel()} · checked ${ago(scan.latest.run_at)}`;
+
+  if (!shown.length) {
+    const tr = el("tr", "board-empty");
+    const td = el("td", null, "No dates match these filters. ");
+    td.colSpan = 6;
+    const clear = el("button", "link-button", "Clear filters");
+    clear.type = "button";
+    clear.addEventListener("click", () => setBoardPref(card, scan, { changedOnly: false, hideSoldOut: false }));
+    td.append(clear);
+    tr.append(td);
+    tbody.append(tr);
+    return;
+  }
+
+  let month = null;
+  for (const row of shown) {
+    if (board.sort === "date") {
+      const m = row.date.slice(0, 7);
+      if (m !== month) {
+        month = m;
+        const tr = el("tr", "month-row");
+        const th = el("th", null, fmtMonth.format(localDate(row.date)));
+        th.colSpan = 6;
+        th.scope = "colgroup";
+        tr.append(th);
+        tbody.append(tr);
+      }
+    }
+    const tr = el("tr", "board-row" + (row.now == null ? " is-soldout" : ""));
+    tr.dataset.date = row.date;
+    const dateCell = el("th", "date", fmtShortDay.format(localDate(row.date)));
+    dateCell.scope = "row";
+    tr.append(dateCell);
+
+    const priceCell = el("td", "num price");
+    priceCell.append(el("strong", null, priceText(row.now, rate, currency)));
+    if (row.now != null && row.distinct > 1 && row.now === row.lo) priceCell.append(el("span", "pill good", "lowest seen"));
+    if (row.now != null && currency !== "INR") priceCell.append(el("span", "native", money(currency).format(row.now)));
+    tr.append(priceCell);
+
+    tr.append(lastChangeCell(row, rate, currency));
+    tr.append(el("td", "num col-seen muted",
+      row.distinct > 1 && rate ? `${CMP.format(toInr(row.lo, rate))} – ${CMP.format(toInr(row.hi, rate))}` : "—"));
+
+    const histCell = el("td", "col-hist");
+    const spark = svgEl("svg", { class: "step", "aria-hidden": "true" });
+    histCell.append(spark);
+    tr.append(histCell);
+
+    const toggleCell = el("td", "col-toggle");
+    const btn = el("button", "row-toggle", "›");
+    btn.type = "button";
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-label", `Price history for ${fmtWeekdayDate.format(localDate(row.date))}`);
+    toggleCell.append(btn);
+    tr.append(toggleCell);
+    tbody.append(tr);
+    drawStep(spark, row, tStart, tEnd, { w: 132, h: 28 });
+
+    const toggle = () => toggleDetail(card, scan, row, tr, btn, tStart, tEnd);
+    btn.addEventListener("click", (e) => { e.stopPropagation(); toggle(); });
+    tr.addEventListener("click", toggle);
+    if (board.expanded.has(row.date)) toggle();
+  }
+}
+
+function toggleDetail(card, scan, row, tr, btn, tStart, tEnd) {
+  const board = card._board;
+  const open = tr.nextElementSibling?.classList.contains("row-detail");
+  if (open) {
+    tr.nextElementSibling.querySelector(".date-detail")._observer?.disconnect();
+    tr.nextElementSibling.remove();
+    board.expanded.delete(row.date);
+    btn.setAttribute("aria-expanded", "false");
+    tr.classList.remove("is-open");
+    return;
+  }
+  board.expanded.add(row.date);
+  btn.setAttribute("aria-expanded", "true");
+  tr.classList.add("is-open");
+  const detail = el("tr", "row-detail");
+  const td = el("td");
+  td.colSpan = 6;
+  detail.append(td);
+  tr.after(detail);
+  td.append(renderDateDetail(scan, row, tStart, tEnd));
+}
+
+function renderDateDetail(scan, row, tStart, tEnd) {
+  const rate = scan.fx_rate, currency = scan.currency || "INR";
+  const box = el("div", "date-detail");
+
+  const chartBox = el("div", "date-chart");
+  const svg = svgEl("svg", { class: "step big", role: "img", tabindex: "0",
+    "aria-label": `${fmtWeekdayDate.format(localDate(row.date))}: price history` });
+  const tooltip = el("div", "tooltip");
+  tooltip.hidden = true;
+  chartBox.append(svg, tooltip);
+  box.append(chartBox);
+
+  const draw = () => {
+    const w = Math.max(240, chartBox.clientWidth || 480), h = 132;
+    const g = drawStep(svg, row, tStart, tEnd, { w, h, m: { t: 12, r: 12, b: 22, l: 58 }, minFrac: 0.06, dotR: 4 });
+    for (const v of g.priced ? [...new Set([g.lo, g.hi])] : []) {
+      const txt = svgEl("text", { class: "tick", x: g.x0 - 8, y: g.sy(v) + 4, "text-anchor": "end" });
+      txt.textContent = rate ? CMP.format(toInr(v, rate)) : money(currency).format(v);
+      svg.prepend(txt, svgEl("line", { class: "grid", x1: g.x0, x2: g.x1, y1: g.sy(v), y2: g.sy(v) }));
+    }
+    for (const [t, anchor, x] of [[tStart, "start", g.x0], [tEnd, "end", g.x1]]) {
+      const txt = svgEl("text", { class: "tick", x, y: h - 4, "text-anchor": anchor });
+      txt.textContent = tEnd - tStart < 60e3 ? fmtDateTime.format(new Date(tEnd)) : fmtDate.format(new Date(t));
+      svg.append(txt);
+      if (tEnd - tStart < 60e3) break;
+    }
+    const cross = svgEl("line", { class: "crosshair", y1: g.y0, y2: g.y1, visibility: "hidden" });
+    const hit = svgEl("rect", { class: "hit", x: g.x0, y: 0, width: g.x1 - g.x0, height: h });
+    svg.append(cross, hit);
+    const pts = g.pts;
+    let focus = -1;
+    const show = (k, x) => {
+      const p = pts[k];
+      if (!p) return;
+      focus = k;
+      const px = x ?? g.sx(p.time);
+      cross.setAttribute("x1", px); cross.setAttribute("x2", px); cross.setAttribute("visibility", "visible");
+      const prev = k > 0 ? pts[k - 1].v : undefined;
+      const kind = k > 0 ? changeKind(prev, p.v) : null;
+      const until = k + 1 < pts.length ? fmtDateTime.format(new Date(pts[k + 1].time)) : "now";
+      tooltip.replaceChildren(
+        el("div", "tt-value", priceText(p.v, rate, currency)),
+        ...(kind === "down" || kind === "up" ? [el("div", "tt-row plain", `${pctText(pctChange(prev, p.v))} from ${priceText(prev, rate, currency)}`)] : []),
+        el("div", "tt-row plain", `${fmtDateTime.format(new Date(Math.max(p.time, tStart)))} → ${until}`),
+      );
+      placeTooltip(tooltip, chartBox, (px / w) * svg.clientWidth, 4);
+    };
+    const hide = () => { cross.setAttribute("visibility", "hidden"); tooltip.hidden = true; focus = -1; };
+    hit.addEventListener("pointermove", (e) => {
+      const rect = svg.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * w;
+      let k = 0;
+      pts.forEach((p, i) => { if (g.sx(p.time) <= x) k = i; });
+      show(k, Math.min(Math.max(x, g.x0), g.x1));
+    });
+    hit.addEventListener("pointerleave", hide);
+    svg.onkeydown = (e) => {
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        e.preventDefault();
+        show(focus < 0 ? pts.length - 1 : Math.min(pts.length - 1, Math.max(0, focus + (e.key === "ArrowRight" ? 1 : -1))));
+      } else if (e.key === "Escape") hide();
+    };
+    svg.onblur = hide;
+  };
+  box._observer = new ResizeObserver(draw);
+  box._observer.observe(chartBox);
+
+  const side = el("div", "date-side");
+  const facts = el("dl", "facts");
+  const fact = (k, v) => { if (v) facts.append(el("dt", null, k), el("dd", null, v)); };
+  fact("Check-in", `${fmtWeekdayDate.format(localDate(row.date))} · ${scan.nights} night${scan.nights === 1 ? "" : "s"}`);
+  fact("Plan", row.now != null ? row.p.plan : null);
+  fact("Offer", row.now != null ? row.p.promo : null);
+  if (row.now != null && currency !== "INR") fact("Hotel's price", money(currency).format(row.now));
+  fact("Last checked", fmtDateTime.format(new Date(row.p.t)));
+  side.append(facts);
+
+  side.append(el("h5", null, row.h.length > 1 ? `Price changes (${row.h.length - 1})` : "Price changes"));
+  const log = el("ol", "change-log");
+  [...row.h].reverse().forEach((x, i, arr) => {
+    const prev = arr[i + 1];
+    const li = el("li");
+    li.append(el("time", null, fmtDateTime.format(new Date(x.t))));
+    li.lastChild.dateTime = x.t;
+    li.append(el("span", "num", priceText(x.v, rate, currency)));
+    const kind = prev ? changeKind(prev.v, x.v) : null;
+    if (kind === "down" || kind === "up") li.append(el("span", `delta ${kind}`, pctText(pctChange(prev.v, x.v))));
+    else if (!prev) li.append(el("span", "muted", "first seen"));
+    else if (kind === "back") li.append(el("span", "muted", "back on sale"));
+    log.append(li);
+  });
+  side.append(log);
+  if (row.h.length === 1) side.append(el("p", "muted small", "Unchanged at every scan so far."));
+  const book = el("a", "book-link", "Booking page ↗");
+  book.href = scan.url; book.target = "_blank"; book.rel = "noopener";
+  book.addEventListener("click", (e) => e.stopPropagation());
+  side.append(book);
+  box.append(side);
+  return box;
+}
+
+function setBoardPref(card, scan, patch) {
+  Object.assign(card._board, patch);
+  for (const k of Object.keys(patch)) if (k in BOARD_DEFAULTS) boardPrefs[k] = patch[k];
+  saveBoardPrefs();
+  syncToolbar(card);
+  renderBoard(card, scan);
+}
+
+function syncToolbar(card) {
+  const b = card._board;
+  for (const btn of card.querySelectorAll(".seg button")) btn.setAttribute("aria-checked", String(btn.dataset.view === b.view));
+  card.querySelector(".board-view").hidden = b.view !== "board";
+  card.querySelector(".calendar-view").hidden = b.view !== "calendar";
+  card.querySelector(".board-controls").hidden = b.view !== "board";
+  card.querySelector(".board-controls select").value = b.sort;
+  for (const chip of card.querySelectorAll(".chip")) chip.setAttribute("aria-pressed", String(Boolean(b[chip.dataset.filter])));
+}
+
+function wireBoard(card, scan) {
+  card._board = { ...boardPrefs, expanded: new Set() };
+  for (const btn of card.querySelectorAll(".seg button")) {
+    btn.addEventListener("click", () => setBoardPref(card, scan, { view: btn.dataset.view }));
+  }
+  card.querySelector(".board-controls select").addEventListener("change", (e) => setBoardPref(card, scan, { sort: e.target.value }));
+  for (const chip of card.querySelectorAll(".chip")) {
+    chip.addEventListener("click", () => setBoardPref(card, scan, { [chip.dataset.filter]: !card._board[chip.dataset.filter] }));
+  }
+  syncToolbar(card);
+  renderBoard(card, scan);
+  // Deep link from the change feed: show this date's row opened, whatever the saved filters say.
+  card._focusDate = (date) => {
+    const b = card._board;
+    if (!scanRows(scan).some((r) => r.date === date)) return false;  // past or outside the window
+    Object.assign(b, { view: "board", changedOnly: false, hideSoldOut: false });
+    b.expanded.add(date);
+    syncToolbar(card);
+    renderBoard(card, scan);
+    const tr = card.querySelector(`.board-row[data-date="${date}"]`);
+    if (!tr) return false;
+    const scroller = card.querySelector(".board-scroll");
+    scroller.scrollTop = tr.offsetTop - scroller.clientHeight / 3;
+    card.scrollIntoView({ block: "start" });
+    tr.classList.add("flash");
+    return true;
+  };
+}
+
+/* ---------- change feed ---------- */
+
+const KIND_ORDER = { down: 0, back: 1, up: 2, soldout: 3 };
+
+function changeFeed(data, onlyKey) {
+  const groups = [];
+  const today = isoDay(new Date());
+  for (const scan of data.scans ?? []) {
+    const key = hotelKey(scan.name);
+    if (onlyKey && key !== onlyKey) continue;
+    const byRun = new Map();
+    for (const row of scanRows(scan)) {
+      let low = Infinity;
+      row.h.forEach((x, i) => {
+        const prev = i ? row.h[i - 1].v : undefined;
+        const kind = i ? changeKind(prev, x.v) : null;
+        if (kind) {
+          if (!byRun.has(x.t)) byRun.set(x.t, []);
+          byRun.get(x.t).push({
+            label: fmtShortDay.format(localDate(row.date)),
+            sortKey: row.date,
+            from: prev, to: x.v, kind, pct: pctChange(prev, x.v),
+            newLow: kind === "down" && x.v < low,
+            href: `${hotelHash(key)}/${encodeURIComponent(scan.id)}/${row.date}`,
+          });
+        }
+        if (x.v != null) low = Math.min(low, x.v);
+      });
+    }
+    for (const [t, items] of byRun) {
+      groups.push({
+        t, hotel: key, href: `${hotelHash(key)}/${encodeURIComponent(scan.id)}`,
+        sub: `${roomTitle(scan.name)} · ${scan.nights}-night stays`,
+        rate: scan.fx_rate, currency: scan.currency || "INR", items,
+      });
+    }
+  }
+  for (const t of data.targets) {
+    const key = hotelKey(t.name);
+    if ((onlyKey && key !== onlyKey) || t.check_in < today) continue;
+    const rate = t.fx_rate;
+    let low = Infinity;
+    t.readings.forEach((r, i) => {
+      const prev = i ? t.readings[i - 1].native : undefined;
+      const kind = i ? changeKind(prev, r.native) : null;
+      if (kind) {
+        groups.push({
+          t: r.t, hotel: key, href: `${hotelHash(key)}/${encodeURIComponent(t.id)}`,
+          sub: `${roomTitle(t.name)} · watched stay`, rate, currency: t.currency || "INR",
+          items: [{
+            label: `${fmtDate.format(localDate(t.check_in))} → ${fmtDate.format(localDate(t.check_out))}`,
+            sortKey: t.check_in, from: prev, to: r.native, kind, pct: pctChange(prev, r.native),
+            newLow: kind === "down" && r.native < low,
+            href: `${hotelHash(key)}/${encodeURIComponent(t.id)}`,
+          }],
+        });
+      }
+      if (r.native != null) low = Math.min(low, r.native);
+    });
+  }
+  for (const g of groups) {
+    g.time = Date.parse(g.t);
+    g.items.sort((a, b) => KIND_ORDER[a.kind] - KIND_ORDER[b.kind]
+      || (a.kind === "up" ? b.pct - a.pct : (a.pct ?? 0) - (b.pct ?? 0)) || a.sortKey.localeCompare(b.sortKey));
+  }
+  return groups.sort((a, b) => b.time - a.time);
+}
+
+const FEED_PREVIEW = 3;
+
+// Following a link to the hash already shown fires no hashchange; jump to the item anyway.
+function sameHashRerender(e) {
+  if (location.hash === e.currentTarget.getAttribute("href")) {
+    e.preventDefault();
+    render();
+  }
+}
+
+function feedGroup(g) {
+  const li = el("li", "feed-group");
+  const when = el("time", "feed-when", ago(g.t));
+  when.dateTime = g.t;
+  when.title = fmtDateTime.format(new Date(g.t));
+  li.append(when);
+  const main = el("div", "feed-main");
+  const head = el("div", "feed-head");
+  const a = el("a", "feed-hotel", g.hotel);
+  a.href = g.href;
+  a.addEventListener("click", sameHashRerender);
+  head.append(a, el("span", "feed-sub", g.sub));
+  main.append(head);
+
+  if (g.items.length > FEED_PREVIEW) {
+    const counts = {};
+    for (const it of g.items) counts[it.kind] = (counts[it.kind] ?? 0) + 1;
+    const summary = el("p", "feed-summary", `${g.items.length} dates changed: `);
+    const parts = [
+      ["down", (n) => `↓ ${n} cheaper`, "delta down"],
+      ["back", (n) => `${n} back on sale`, ""],
+      ["up", (n) => `↑ ${n} pricier`, "delta up"],
+      ["soldout", (n) => `${n} sold out`, "muted"],
+    ].filter(([k]) => counts[k]);
+    parts.forEach(([k, text, cls], i) => {
+      if (i) summary.append(document.createTextNode(" · "));
+      summary.append(el("span", cls, text(counts[k])));
+    });
+    main.append(summary);
+  }
+
+  const list = el("ul", "feed-items");
+  g.items.forEach((it, i) => {
+    const row = el("li");
+    if (i >= FEED_PREVIEW) row.hidden = true;
+    const link = el("a", "feed-date", it.label);
+    link.href = it.href;
+    link.addEventListener("click", sameHashRerender);
+    row.append(link);
+    const prices = el("span", "feed-prices");
+    if (it.kind === "soldout") {
+      prices.append(el("span", "muted", `${priceText(it.from, g.rate, g.currency)} → sold out`));
+    } else if (it.kind === "back") {
+      prices.append(el("span", "muted", "sold out → "), el("strong", null, priceText(it.to, g.rate, g.currency)));
+    } else {
+      prices.append(el("span", "muted", `${priceText(it.from, g.rate, g.currency)} → `), el("strong", null, priceText(it.to, g.rate, g.currency)));
+      prices.append(el("span", `delta ${it.kind}`, pctText(it.pct)));
+    }
+    if (it.newLow) prices.append(el("span", "pill good", "new low"));
+    row.append(prices);
+    list.append(row);
+  });
+  main.append(list);
+  if (g.items.length > FEED_PREVIEW) {
+    const more = el("button", "link-button", `Show all ${g.items.length}`);
+    more.type = "button";
+    more.setAttribute("aria-expanded", "false");
+    more.addEventListener("click", () => {
+      const open = more.getAttribute("aria-expanded") !== "true";
+      [...list.children].forEach((c, i) => { if (i >= FEED_PREVIEW) c.hidden = !open; });
+      more.setAttribute("aria-expanded", String(open));
+      more.textContent = open ? "Show fewer" : `Show all ${g.items.length}`;
+    });
+    main.append(more);
+  }
+  li.append(main);
+  return li;
+}
+
+function renderFeed(groups, { title, limit, step, emptyText }) {
+  const section = el("section", "feed");
+  section.append(el("h2", "section-title", title));
+  if (!groups.length) {
+    section.append(el("p", "section-sub", emptyText));
+    return section;
+  }
+  const list = el("ol", "feed-list");
+  section.append(list);
+  let shown = 0;
+  const more = el("button", "link-button feed-more");
+  more.type = "button";
+  const showMore = (n) => {
+    for (const g of groups.slice(shown, shown + n)) list.append(feedGroup(g));
+    shown = Math.min(groups.length, shown + n);
+    more.hidden = shown >= groups.length;
+    more.textContent = `Show older changes (${groups.length - shown})`;
+  };
+  more.addEventListener("click", () => showMore(step));
+  showMore(limit);
+  section.append(more);
+  return section;
+}
+
+/* ---------- one exchange rate for all history ---------- */
+
+// Re-express every ₹ figure at the latest rate (the hotel's own price is kept in ``native``).
+// Converting each reading at its own day's rate made currency drift look like price changes.
+function normalizeFx(data) {
+  for (const t of data.targets) {
+    const rate = t.fx_rate;
+    if (!rate || (t.currency || "INR") === "INR") continue;
+    for (const r of t.readings) {
+      const scale = r.fx_rate ? rate / r.fx_rate : null;
+      r.price = toInr(r.native, rate);
+      r.after_tax = toInr(r.native_after_tax, rate);
+      for (const plan of r.plans ?? []) {
+        plan.before_tax = scale && plan.before_tax != null ? Math.round(plan.before_tax * scale) : null;
+        plan.after_tax = scale && plan.after_tax != null ? Math.round(plan.after_tax * scale) : null;
+      }
+      r.fx_rate = rate;
+    }
+    const priced = t.readings.filter((r) => r.price != null);
+    if (!priced.length || t.stats.current == null) continue;
+    const low = priced.reduce((a, b) => (b.price < a.price ? b : a));
+    Object.assign(t.stats, {
+      current: priced[priced.length - 1].price,
+      current_fx_rate: rate,
+      lowest: low.price,
+      lowest_at: low.t,
+      highest: Math.max(...priced.map((r) => r.price)),
+      first: priced[0].price,
+      below_alert: t.alert_below != null && priced[priced.length - 1].price < t.alert_below,
+    });
+  }
+  for (const scan of data.scans ?? []) {
+    const rate = scan.fx_rate;
+    if (!rate || (scan.currency || "INR") === "INR") continue;
+    for (const h of scan.history) {
+      if (h.min != null) h.min = toInr(h.min_native, rate);
+      if (h.median != null && h.fx_rate) h.median = Math.round((h.median * rate) / h.fx_rate);
+      h.fx_rate = rate;
+    }
+    for (const p of scan.latest?.points ?? []) {
+      p.price = toInr(p.native, rate);
+      p.fx_rate = rate;
+    }
+  }
+  return data;
+}
+
 /* ---------- page: overview list + per-hotel detail, hash-routed ---------- */
 
 const hotelKey = (name) => name.split(" · ")[0].trim();
@@ -552,8 +1200,21 @@ function groupHotels(data) {
 }
 
 function route() {
-  const m = location.hash.match(/^#\/hotel\/(.+)$/);
-  return m ? decodeURIComponent(m[1]) : null;
+  const m = location.hash.match(/^#\/hotel\/([^/]+)(?:\/([^/]+))?(?:\/(\d{4}-\d{2}-\d{2}))?$/);
+  return m ? { key: decodeURIComponent(m[1]), item: m[2] && decodeURIComponent(m[2]), date: m[3] } : null;
+}
+
+function focusItem({ item, date }) {
+  const scanCard = [...document.querySelectorAll(".scan-card")].find((c) => c.dataset.scanId === item);
+  if (scanCard) {
+    if (!(date && scanCard._focusDate(date))) scanCard.scrollIntoView({ block: "start" });
+    return;
+  }
+  const stay = document.getElementById(`stay-${item}`);
+  if (stay) {
+    stay.scrollIntoView({ block: "start" });
+    stay.classList.add("flash");
+  }
 }
 
 function sparkline(readings) {
@@ -603,7 +1264,8 @@ function overviewRow(group) {
     const fmt = INR;
     const li = el("li", "line");
     const label = el("span", "line__label");
-    label.append(el("span", "line__room", `${sc.nights}-night stays`));
+    const room = group.scans.length > 1 ? `${sc.room} · ` : "";
+    label.append(el("span", "line__room", `${room}${sc.nights}-night stays`));
     label.append(document.createTextNode(` · ${fmtDate.format(localDate(sc.from))} → ${fmtDate.format(localDate(sc.to))}`));
     li.append(label);
     const val = el("span", "line__value");
@@ -674,10 +1336,17 @@ function renderOverview(data) {
   const strip = el("p", "summary-strip",
     `${groups.length} hotel${groups.length === 1 ? "" : "s"} · ${data.targets.length} stay${data.targets.length === 1 ? "" : "s"} watched · ${(data.scans ?? []).length} date scan${(data.scans ?? []).length === 1 ? "" : "s"}`);
   view.append(strip);
+  view.append(renderFeed(changeFeed(data), {
+    title: "What changed",
+    limit: 5,
+    step: 10,
+    emptyText: "No price changes yet. Every scan is compared with the one before it, and changes show up here.",
+  }));
+  view.append(el("h2", "section-title", "Hotels"));
   const list = el("div", "overview");
   for (const g of groups) list.append(overviewRow(g));
   view.append(list);
-  view.append(el("p", "page-footer", "All prices in ₹, converted at the ECB reference rate of the day each reading was taken. Hotels priced in another currency show the original figure alongside. Each card says whether totals are before or after tax."));
+  view.append(el("p", "page-footer", "All prices in ₹. Hotels priced in another currency are converted at the latest exchange rate, so the history only moves when the hotel changes its own price; the original figure is shown alongside. Each card says whether totals are before or after tax."));
 }
 
 function renderDetail(group) {
@@ -691,6 +1360,8 @@ function renderDetail(group) {
   link.target = "_blank"; link.rel = "noopener";
   head.append(link);
   view.append(head);
+  const feed = changeFeed(state.data, group.key);
+  if (feed.length) view.append(renderFeed(feed, { title: "Recent changes", limit: 3, step: 10, emptyText: "" }));
   document.querySelector(".filters").hidden = false;
   view.append(document.querySelector(".filters"));
   if (group.targets.length) {
@@ -699,7 +1370,7 @@ function renderDetail(group) {
   }
   if (group.scans.length) {
     view.append(el("h2", "section-title", "Cheapest dates"));
-    view.append(el("p", "section-sub", "Every check-in date in the window, priced daily for a fixed stay length. Colour runs from cheapest to priciest; outlined cells are the five cheapest."));
+    view.append(el("p", "section-sub", "Every upcoming check-in date in the window, priced daily for a fixed stay length. The board shows each date's price now and how it has moved; open a row for its full history. The calendar shows the same prices by weekday."));
     for (const s of group.scans) view.append(renderScanCard(s));
   }
 }
@@ -709,16 +1380,17 @@ function render() {
   if (!data) return;
   // Park the range filter outside the view so replacing the view never destroys it.
   document.getElementById("filters-slot").append(document.querySelector(".filters"));
-  const key = route();
-  const group = key && groupHotels(data).find((g) => g.key === key);
+  const r = route();
+  const group = r && groupHotels(data).find((g) => g.key === r.key);
   renderNav(data, group ? group.key : null);
   if (group) renderDetail(group);
   else {
-    if (key) history.replaceState(null, "", "#/");
+    if (r) history.replaceState(null, "", "#/");
     renderOverview(data);
   }
   document.getElementById("view").scrollTo?.(0, 0);
   window.scrollTo(0, 0);
+  if (group && r.item) focusItem(r);
 }
 
 function setRange(range) {
@@ -750,7 +1422,7 @@ async function init() {
   try {
     const res = await fetch(DATA_URL, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    state.data = await res.json();
+    state.data = normalizeFx(await res.json());
     const updated = document.getElementById("updated");
     updated.textContent = fmtDateTime.format(new Date(state.data.generated_at));
     updated.dateTime = state.data.generated_at;

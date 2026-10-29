@@ -77,18 +77,56 @@
         <a class="book-link" target="_blank" rel="noopener">Booking page ↗</a>
       </header>
       <div class="tiles"></div>
-      <div class="heatmap-wrap">
-        <div class="heatmap"></div>
-        <div class="tooltip" hidden></div>
+      <div class="scan-toolbar">
+        <div class="seg" role="radiogroup" aria-label="View">
+          <button type="button" role="radio" data-view="board">Board</button>
+          <button type="button" role="radio" data-view="calendar">Calendar</button>
+        </div>
+        <div class="board-controls">
+          <label class="sort">Sort
+            <select>
+              <option value="date">By date</option>
+              <option value="price">Cheapest first</option>
+              <option value="drop">Biggest drop</option>
+              <option value="recent">Recently changed</option>
+            </select>
+          </label>
+          <button type="button" class="chip" data-filter="changedOnly" aria-pressed="false">Changed only</button>
+          <button type="button" class="chip" data-filter="hideSoldOut" aria-pressed="false">Hide sold out</button>
+        </div>
       </div>
-      <div class="heatmap-legend"></div>
-      <div class="cheapest">
-        <h4>Cheapest check-ins</h4>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Check-in</th><th class="num">Total</th><th>Plan</th><th>Offer</th></tr></thead>
+      <div class="board-view">
+        <p class="board-count"></p>
+        <div class="board-scroll">
+          <table class="board-table">
+            <thead>
+              <tr>
+                <th scope="col">Check-in</th>
+                <th scope="col" class="num">Price now</th>
+                <th scope="col">Last change</th>
+                <th scope="col" class="num col-seen">Range seen</th>
+                <th scope="col" class="col-hist">History</th>
+                <th scope="col" class="col-toggle"><span class="sr-only">Details</span></th>
+              </tr>
+            </thead>
             <tbody></tbody>
           </table>
+        </div>
+      </div>
+      <div class="calendar-view">
+        <div class="heatmap-wrap">
+          <div class="heatmap"></div>
+          <div class="tooltip" hidden></div>
+        </div>
+        <div class="heatmap-legend"></div>
+        <div class="cheapest">
+          <h4>Cheapest check-ins</h4>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Check-in</th><th class="num">Total</th><th>Plan</th><th>Offer</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </div>
       <figure class="chart trend">

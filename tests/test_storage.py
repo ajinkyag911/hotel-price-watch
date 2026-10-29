@@ -97,6 +97,18 @@ def test_site_data_converts_foreign_currency(riva_target) -> None:
     assert target["stats"]["current_native"] == 40500
 
 
+def test_target_change_ignores_fx_drift(riva_target) -> None:
+    t0 = datetime(2026, 10, 25, tzinfo=UTC)
+    rows = []
+    for hour, rate in ((0, 2.8), (6, 2.9)):
+        row = _reading(40500, t0.replace(hour=hour)).to_record()
+        row.update(currency="THB", fx_rate=rate)
+        rows.append(row)
+    stats = build_site_data(Watchlist((riva_target,), ()), rows)["targets"][0]["stats"]
+    assert stats["current"] != stats["first"]  # INR moved with the rate…
+    assert stats["change_pct_vs_prev"] == 0.0  # …but the hotel's price did not
+
+
 def test_site_data_without_readings(riva_target) -> None:
     t = build_site_data(Watchlist((riva_target,), ()), [])["targets"][0]
     assert t["stats"] == {"current": None, "available": False}
@@ -148,6 +160,43 @@ def test_site_data_scans(tmp_path: Path) -> None:
         "available": 2,
     }
     assert block["history"][1]["min"] == 112500.0
+    # Change history per date, in the engine's currency, collapsed to actual changes.
+    assert pts["2027-01-01"]["h"] == [
+        ["2026-10-25T00:00:00+00:00", 50000.0],
+        ["2026-10-26T00:00:00+00:00", 45000.0],
+    ]
+    assert pts["2027-01-02"]["h"] == [["2026-10-25T00:00:00+00:00", 40000.0]]
+    assert pts["2027-01-03"]["h"] == [["2026-10-25T00:00:00+00:00", None]]
+
+
+def test_scan_history_ignores_fx_drift_and_old_window(tmp_path: Path) -> None:
+    scan = ScanTarget(
+        id="s", name="n", url="u", provider="fake", room="r", nights=5,
+        from_date=date(2027, 1, 2), to_date=date(2027, 1, 3),
+    )  # fmt: skip
+    cases = [(25, 2.0, 40000.0), (26, 2.5, 40000.0), (27, 2.5, None), (28, 2.6, 38000.0)]
+    runs = [
+        ScanResult(
+            scan_id="s",
+            run_at=datetime(2026, 10, day, tzinfo=UTC),
+            nights=5,
+            currency="THB",
+            price_basis="after_tax",
+            failures=0,
+            fx_rate=rate,
+            points=(
+                ScanPoint("2027-01-01", 1.0, "A", None, True),  # no longer in the window
+                ScanPoint("2027-01-02", price, "A" if price else None, None, price is not None),
+            ),
+        )
+        for day, rate, price in cases
+    ]
+    path = tmp_path / "scans.jsonl"
+    append_scan_results(path, runs)
+    block = build_site_data(Watchlist((), (scan,)), [], load_scans(path))["scans"][0]
+    pts = block["latest"]["points"]
+    assert [p["check_in"] for p in pts] == ["2027-01-02"]
+    assert [v for _, v in pts[0]["h"]] == [40000.0, None, 38000.0]
 
 
 def test_write_json_is_compact(tmp_path: Path) -> None:

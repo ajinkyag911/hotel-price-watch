@@ -16,8 +16,11 @@ watchlist.json ─┬─► hotelwatch run   (every 6 h) ──► data/history.
 * **Targets** are one room for one stay. Each run records the headline total the booking page
   shows for that stay, plus every rate plan behind it.
 * **Scans** are one room for a fixed stay length across a window of check-in dates. Each run
-  prices every date in the window, so the page can show a calendar heatmap of today's prices,
-  the five cheapest check-ins, and how the cheapest option has moved over time.
+  prices every date in the window. The page shows a price board (one row per check-in date:
+  price now, last change, range seen, and a step chart of its history, expandable to the full
+  change log), a calendar heatmap of today's prices, and how the cheapest option has moved.
+* **What changed.** The overview opens with a feed of price changes, newest first: each scan's
+  changes grouped into one entry, plus changes to watched stays. Every date links to its row.
 * **Providers** know one booking engine each and are selected by the `provider` field:
   * `swiftbook` — STAAH SwiftBook (`swiftbook.io/inst/#home?propertyId=…`). Prices before tax.
   * `propertyibe` — the "propertyibe2" JavaServer Faces engine (e.g. `booking.tolanihotels.com/propertyibe2/`).
@@ -28,8 +31,9 @@ watchlist.json ─┬─► hotelwatch run   (every 6 h) ──► data/history.
   registering it in `providers/__init__.py`.
 * **Currency.** Everything is shown in INR. Engines that quote in another currency are converted
   at that day's rate, fetched once per run (open.er-api.com, falling back to the ECB rates on
-  api.frankfurter.dev) and stored with the reading as `fx_rate`, so history never shifts when
-  rates move. The native figure is kept and shown alongside. `alert_below` is always in INR.
+  api.frankfurter.dev) and stored with the reading as `fx_rate`. Price changes and alerts are
+  judged on the native figure, and the page converts all history at the latest rate, so a
+  currency move never looks like the hotel changing its price. `alert_below` is always in INR.
 * **Alerts** fire when a spot price crosses below `alert_below`, hits a new all-time low, or
   drops 5% or more since the previous reading. The workflow opens or comments on a GitHub issue
   labelled `price-alert` (GitHub emails you) and pushes to an [ntfy](https://ntfy.sh) topic if

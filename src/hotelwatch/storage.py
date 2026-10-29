@@ -62,10 +62,10 @@ def _stats(points: list[dict[str, Any]], alert_below: float | None) -> dict[str,
     lowest = min(priced, key=lambda p: p["price"])
     highest = max(priced, key=lambda p: p["price"])
     prev = priced[-2] if len(priced) > 1 else None
+    # Compare in the hotel's own currency so exchange-rate drift never reads as a price change.
+    key = "native" if prev and prev["native"] and current["native"] is not None else "price"
     change_pct = (
-        round((current["price"] - prev["price"]) / prev["price"] * 100, 1)
-        if prev and prev["price"]
-        else None
+        round((current[key] - prev[key]) / prev[key] * 100, 1) if prev and prev[key] else None
     )
     return {
         "current": current["price"],
@@ -153,6 +153,14 @@ def _scan_block(s: ScanTarget, runs: list[dict[str, Any]]) -> dict[str, Any]:
                 "available": len(priced),
             }
         )
+    # Per check-in date, the engine's own-currency price each time it changed (None = sold out),
+    # starting with the first time it was seen. Native figures keep FX drift out of the history.
+    changes: dict[str, list[list[Any]]] = {}
+    for run in runs:
+        for p in run["points"]:
+            series = changes.setdefault(p["check_in"], [])
+            if not series or series[-1][1] != p["price"]:
+                series.append([run["run_at"], p["price"]])
     latest = runs[-1] if runs else None
     # A run can lose dates to transient refusals. The grid shows, for every check-in date, the
     # newest point any run produced, each stamped with when it was scanned and converted at
@@ -169,9 +177,12 @@ def _scan_block(s: ScanTarget, runs: list[dict[str, Any]]) -> dict[str, Any]:
                     "price": to_inr(p["price"], rate),
                     "fx_rate": rate,
                     "t": run["run_at"],
+                    "h": changes[p["check_in"]],
                 },
             )
-    points = [merged[d] for d in sorted(merged)]
+    # Dates outside the current window are left over from an older configuration of the scan.
+    window = (s.from_date.isoformat(), s.to_date.isoformat())
+    points = [merged[d] for d in sorted(merged) if window[0] <= d <= window[1]]
     return {
         **s.to_public_dict(),
         "currency": (latest or {}).get("currency") or "INR",
