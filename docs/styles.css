@@ -387,9 +387,9 @@ td.soldout { color: var(--muted); }
 .board-row .price .pill { margin-left: 6px; vertical-align: 1px; }
 .board-row .native { display: block; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .board-row.is-soldout .price strong { color: var(--muted); font-weight: 500; }
-.board-row .change { white-space: nowrap; }
+.board-row .change { white-space: normal; min-width: 9em; }
 .board-row .change .delta { margin-left: 0; }
-.board-row .change .when { color: var(--muted); font-size: 12px; margin-left: 6px; }
+.board-row .change .when { color: var(--muted); font-size: 12px; margin-left: 6px; white-space: nowrap; display: inline-block; }
 .board-row .col-seen { font-size: 13px; }
 .col-hist { width: 150px; }
 .col-toggle { width: 36px; text-align: center; }
@@ -411,7 +411,8 @@ svg.step { display: block; width: 132px; height: 28px; overflow: visible; }
 
 .row-detail > td { background: var(--page); padding: 4px 12px 16px; white-space: normal; cursor: default; }
 .date-detail { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(220px, 1fr); gap: 16px 24px; align-items: start; }
-.date-chart { position: relative; min-width: 0; }
+/* Size the chart from its column, never from its own drawing, or the table can't shrink. */
+.date-chart { position: relative; min-width: 0; contain: inline-size; }
 svg.step.big { width: 100%; height: 132px; outline: none; }
 svg.step.big:focus-visible { box-shadow: 0 0 0 2px var(--series); border-radius: 6px; }
 svg.step.big text { font: 12px system-ui, -apple-system, "Segoe UI", sans-serif; fill: var(--muted); font-variant-numeric: tabular-nums; }
@@ -431,6 +432,37 @@ svg.step.big .step-dot { stroke-width: 2; }
 .change-log .delta { margin-left: 0; }
 .small { font-size: 12px; }
 .calendar-view .heatmap-wrap { margin-top: 4px; }
+
+/* ---------- cheapest marking ---------- */
+.board-cheapest {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
+  font-size: 14px; color: var(--ink-2); margin-bottom: 6px;
+}
+.board-cheapest__price { color: var(--good); font-size: 17px; font-variant-numeric: tabular-nums; }
+.board-cheapest__dates .link-button { font-size: 14px; }
+.board-cheapest .chip { margin-left: auto; font-size: 12px; padding: 3px 10px; }
+.cheapest-tag {
+  display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px;
+  color: var(--good); background: color-mix(in srgb, var(--good) 14%, transparent);
+}
+.cheapest-tag--inline { display: none; }
+.board-row.is-cheapest th.date { box-shadow: inset 3px 0 0 var(--good); }
+.board-row.is-cheapest .price strong { color: var(--good); }
+.col-vs { white-space: nowrap; font-size: 13px; }
+.col-vs .vs-pct { color: var(--muted); font-size: 12px; margin-left: 6px; }
+
+.glance { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; margin: 0 0 18px; }
+.glance-item {
+  display: flex; flex-direction: column; gap: 1px; padding: 12px 14px; text-decoration: none; color: inherit;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+}
+.glance-item:hover { border-color: var(--baseline); }
+.glance-item:focus-visible { outline: 2px solid var(--series); outline-offset: 2px; }
+.glance-label { font-size: 12px; color: var(--ink-2); }
+.glance-value { font-size: 22px; font-weight: 600; line-height: 1.25; font-variant-numeric: tabular-nums; }
+.glance-item.is-good .glance-value { color: var(--good); }
+.glance-value.muted { color: var(--muted); }
+.glance-note { font-size: 12px; color: var(--muted); }
 
 /* ---------- change feed ---------- */
 .feed { margin-bottom: 8px; }
@@ -455,22 +487,17 @@ svg.step.big .step-dot { stroke-width: 2; }
 .feed-more { margin: 8px 0 0 2px; }
 
 @media (max-width: 720px) {
-  .col-seen { display: none; }
   .date-detail { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
   .board-table { font-size: 13px; }
   .board-table th, .board-table td { padding: 7px 6px; }
-  .col-hist { width: 76px; }
-  svg.step:not(.big) { width: 72px; }
   .board-row .change .when { display: block; margin-left: 0; }
   .board-scroll { max-height: 520px; }
   .scan-toolbar { align-items: flex-start; }
   .feed-group { grid-template-columns: 1fr; gap: 2px; padding: 12px 14px; }
-  .board-row .price .pill { display: none; }
 }
 @media (max-width: 480px) {
-  .board-table .col-hist { display: none; }
   .col-toggle { width: 24px; }
   .row-toggle { width: 20px; }
   .card { padding: 14px 12px; }
@@ -478,4 +505,22 @@ svg.step.big .step-dot { stroke-width: 2; }
 @media (prefers-reduced-motion: reduce) {
   .board-row.flash, .card.flash { animation: none; }
   .row-toggle { transition: none; }
+}
+
+/* Board columns give way by the board's own width, not the window's. */
+.board-view { container-type: inline-size; }
+@container (max-width: 820px) {
+  .board-table .col-seen { display: none; }
+}
+@container (max-width: 640px) {
+  .board-table .col-vs { display: none; }
+  .board-row .price .pill { display: none; }
+  .board-row .price .cheapest-tag--inline { display: block; width: fit-content; margin: 3px 0 0 auto; }
+  .board-table .col-hist { width: 80px; }
+  svg.step:not(.big) { width: 76px; }
+}
+@container (max-width: 440px) {
+  .board-table .col-hist { display: none; }
+  .board-row .change { min-width: 0; }
+  .board-table th, .board-table td { padding-left: 5px; padding-right: 5px; }
 }

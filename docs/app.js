@@ -371,7 +371,9 @@ function renderScanCard(scan) {
 
   const tiles = card.querySelector(".tiles");
   const latest = scan.latest;
-  const priced = latest ? latest.points.filter((p) => p.price != null) : [];
+  const today = isoDay(new Date());
+  const upcoming = latest ? latest.points.filter((p) => p.check_in >= today) : [];
+  const priced = upcoming.filter((p) => p.price != null);
   const heat = card.querySelector(".heatmap");
   const legend = card.querySelector(".heatmap-legend");
   const cheapestBody = card.querySelector(".cheapest tbody");
@@ -391,11 +393,12 @@ function renderScanCard(scan) {
       const pct = ((best.price - prevRun.min) / prevRun.min) * 100;
       delta = { dir: pct < 0 ? "down" : "up", text: `${pct < 0 ? "↓" : "↑"} ${Math.abs(pct).toFixed(1)}%` };
     }
+    const ties = priced.filter((p) => p.native === best.native).length;
     renderTile(tiles, "Cheapest check-in", fmt.format(best.price), {
       delta,
-      note: `${fmtWeekdayDate.format(localDate(best.check_in))}${best.native != null && currency !== "INR" ? ` · ${money(currency).format(best.native)}` : ""}${best.promo ? ` · ${best.promo}` : ""}`,
+      note: `${fmtWeekdayDate.format(localDate(best.check_in))}${ties > 1 ? ` + ${ties - 1} more date${ties === 2 ? "" : "s"}` : ""}${best.native != null && currency !== "INR" ? ` · ${money(currency).format(best.native)}` : ""}${best.promo ? ` · ${best.promo}` : ""}`,
     });
-    renderTile(tiles, "Median across dates", fmt.format(med), { note: `${priced.length} of ${latest.points.length} dates available` });
+    renderTile(tiles, "Median across dates", fmt.format(med), { note: `${priced.length} of ${upcoming.length} dates available` });
     renderChangedTile(tiles, scan);
     renderTile(tiles, "Last scanned", fmtDateTime.format(new Date(latest.run_at)), {
       small: true,
@@ -674,6 +677,8 @@ const saveBoardPrefs = () => {
   try { localStorage.setItem("hpw.board", JSON.stringify(boardPrefs)); } catch { /* storage unavailable */ }
 };
 
+const BOARD_COLS = 7;
+
 const SORTS = {
   date: (a, b) => a.date.localeCompare(b.date),
   price: (a, b) => (a.now ?? Infinity) - (b.now ?? Infinity) || a.date.localeCompare(b.date),
@@ -720,6 +725,9 @@ function renderBoard(card, scan) {
   card.querySelector(".col-hist").textContent =
     tEnd - tStart < 60e3 ? "History" : `History since ${fmtDate.format(new Date(tStart))}`;
 
+  const minNow = Math.min(...rows.filter((r) => r.now != null).map((r) => r.now));
+  renderCheapestLine(card, scan, rows, minNow);
+
   const changed = rows.filter(changedInRange);
   const shown = rows
     .filter((r) => !board.changedOnly || changedInRange(r))
@@ -732,7 +740,7 @@ function renderBoard(card, scan) {
   if (!shown.length) {
     const tr = el("tr", "board-empty");
     const td = el("td", null, "No dates match these filters. ");
-    td.colSpan = 6;
+    td.colSpan = BOARD_COLS;
     const clear = el("button", "link-button", "Clear filters");
     clear.type = "button";
     clear.addEventListener("click", () => setBoardPref(card, scan, { changedOnly: false, hideSoldOut: false }));
@@ -750,13 +758,14 @@ function renderBoard(card, scan) {
         month = m;
         const tr = el("tr", "month-row");
         const th = el("th", null, fmtMonth.format(localDate(row.date)));
-        th.colSpan = 6;
+        th.colSpan = BOARD_COLS;
         th.scope = "colgroup";
         tr.append(th);
         tbody.append(tr);
       }
     }
-    const tr = el("tr", "board-row" + (row.now == null ? " is-soldout" : ""));
+    const cheapest = row.now != null && row.now === minNow;
+    const tr = el("tr", "board-row" + (row.now == null ? " is-soldout" : "") + (cheapest ? " is-cheapest" : ""));
     tr.dataset.date = row.date;
     const dateCell = el("th", "date", fmtShortDay.format(localDate(row.date)));
     dateCell.scope = "row";
@@ -765,8 +774,19 @@ function renderBoard(card, scan) {
     const priceCell = el("td", "num price");
     priceCell.append(el("strong", null, priceText(row.now, rate, currency)));
     if (row.now != null && row.distinct > 1 && row.now === row.lo) priceCell.append(el("span", "pill good", "lowest seen"));
+    if (cheapest) priceCell.append(el("span", "cheapest-tag cheapest-tag--inline", "Cheapest"));
     if (row.now != null && currency !== "INR") priceCell.append(el("span", "native", money(currency).format(row.now)));
     tr.append(priceCell);
+
+    const vs = el("td", "num col-vs");
+    if (cheapest) vs.append(el("span", "cheapest-tag", "Cheapest"));
+    else if (row.now == null) vs.append(el("span", "muted", "—"));
+    else {
+      const diff = row.now - minNow;
+      vs.append(el("span", null, `+${rate ? INR.format(toInr(diff, rate)) : money(currency).format(diff)}`));
+      vs.append(el("span", "vs-pct", `+${Math.round((diff / minNow) * 100)}%`));
+    }
+    tr.append(vs);
 
     tr.append(lastChangeCell(row, rate, currency));
     tr.append(el("td", "num col-seen muted",
@@ -794,6 +814,38 @@ function renderBoard(card, scan) {
   }
 }
 
+const CHEAPEST_LISTED = 4;
+
+function renderCheapestLine(card, scan, rows, minNow) {
+  const box = card.querySelector(".board-cheapest");
+  box.replaceChildren();
+  if (!Number.isFinite(minNow)) {
+    box.append(el("span", "muted", "No upcoming date is available right now."));
+    return;
+  }
+  const rate = scan.fx_rate, currency = scan.currency || "INR";
+  const dates = rows.filter((r) => r.now === minNow);
+  box.append(el("span", "board-cheapest__label", "Cheapest now"));
+  box.append(el("strong", "board-cheapest__price", priceText(minNow, rate, currency)));
+  const list = el("span", "board-cheapest__dates");
+  dates.slice(0, CHEAPEST_LISTED).forEach((r, i) => {
+    if (i) list.append(document.createTextNode(", "));
+    const b = el("button", "link-button", fmtShortDay.format(localDate(r.date)));
+    b.type = "button";
+    b.title = "Show this date's history";
+    b.addEventListener("click", () => card._focusDate(r.date));
+    list.append(b);
+  });
+  if (dates.length > CHEAPEST_LISTED) list.append(document.createTextNode(` and ${dates.length - CHEAPEST_LISTED} more`));
+  box.append(list);
+  if (card._board.sort !== "price") {
+    const sortBtn = el("button", "chip", "Sort cheapest first");
+    sortBtn.type = "button";
+    sortBtn.addEventListener("click", () => setBoardPref(card, scan, { sort: "price" }));
+    box.append(sortBtn);
+  }
+}
+
 function toggleDetail(card, scan, row, tr, btn, tStart, tEnd) {
   const board = card._board;
   const open = tr.nextElementSibling?.classList.contains("row-detail");
@@ -810,7 +862,7 @@ function toggleDetail(card, scan, row, tr, btn, tStart, tEnd) {
   tr.classList.add("is-open");
   const detail = el("tr", "row-detail");
   const td = el("td");
-  td.colSpan = 6;
+  td.colSpan = BOARD_COLS;
   detail.append(td);
   tr.after(detail);
   td.append(renderDateDetail(scan, row, tStart, tEnd));
@@ -956,9 +1008,7 @@ function wireBoard(card, scan) {
     renderBoard(card, scan);
     const tr = card.querySelector(`.board-row[data-date="${date}"]`);
     if (!tr) return false;
-    const scroller = card.querySelector(".board-scroll");
-    scroller.scrollTop = tr.offsetTop - scroller.clientHeight / 3;
-    card.scrollIntoView({ block: "start" });
+    tr.scrollIntoView({ block: "center" });
     tr.classList.add("flash");
     return true;
   };
@@ -1349,6 +1399,44 @@ function renderOverview(data) {
   view.append(el("p", "page-footer", "All prices in ₹. Hotels priced in another currency are converted at the latest exchange rate, so the history only moves when the hotel changes its own price; the original figure is shown alongside. Each card says whether totals are before or after tax."));
 }
 
+function hotelGlance(group) {
+  const box = el("div", "glance");
+  const item = (href, label, value, note, opts = {}) => {
+    const a = el("a", "glance-item" + (opts.good ? " is-good" : ""));
+    a.href = href;
+    a.addEventListener("click", sameHashRerender);
+    a.append(el("span", "glance-label", label), el("span", "glance-value" + (opts.muted ? " muted" : ""), value));
+    if (note) a.append(el("span", "glance-note", note));
+    box.append(a);
+  };
+  for (const scan of group.scans) {
+    const rows = scanRows(scan).filter((r) => r.now != null);
+    const label = `Cheapest ${scan.nights}-night check-in`;
+    if (!rows.length) {
+      item(`${hotelHash(group.key)}/${encodeURIComponent(scan.id)}`, label, "—", `${scan.room} · nothing available`, { muted: true });
+      continue;
+    }
+    const min = Math.min(...rows.map((r) => r.now));
+    const ties = rows.filter((r) => r.now === min);
+    item(
+      `${hotelHash(group.key)}/${encodeURIComponent(scan.id)}/${ties[0].date}`,
+      label,
+      priceText(min, scan.fx_rate, scan.currency || "INR"),
+      `${scan.room} · ${fmtShortDay.format(localDate(ties[0].date))}${ties.length > 1 ? ` + ${ties.length - 1} more` : ""}`,
+      { good: true },
+    );
+  }
+  for (const t of group.targets) {
+    const s = t.stats;
+    const label = `Your stay · ${fmtDate.format(localDate(t.check_in))} → ${fmtDate.format(localDate(t.check_out))}`;
+    const href = `${hotelHash(group.key)}/${encodeURIComponent(t.id)}`;
+    if (s.current == null) item(href, label, "—", `${t.room} · ${t.readings.length ? "unavailable so far" : "no reading yet"}`, { muted: true });
+    else if (!s.available) item(href, label, "Unavailable", `${t.room} · last ${INR.format(s.current)}`, { muted: true });
+    else item(href, label, INR.format(s.current), `${t.room} · lowest seen ${INR.format(s.lowest)}`);
+  }
+  return box;
+}
+
 function renderDetail(group) {
   const view = document.getElementById("view");
   view.replaceChildren();
@@ -1360,6 +1448,7 @@ function renderDetail(group) {
   link.target = "_blank"; link.rel = "noopener";
   head.append(link);
   view.append(head);
+  view.append(hotelGlance(group));
   const feed = changeFeed(state.data, group.key);
   if (feed.length) view.append(renderFeed(feed, { title: "Recent changes", limit: 3, step: 10, emptyText: "" }));
   document.querySelector(".filters").hidden = false;
