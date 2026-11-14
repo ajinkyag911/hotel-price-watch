@@ -1,147 +1,21 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hotel price watch</title>
-  <meta name="description" content="Price history and cheapest-date scans for watched hotel rooms, updated automatically." />
-  <meta name="color-scheme" content="light dark" />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 17l5-6 4 4 6-8 3 3' fill='none' stroke='%232a78d6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
-</head>
-<body>
-  <div class="layout">
-    <aside class="sidebar">
-      <a class="brand" href="#/">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>Hotel price watch</span>
-      </a>
-      <nav id="hotel-nav" aria-label="Hotels"></nav>
-      <div class="sidebar-foot">
-        <p>Updated <time id="updated">—</time></p>
-        <p>Spot prices every six hours · date scans daily</p>
-        <a id="repo-link" class="repo-link" href="#" hidden>Source on GitHub</a>
-      </div>
-    </aside>
-
-    <div id="filters-slot" hidden></div>
-    <div class="filters" role="radiogroup" aria-label="Time range for history charts" hidden>
-      <button type="button" data-range="7" aria-checked="false" role="radio">7 days</button>
-      <button type="button" data-range="30" aria-checked="false" role="radio">30 days</button>
-      <button type="button" data-range="90" aria-checked="false" role="radio">90 days</button>
-      <button type="button" data-range="all" aria-checked="true" role="radio">All</button>
-    </div>
-
-    <main id="view">
-      <p class="loading">Loading…</p>
-    </main>
-  </div>
-
-
-  <template id="card">
-    <article class="card">
-      <header class="card-head">
-        <div>
-          <h2 class="card-title"></h2>
-          <p class="card-meta"></p>
-        </div>
-        <a class="book-link" target="_blank" rel="noopener">Booking page ↗</a>
-      </header>
-      <div class="tiles"></div>
-      <figure class="chart">
-        <div class="chart-wrap">
-          <svg class="chart-svg" role="img" tabindex="0"></svg>
-          <div class="tooltip" hidden></div>
-        </div>
-        <figcaption class="chart-caption"></figcaption>
-      </figure>
-      <details class="readings">
-        <summary>All readings</summary>
-        <div class="table-wrap">
-          <table>
-            <thead><tr></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </details>
-    </article>
-  </template>
-
-  <template id="scan-card">
-    <article class="card scan-card">
-      <header class="card-head">
-        <div>
-          <h3 class="card-title"></h3>
-          <p class="card-meta"></p>
-        </div>
-        <a class="book-link" target="_blank" rel="noopener">Booking page ↗</a>
-      </header>
-      <div class="tiles"></div>
-      <div class="scan-toolbar">
-        <div class="seg" role="radiogroup" aria-label="View">
-          <button type="button" role="radio" data-view="board">Board</button>
-          <button type="button" role="radio" data-view="calendar">Calendar</button>
-        </div>
-        <div class="board-controls">
-          <label class="sort">Sort
-            <select>
-              <option value="date">By date</option>
-              <option value="price">Cheapest first</option>
-              <option value="drop">Biggest drop</option>
-              <option value="recent">Recently changed</option>
-            </select>
-          </label>
-          <button type="button" class="chip" data-filter="changedOnly" aria-pressed="false">Changed only</button>
-          <button type="button" class="chip" data-filter="hideSoldOut" aria-pressed="false">Hide sold out</button>
-        </div>
-      </div>
-      <div class="board-view">
-        <div class="board-cheapest"></div>
-        <p class="board-count"></p>
-        <div class="board-scroll">
-          <table class="board-table">
-            <thead>
-              <tr>
-                <th scope="col">Check-in</th>
-                <th scope="col" class="num">Price now</th>
-                <th scope="col" class="num col-vs">vs cheapest</th>
-                <th scope="col">Last change</th>
-                <th scope="col" class="num col-seen">Range seen</th>
-                <th scope="col" class="col-hist">History</th>
-                <th scope="col" class="col-toggle"><span class="sr-only">Details</span></th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-      <div class="calendar-view">
-        <div class="heatmap-wrap">
-          <div class="heatmap"></div>
-          <div class="tooltip" hidden></div>
-        </div>
-        <div class="heatmap-legend"></div>
-        <div class="cheapest">
-          <h4>Cheapest check-ins</h4>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Check-in</th><th class="num">Total</th><th>Plan</th><th>Offer</th></tr></thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <figure class="chart trend">
-        <figcaption class="trend-title">Cheapest available total over time</figcaption>
-        <div class="chart-wrap">
-          <svg class="chart-svg" role="img" tabindex="0"></svg>
-          <div class="tooltip" hidden></div>
-        </div>
-        <figcaption class="chart-caption"></figcaption>
-      </figure>
-    </article>
-  </template>
-
-  <script type="module" src="app.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Stayhawk · Hotel prices, watched</title>
+    <meta name="description" content="Stayhawk watches hotel prices around the clock, finds the cheapest dates and surfaces super-value stays in Goa, Phuket and Langkawi." />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#0b0d12" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <script>
+      try { var t = localStorage.getItem("sh.theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    </script>
+    <script type="module" crossorigin src="./assets/index-LXGpO4iq.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CSx5_DFG.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>

@@ -1,2 +1,4 @@
 data/*.jsonl merge=union
+data/finder/*.jsonl merge=union
 docs/data/history.json merge=regenerate
+docs/data/finder.json merge=regenerate

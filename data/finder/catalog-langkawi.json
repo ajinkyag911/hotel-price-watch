@@ -1,0 +1,237 @@
+{
+ "location": "langkawi",
+ "fetched_at": "2026-11-14T12:25:16+00:00",
+ "hotels": [
+  {
+   "key": "g298283-d13004862",
+   "name": "Ambong Pool Villas Langkawi",
+   "type": "Hotel",
+   "rating": 5.0,
+   "reviews": 822,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g2053325-d13004862-Reviews-Ambong_Pool_Villas_Langkawi-Pantai_Tengah_Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/33/41/c2/01/caption.jpg",
+   "lat": 6.268353,
+   "lng": 99.73297,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g298283-d2626211",
+   "name": "Ambong-Ambong",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 1514,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g2053325-d2626211-Reviews-Ambong_Ambong-Pantai_Tengah_Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/7b/1b/4d/caption.jpg",
+   "lat": 6.270037,
+   "lng": 99.73447,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g298283-d1878415",
+   "name": "The Danna Langkawi Resort & Beach Villas",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 5648,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g6384767-d1878415-Reviews-The_Danna_Langkawi_Resort_Beach_Villas-Pantai_Kok_Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/27/67/28/d1/the-danna-langkawi-a.jpg",
+   "lat": 6.367748,
+   "lng": 99.681366,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g298283-d307707",
+   "name": "Casa del Mar, Langkawi",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 3603,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1096282-d307707-Reviews-Casa_del_Mar_Langkawi-Pantai_Cenang_Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/0c/63/37/casa-del-mar-langkawi.jpg",
+   "lat": 6.296594,
+   "lng": 99.722595,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g298283-d302014",
+   "name": "The Datai Langkawi",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 3395,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g10838083-d302014-Reviews-The_Datai_Langkawi-Datai_Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/35/81/f6/the-datai-langkawi-aerial.jpg",
+   "lat": 6.422406,
+   "lng": 99.67038,
+   "labels": []
+  },
+  {
+   "key": "g298283-d12445137",
+   "name": "The Ritz-Carlton, Langkawi",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 1673,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g298283-d12445137-Reviews-The_Ritz_Carlton_Langkawi-Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/5a/83/3f/cocoon-shaped-pods.jpg",
+   "lat": 6.358956,
+   "lng": 99.69528,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g298283-d311053",
+   "name": "Four Seasons Resort Langkawi, Malaysia",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 2119,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g10838062-d311053-Reviews-Four_Seasons_Resort_Langkawi_Malaysia-Tanjung_Rhu_Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/21/8d/1b/29/four-seasons-resort-langkawi.jpg",
+   "lat": 6.446388,
+   "lng": 99.808014,
+   "labels": []
+  },
+  {
+   "key": "g298283-d25008602",
+   "name": "The RIYAZ Lavanya Langkawi",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 733,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g298283-d25008602-Reviews-The_RIYAZ_Lavanya_Langkawi-Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/33/20/93/f5/the-riyaz-lavanya-langkawi.jpg",
+   "lat": 6.276986,
+   "lng": 99.732544,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g298283-d15213191",
+   "name": "Aloft by Marriott Langkawi Pantai Tengah",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 1333,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g298283-d15213191-Reviews-Aloft_by_Marriott_Langkawi_Pantai_Tengah-Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/fe/2a/70/porte-cochere.jpg",
+   "lat": 6.272734,
+   "lng": 99.73409,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g298283-d8523437",
+   "name": "The St. Regis Langkawi",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 1259,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g298283-d8523437-Reviews-The_St_Regis_Langkawi-Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/fd/67/6c/exterior-day-time.jpg",
+   "lat": 6.296172,
+   "lng": 99.86257,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g298283-d315644",
+   "name": "Tanjung Rhu Resort Langkawi",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 2297,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g3239580-d315644-Reviews-Tanjung_Rhu_Resort_Langkawi-Ayer_Hangat_Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/7d/60/6c/tanjung-rhu-resort.jpg",
+   "lat": 6.454509,
+   "lng": 99.82352,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g298283-d23283788",
+   "name": "Mercure Langkawi Pantai Cenang",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 372,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g298283-d23283788-Reviews-Mercure_Langkawi_Pantai_Cenang-Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/7b/28/75/hotel-view-at-night.jpg",
+   "lat": 6.290885,
+   "lng": 99.72927,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g298283-d301798",
+   "name": "The Westin Langkawi Resort & Spa",
+   "type": "Resort",
+   "rating": 4.4,
+   "reviews": 4490,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g298283-d301798-Reviews-The_Westin_Langkawi_Resort_Spa-Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/19/86/a6/9a/the-westin-langkawi-resort.jpg",
+   "lat": 6.300108,
+   "lng": 99.8554,
+   "labels": []
+  },
+  {
+   "key": "g298283-d6395353",
+   "name": "Wings by Croske Resort Langkawi",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 623,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g298283-d6395353-Reviews-Wings_by_Croske_Resort_Langkawi-Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/96/3c/2a/wings-by-croske-resort.jpg",
+   "lat": 6.340403,
+   "lng": 99.72927,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g298283-d10788510",
+   "name": "The Smith House",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 319,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g2699668-d10788510-Reviews-The_Smith_House-Padang_Mat_Sirat_Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/05/76/06/rooftop-swimming-pool.jpg",
+   "lat": 6.350211,
+   "lng": 99.73075,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g298283-d25110008",
+   "name": "PARKROYAL Langkawi Resort",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 533,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g298283-d25110008-Reviews-PARKROYAL_Langkawi_Resort-Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/0d/2d/24/parkroyal-langkawi-resort.jpg",
+   "lat": 6.282772,
+   "lng": 99.73003,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g298283-d557775",
+   "name": "Rebak Island Resort & Marina",
+   "type": "Resort",
+   "rating": 4.3,
+   "reviews": 2805,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g298283-d557775-Reviews-Rebak_Island_Resort_Marina-Langkawi_Langkawi_District_Kedah.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/7d/c1/54/rebak-island-resort-marina.jpg",
+   "lat": 6.294135,
+   "lng": 99.70044,
+   "labels": []
+  }
+ ]
+}

@@ -1,0 +1,405 @@
+{
+ "location": "phuket",
+ "fetched_at": "2026-11-14T12:18:37+00:00",
+ "hotels": [
+  {
+   "key": "g293920-d501009",
+   "name": "Chanalai Flora Resort",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 4046,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d501009-Reviews-Chanalai_Flora_Resort-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/b1/b0/25/chanalai-flora-resort.jpg",
+   "lat": 7.815472,
+   "lng": 98.301575,
+   "labels": [
+    "All inclusive"
+   ]
+  },
+  {
+   "key": "g293920-d26797773",
+   "name": "Courtyard by Marriott Phuket, Patong Beach Resort",
+   "type": "Resort",
+   "rating": 4.9,
+   "reviews": 2193,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d26797773-Reviews-Courtyard_by_Marriott_Phuket_Patong_Beach_Resort-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/35/1e/43/31/family-friendly-resort.jpg",
+   "lat": 7.886727,
+   "lng": 98.293884,
+   "labels": [
+    "All inclusive"
+   ]
+  },
+  {
+   "key": "g293920-d14076704",
+   "name": "Hotel Indigo Phuket Patong by IHG",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 2036,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d14076704-Reviews-Hotel_Indigo_Phuket_Patong_by_IHG-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/ab/04/34/hotel-indigo-phuket-patong.jpg",
+   "lat": 7.899389,
+   "lng": 98.29978,
+   "labels": []
+  },
+  {
+   "key": "g293920-d1634352",
+   "name": "Renaissance Phuket Resort & Spa",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 5972,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1223683-d1634352-Reviews-Renaissance_Phuket_Resort_Spa-Mai_Khao_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/fb/f9/b7/aerial-view-of-renaissance.jpg",
+   "lat": 8.15586,
+   "lng": 98.29794,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d12725009",
+   "name": "The Marina Phuket Hotel",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 5567,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d12725009-Reviews-The_Marina_Phuket_Hotel-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/77/f6/5d/caption.jpg",
+   "lat": 7.899594,
+   "lng": 98.30387,
+   "labels": []
+  },
+  {
+   "key": "g293920-d5985109",
+   "name": "Chanalai Hillside Resort",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 2753,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d5985109-Reviews-Chanalai_Hillside_Resort-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/b7/7f/bf/hotel-ground.jpg",
+   "lat": 7.85432,
+   "lng": 98.29534,
+   "labels": []
+  },
+  {
+   "key": "g293920-d634706",
+   "name": "Kantary Bay Hotel Phuket",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 2575,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1182846-d634706-Reviews-Kantary_Bay_Hotel_Phuket-Cape_Panwa_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/64/79/2a/kantary-bay-phuket.jpg",
+   "lat": 7.805115,
+   "lng": 98.40634,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d32867706",
+   "name": "Veranda Resort Phuket, Autograph Collection",
+   "type": "Resort",
+   "rating": 4.9,
+   "reviews": 864,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1182846-d32867706-Reviews-Veranda_Resort_Phuket_Autograph_Collection-Cape_Panwa_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/5e/3b/a2/caption.jpg",
+   "lat": 7.816646,
+   "lng": 98.386154,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d7380294",
+   "name": "Bandara Pool Villas Phuket",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 1866,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1182846-d7380294-Reviews-Bandara_Pool_Villas_Phuket-Cape_Panwa_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/76/d4/2c/caption.jpg",
+   "lat": 7.813414,
+   "lng": 98.39091,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d26855204",
+   "name": "The Marin Phuket",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 807,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d26855204-Reviews-The_Marin_Phuket-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/25/70/31/caption.jpg",
+   "lat": 7.960594,
+   "lng": 98.286224,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d2542406",
+   "name": "Kalima Resort & Spa Phuket",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 1571,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d2542406-Reviews-Kalima_Resort_Spa_Phuket-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/27/a9/31/06/kalima-resort-spa-phuket.jpg",
+   "lat": 7.917433,
+   "lng": 98.28447,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d503191",
+   "name": "Trisara",
+   "type": "Resort",
+   "rating": 4.8,
+   "reviews": 1206,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224250-d503191-Reviews-Trisara-Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/7c/f5/c6/trisara.jpg",
+   "lat": 8.036292,
+   "lng": 98.27704,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d519702",
+   "name": "JW Marriott Phuket Resort & Spa",
+   "type": "Resort",
+   "rating": 4.7,
+   "reviews": 8153,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1223683-d519702-Reviews-JW_Marriott_Phuket_Resort_Spa-Mai_Khao_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/44/88/e7/royal-villa.jpg",
+   "lat": 8.16589,
+   "lng": 98.29509,
+   "labels": []
+  },
+  {
+   "key": "g293920-d315568",
+   "name": "Phuket Marriott Resort & Spa, Merlin Beach",
+   "type": "Resort",
+   "rating": 4.7,
+   "reviews": 8100,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d315568-Reviews-Phuket_Marriott_Resort_Spa_Merlin_Beach-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/5a/06/16/aerial-view-of-tropical.jpg",
+   "lat": 7.883114,
+   "lng": 98.27234,
+   "labels": [
+    "All inclusive"
+   ]
+  },
+  {
+   "key": "g293920-d12298464",
+   "name": "My Beach Resort Phuket",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 1164,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1182846-d12298464-Reviews-My_Beach_Resort_Phuket-Cape_Panwa_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2f/ce/74/7c/caption.jpg",
+   "lat": 7.815679,
+   "lng": 98.38633,
+   "labels": []
+  },
+  {
+   "key": "g293920-d3183240",
+   "name": "Avista Hideaway Phuket Patong - MGallery",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 4878,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d3183240-Reviews-Avista_Hideaway_Phuket_Patong_MGallery-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/db/12/10/hotel-facade.jpg",
+   "lat": 7.881111,
+   "lng": 98.27795,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d6390760",
+   "name": "Grand Mercure Phuket Patong",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 4550,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d6390760-Reviews-Grand_Mercure_Phuket_Patong-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/57/87/e9/hotel-with-a-beautiful.jpg",
+   "lat": 7.888039,
+   "lng": 98.296555,
+   "labels": [
+    "All inclusive"
+   ]
+  },
+  {
+   "key": "g293920-d447430",
+   "name": "The Boathouse Phuket",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 1023,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d447430-Reviews-The_Boathouse_Phuket-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/98/d7/6d/jacuzzi-with-beach-view.jpg",
+   "lat": 7.814266,
+   "lng": 98.29923,
+   "labels": []
+  },
+  {
+   "key": "g293920-d2337076",
+   "name": "The Naka Island, a Luxury Collection Resort & Spa, Phuket",
+   "type": "Resort",
+   "rating": 4.7,
+   "reviews": 2271,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1182823-d2337076-Reviews-The_Naka_Island_a_Luxury_Collection_Resort_Spa_Phuket-Ko_Nakha_Yai_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/fc/f7/d3/your-perfect-island-getaway.jpg",
+   "lat": 8.057353,
+   "lng": 98.45841,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d2615515",
+   "name": "Amatara Welleisure Resort",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 2239,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1182846-d2615515-Reviews-Amatara_Welleisure_Resort-Cape_Panwa_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/26/d3/0b/db/wellness-resort.jpg",
+   "lat": 7.809072,
+   "lng": 98.40763,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d1370724",
+   "name": "Andara Resort and Villas",
+   "type": "Resort",
+   "rating": 4.8,
+   "reviews": 801,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d1370724-Reviews-Andara_Resort_and_Villas-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/19/ee/f1/19/andara-resort-and-villas.jpg",
+   "lat": 7.949542,
+   "lng": 98.274994,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d3792194",
+   "name": "Absolute Twin Sands Resort & Spa",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 2084,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d3792194-Reviews-Absolute_Twin_Sands_Resort_Spa-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/00/b7/02/new-social-media-cover.jpg",
+   "lat": 7.88399,
+   "lng": 98.27445,
+   "labels": []
+  },
+  {
+   "key": "g293920-d9865117",
+   "name": "Crest Resort & Pool Villas",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 2084,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d9865117-Reviews-Crest_Resort_Pool_Villas-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/8b/a3/44/crest-resort-pool-villas.jpg",
+   "lat": 7.88219,
+   "lng": 98.27658,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d566487",
+   "name": "Phuket Marriott Resort and Spa, Nai Yang Beach",
+   "type": "Resort",
+   "rating": 4.7,
+   "reviews": 1967,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215773-d566487-Reviews-Phuket_Marriott_Resort_and_Spa_Nai_Yang_Beach-Nai_Yang_Sakhu_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/80/9e/d9/outdoor-pool.jpg",
+   "lat": 8.080786,
+   "lng": 98.28851,
+   "labels": []
+  },
+  {
+   "key": "g293920-d21280235",
+   "name": "Wekata Luxury",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 742,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d21280235-Reviews-Wekata_Luxury-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/25/07/27/a6/wekata-luxury.jpg",
+   "lat": 7.82425,
+   "lng": 98.29972,
+   "labels": []
+  },
+  {
+   "key": "g293920-d1138064",
+   "name": "The Chava Resort",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 735,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224250-d1138064-Reviews-The_Chava_Resort-Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/19/e9/65/8b/the-chava-resort.jpg",
+   "lat": 7.978132,
+   "lng": 98.28022,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d19858880",
+   "name": "Island Escape Burasari",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 1715,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215781-d19858880-Reviews-Island_Escape_Burasari-Phuket_Town_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/22/d5/b3/b1/island-escape-by-burasari.jpg",
+   "lat": 7.944099,
+   "lng": 98.43672,
+   "labels": [
+    "All inclusive"
+   ]
+  },
+  {
+   "key": "g293920-d302529",
+   "name": "The Nai Harn",
+   "type": "Resort",
+   "rating": 4.7,
+   "reviews": 1680,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1231757-d302529-Reviews-The_Nai_Harn-Nai_Harn_Rawai_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/35/13/a1/15/the-nai-harn-phuket-overview.jpg",
+   "lat": 7.778529,
+   "lng": 98.3032,
+   "labels": []
+  },
+  {
+   "key": "g293920-d455972",
+   "name": "Marina Phuket Resort",
+   "type": "Resort",
+   "rating": 4.7,
+   "reviews": 1588,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d455972-Reviews-Marina_Phuket_Resort-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/35/4f/de/where-the-jungle-meets.jpg",
+   "lat": 7.829191,
+   "lng": 98.29503,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g293920-d13320321",
+   "name": "Dinso Resort & Villas Phuket, Vignette Collection by IHG",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 669,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d13320321-Reviews-Dinso_Resort_Villas_Phuket_Vignette_Collection_by_IHG-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/fc/57/ef/hotel-exterior.jpg",
+   "lat": 7.887911,
+   "lng": 98.30386,
+   "labels": []
+  }
+ ]
+}

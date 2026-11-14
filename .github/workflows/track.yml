@@ -1,0 +1,70 @@
+name: Track a hotel
+
+# The Stayhawk deals page opens a prefilled "Track: <hotel>" issue. Only the repository owner's
+# issues are acted on; the body is read from the event file by Python, never by the shell.
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: commit-data
+  cancel-in-progress: false
+
+jobs:
+  track:
+    if: github.event.issue.user.login == github.repository_owner && startsWith(github.event.issue.title, 'Track:')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install --quiet .
+
+      - name: Add to watchlist
+        id: add
+        continue-on-error: true
+        run: hotelwatch track --event "$GITHUB_EVENT_PATH" --message-out reply.md --result-out result.json
+
+      - name: Commit watchlist
+        if: steps.add.outcome == 'success'
+        run: |
+          added=$(python3 -c 'import json; print(json.load(open("result.json"))["added"])')
+          if [ "$added" != "True" ]; then
+            echo "already tracked"
+            exit 0
+          fi
+          git config user.name "hotelwatch[bot]"
+          git config user.email "hotelwatch[bot]@users.noreply.github.com"
+          git add watchlist.json
+          git commit --quiet -m "watch: track hotel from issue #${{ github.event.issue.number }}"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --quiet
+            if git push --quiet; then
+              echo "pushed on attempt $attempt"
+              exit 0
+            fi
+            sleep $((attempt * 5))
+          done
+          echo "::error::could not push after 5 attempts"
+          exit 1
+
+      - name: Reply and close
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: |
+          [ -f reply.md ] || echo "Something went wrong; see the workflow log." > reply.md
+          gh issue comment "$NUMBER" --repo "$GITHUB_REPOSITORY" --body-file reply.md
+          if [ "${{ steps.add.outcome }}" = "success" ]; then
+            gh issue close "$NUMBER" --repo "$GITHUB_REPOSITORY"
+          fi

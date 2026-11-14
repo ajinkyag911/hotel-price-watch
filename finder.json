@@ -1,0 +1,18 @@
+{
+  "nights": 4,
+  "adults": 2,
+  "from": "2026-12-01",
+  "to": "2027-03-31",
+  "min_rating": 4.3,
+  "min_reviews": 200,
+  "types": ["Hotel", "Resort"],
+  "max_nightly_inr": 15000,
+  "hotels_per_location": 30,
+  "date_stride": 7,
+  "catalog_max_age_days": 7,
+  "locations": [
+    {"id": "goa", "name": "Goa", "country": "India", "location_key": "g297604"},
+    {"id": "phuket", "name": "Phuket", "country": "Thailand", "location_key": "g293920"},
+    {"id": "langkawi", "name": "Langkawi", "country": "Malaysia", "location_key": "g298283"}
+  ]
+}

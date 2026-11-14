@@ -28,7 +28,7 @@ from hotelwatch.providers.base import ProviderError, match_one
 
 RATES_URL = "https://data.xotelo.com/api/rates"
 _KEY_RE = re.compile(r"(g\d+-d\d+)")
-CURRENCY_BY_COUNTRY = {"IN": "INR", "TH": "THB"}
+CURRENCY_BY_COUNTRY = {"IN": "INR", "TH": "THB", "MY": "MYR"}
 
 
 class XoteloProvider:

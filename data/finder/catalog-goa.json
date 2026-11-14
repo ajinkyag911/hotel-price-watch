@@ -1,0 +1,420 @@
+{
+ "location": "goa",
+ "fetched_at": "2026-11-14T12:18:38+00:00",
+ "hotels": [
+  {
+   "key": "g297604-d23127206",
+   "name": "The Westin Goa",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 3239,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g306992-d23127206-Reviews-The_Westin_Goa-Anjuna_Bardez_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/79/b5/14/hotel-facade.jpg",
+   "lat": 15.589027,
+   "lng": 73.74338,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d18933679",
+   "name": "Sobit Sarovar Portico",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 2129,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g2334950-d18933679-Reviews-Sobit_Sarovar_Portico-Palolem_Canacona_South_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/43/d4/14/sobit-sarovar-portico.jpg",
+   "lat": 15.010493,
+   "lng": 74.02653,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d13626972",
+   "name": "Doubletree By Hilton Goa - Panaji",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 1799,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g5770686-d13626972-Reviews-Doubletree_By_Hilton_Goa_Panaji-Chimbel_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/18/ed/14/61/20190321-205412-largejpg.jpg",
+   "lat": 15.496523,
+   "lng": 73.88394,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d20183615",
+   "name": "Taj Cidade de Goa Horizon, Goa",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 2467,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1087527-d20183615-Reviews-Taj_Cidade_de_Goa_Horizon_Goa-Dona_Paula_Panjim_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/1d/96/92/taj-hotel-convention.jpg",
+   "lat": 15.457206,
+   "lng": 73.8117,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d25082314",
+   "name": "Regenta Central Imperial, Candolim, North Goa",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 919,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297605-d25082314-Reviews-Regenta_Central_Imperial_Candolim_North_Goa-Candolim_Bardez_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/51/ad/e6/lobby.jpg",
+   "lat": 15.529091,
+   "lng": 73.76479,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d34024662",
+   "name": "Azora By Ayatana Goa",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 913,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1936425-d34024662-Reviews-Azora_By_Ayatana_Goa-Morjim_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/32/37/d0/ea/aerial-view.jpg",
+   "lat": 15.642001,
+   "lng": 73.72187,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d25269925",
+   "name": "JW Marriott Goa",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 892,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g306993-d25269925-Reviews-JW_Marriott_Goa-Bardez_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/60/3b/a5/jw-marriott-goa-vagator.jpg",
+   "lat": 15.59957,
+   "lng": 73.74498,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d23192692",
+   "name": "Club Mahindra Assonora",
+   "type": "Resort",
+   "rating": 4.8,
+   "reviews": 2191,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g306993-d23192692-Reviews-Club_Mahindra_Assonora-Bardez_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/b3/98/7d/club-mahindra-assonora.jpg",
+   "lat": 15.629364,
+   "lng": 73.90611,
+   "labels": []
+  },
+  {
+   "key": "g297604-d23319999",
+   "name": "Holiday Inn Goa Candolim by IHG",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 1603,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297605-d23319999-Reviews-Holiday_Inn_Goa_Candolim_by_IHG-Candolim_Bardez_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/a2/dd/8f/holiday-inn-goa-candolim.jpg",
+   "lat": 15.503502,
+   "lng": 73.7721,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d23525110",
+   "name": "Fairfield by Marriott Goa Benaulim",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 1546,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g306994-d23525110-Reviews-Fairfield_by_Marriott_Goa_Benaulim-Benaulim_Salcette_South_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/21/96/1a/8e/fairfield-by-marriott.jpg",
+   "lat": 15.256261,
+   "lng": 73.92317,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d25166296",
+   "name": "Avataara Resort & Spa",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 736,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g306992-d25166296-Reviews-Avataara_Resort_Spa-Anjuna_Bardez_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/27/a1/e6/fe/avataara-resort-spa.jpg",
+   "lat": 15.59331,
+   "lng": 73.74979,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d2571252",
+   "name": "Ramada by Wyndham Goa Arpora",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 717,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g6909628-d2571252-Reviews-Ramada_by_Wyndham_Goa_Arpora-Nagoa_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/c5/5f/07/exterior-day-view.jpg",
+   "lat": 15.561609,
+   "lng": 73.781235,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d23792982",
+   "name": "Sea Queen Beach Resort & Spa, Goa",
+   "type": "Resort",
+   "rating": 4.8,
+   "reviews": 1452,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1925961-d23792982-Reviews-Sea_Queen_Beach_Resort_Spa_Goa-Betalbatim_Salcette_South_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/21/f9/d1/7b/sea-queen-beach-resort.jpg",
+   "lat": 15.287896,
+   "lng": 73.91211,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d15236908",
+   "name": "Hilton Goa Resort",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 1284,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297605-d15236908-Reviews-Hilton_Goa_Resort-Candolim_Bardez_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/30/2a/0a/48/pool.jpg",
+   "lat": 15.519941,
+   "lng": 73.79401,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d1220372",
+   "name": "Om Sai Beach Resort",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 1115,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g816969-d1220372-Reviews-Om_Sai_Beach_Resort-Agonda_South_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/98/5b/d3/om-sai-beach-huts.jpg",
+   "lat": 15.049633,
+   "lng": 73.9837,
+   "labels": []
+  },
+  {
+   "key": "g297604-d20152281",
+   "name": "Bloomrooms @ Calangute",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 610,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g306995-d20152281-Reviews-Bloomrooms_Calangute-Calangute_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/26/f4/1a/dc/bloomrooms-calangute.jpg",
+   "lat": 15.530084,
+   "lng": 73.766495,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d307517",
+   "name": "Goa Marriott Resort & Spa",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 5676,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g303877-d307517-Reviews-Goa_Marriott_Resort_Spa-Panjim_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/35/0d/25/d3/exterior.jpg",
+   "lat": 15.48674,
+   "lng": 73.80964,
+   "labels": [
+    "All inclusive"
+   ]
+  },
+  {
+   "key": "g297604-d7890446",
+   "name": "Planet Hollywood Goa Beach Resort",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 3197,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1204863-d7890446-Reviews-Planet_Hollywood_Goa_Beach_Resort-Utorda_South_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/bb/16/9e/planet-hollywood-beach.jpg",
+   "lat": 15.316973,
+   "lng": 73.902405,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d9566044",
+   "name": "ibis Styles Goa Calangute",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 3045,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g306995-d9566044-Reviews-Ibis_Styles_Goa_Calangute-Calangute_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/e4/43/40/ibis-styles-goa-calangute.jpg",
+   "lat": 15.540642,
+   "lng": 73.762955,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d8821388",
+   "name": "The Bay Agonda",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 846,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g816969-d8821388-Reviews-The_Bay_Agonda-Agonda_South_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/50/d7/8a/sea-villa.jpg",
+   "lat": 15.053532,
+   "lng": 73.98231,
+   "labels": []
+  },
+  {
+   "key": "g297604-d5892286",
+   "name": "Storii by ITC Hotels Shanti Morada, Saligao",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 842,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g3136739-d5892286-Reviews-Storii_by_ITC_Hotels_Shanti_Morada_Saligao-Saligao_Bardez_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/26/c2/f3/18/storii-by-itc-hotels.jpg",
+   "lat": 15.542086,
+   "lng": 73.781975,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d12591809",
+   "name": "Le Méridien Goa, Calangute",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 2402,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g306995-d12591809-Reviews-Le_Meridien_Goa_Calangute-Calangute_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/fe/bf/47/exterior.jpg",
+   "lat": 15.532179,
+   "lng": 73.76512,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d17382060",
+   "name": "Regenta Central North Goa, Arpora",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 825,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g306993-d17382060-Reviews-Regenta_Central_North_Goa_Arpora-Bardez_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/09/6c/dd/caption.jpg",
+   "lat": 15.56324,
+   "lng": 73.76496,
+   "labels": []
+  },
+  {
+   "key": "g297604-d13959455",
+   "name": "Andores Resort And Spa",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 396,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g306995-d13959455-Reviews-Andores_Resort_And_Spa-Calangute_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/dd/51/de/caption.jpg",
+   "lat": 15.538059,
+   "lng": 73.761055,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d15871394",
+   "name": "The Beachwalk Resort by Acron",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 591,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297605-d15871394-Reviews-The_Beachwalk_Resort_by_Acron-Candolim_Bardez_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/47/64/a4/welcome-to-the-beachwalk.jpg",
+   "lat": 15.508868,
+   "lng": 73.76944,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d28158491",
+   "name": "Meritas Auberge Calangute, Goa",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 380,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g306995-d28158491-Reviews-Meritas_Auberge_Calangute_Goa-Calangute_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2f/87/7d/46/rooftop-infinity-pool.jpg",
+   "lat": 15.538229,
+   "lng": 73.76802,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d306969",
+   "name": "Caravela Beach Resort",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 8731,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1096236-d306969-Reviews-Caravela_Beach_Resort-Varca_Salcette_South_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/db/57/ea/caravela-beach-resort.jpg",
+   "lat": 15.211131,
+   "lng": 73.93527,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d26799652",
+   "name": "Grand Mercure Goa Candolim",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 548,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297605-d26799652-Reviews-Grand_Mercure_Goa_Candolim-Candolim_Bardez_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/1a/92/cf/caption.jpg",
+   "lat": 15.520886,
+   "lng": 73.7956,
+   "labels": [
+    "Breakfast included"
+   ]
+  },
+  {
+   "key": "g297604-d307512",
+   "name": "ITC Grand Goa, a Luxury Collection Resort & Spa, Goa",
+   "type": "Resort",
+   "rating": 4.6,
+   "reviews": 7408,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g312681-d307512-Reviews-ITC_Grand_Goa_a_Luxury_Collection_Resort_Spa_Goa-Cansaulim_South_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/ad/62/36/itc-grand-goa-resort.jpg",
+   "lat": 15.329414,
+   "lng": 73.899155,
+   "labels": [
+    "All inclusive"
+   ]
+  },
+  {
+   "key": "g297604-d23801106",
+   "name": "Fairfield by Marriott Goa Calangute",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 991,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g306995-d23801106-Reviews-Fairfield_by_Marriott_Goa_Calangute-Calangute_North_Goa_District_Goa.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/87/0f/90/caption.jpg",
+   "lat": 15.532088,
+   "lng": 73.76694,
+   "labels": [
+    "Breakfast included"
+   ]
+  }
+ ]
+}

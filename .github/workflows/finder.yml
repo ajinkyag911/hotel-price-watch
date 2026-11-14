@@ -1,0 +1,87 @@
+name: Deal finder
+
+on:
+  schedule:
+    - cron: "13 4 * * *" # daily, 04:13 UTC (09:43 IST)
+  workflow_dispatch:
+    inputs:
+      stride:
+        description: "Price every Nth check-in date (default: finder.json date_stride)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        location: [goa, phuket, langkawi]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install --quiet .
+
+      - name: Price hotels
+        continue-on-error: true
+        env:
+          STRIDE: ${{ inputs.stride }}
+        run: |
+          hotelwatch find fetch --location "${{ matrix.location }}" \
+            --out "obs-${{ matrix.location }}.json" ${STRIDE:+--stride "$STRIDE"}
+
+      - name: Upload observations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: obs-${{ matrix.location }}
+          path: obs-${{ matrix.location }}.json
+          if-no-files-found: ignore
+          retention-days: 7
+
+  commit:
+    needs: fetch
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: commit-data
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install --quiet .
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: obs-*
+          path: obs
+          merge-multiple: true
+
+      - name: Merge observations
+        run: |
+          shopt -s nullglob
+          files=(obs/*.json)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "::error::no location produced observations"
+            exit 1
+          fi
+          hotelwatch find merge "${files[@]}"
+
+      - name: Commit results
+        run: |
+          scripts/commit-data.sh data/finder "chore: deal finder $(date -u +%Y-%m-%dT%H:%MZ)"
