@@ -57,6 +57,7 @@ export function DealCard({ h, data, compact }: { h: FinderHotel; data: FinderDat
               </Pill>
             )}
             {h.drop_pct != null && h.drop_pct >= 5 && <Pill tone="brand">{Math.round(h.drop_pct)}% under its usual</Pill>}
+            {h.stretch && h.super_value && <Pill tone="amber">Worth the stretch</Pill>}
             {h.best && <Pill>{h.best.site}</Pill>}
           </div>
         )}

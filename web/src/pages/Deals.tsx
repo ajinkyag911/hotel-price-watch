@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import type { FinderData, FinderHotel } from "../lib/types";
 import { ago, inr, inrCompact } from "../lib/format";
+import { visibleDeal } from "../lib/data";
 import { usePref } from "../lib/hooks";
 import { DealCard } from "../components/DealCard";
 import { IconChevronDown, IconFilter, IconSpark } from "../components/Icons";
@@ -26,7 +27,7 @@ export function DealsPage({ data, location }: { data: FinderData | null; locatio
     () =>
       (data?.hotels ?? [])
         .filter((h) => !loc || h.location === loc)
-        .filter((h) => h.best && h.best.nightly <= cap)
+        .filter((h) => visibleDeal(h, cap, data?.config.max_nightly_inr ?? 15000))
         .filter((h) => h.rating >= minRating)
         .filter((h) => !prefs.types.length || prefs.types.includes(h.type))
         .filter((h) => !prefs.superOnly || h.super_value)
@@ -47,8 +48,10 @@ export function DealsPage({ data, location }: { data: FinderData | null; locatio
   }
   const types = [...new Set(data.hotels.map((h) => h.type))].sort();
 
-  const hidden = data.hotels.filter((h) => (!loc || h.location === loc) && (!h.best || h.best.nightly > cap)).length;
-  const supers = data.hotels.filter((h) => (!loc || h.location === loc) && h.super_value && h.best && h.best.nightly <= cap).length;
+  const normalMax = data.config.max_nightly_inr;
+  const hidden = data.hotels.filter((h) => (!loc || h.location === loc) && !visibleDeal(h, cap, normalMax)).length;
+  const supers = list.filter((h) => h.super_value).length;
+  const stretches = list.filter((h) => h.best && h.best.nightly > cap).length;
   const current = loc ? data.locations.find((l) => l.id === loc)! : null;
 
   return (
@@ -60,7 +63,7 @@ export function DealsPage({ data, location }: { data: FinderData | null; locatio
           </p>
           <h1>{current ? `Best value in ${current.name}` : "Super-value stays"}</h1>
           <p className="lede">
-            Top-rated hotels and resorts ({data.config.min_rating}★+, {data.config.min_reviews}+ reviews), priced daily across every check-in from{" "}
+            Top-rated hotels and resorts ({data.config.min_rating}★+, {data.config.min_reviews}+ reviews) at {inrCompact(data.config.min_nightly_inr ?? 2000)}–{inrCompact(data.config.max_nightly_inr)} a night (up to {inrCompact(data.config.stretch_nightly_inr ?? 20000)} when the deal is exceptional), priced daily across every check-in from{" "}
             {new Date(data.config.from).toLocaleDateString(undefined, { month: "short", day: "numeric" })} to{" "}
             {new Date(data.config.to).toLocaleDateString(undefined, { month: "short", day: "numeric" })} on Booking.com, Agoda and Trip.com. Scored on price against similar hotels nearby, rating, and drops against each hotel's own usual price.
           </p>
@@ -77,7 +80,7 @@ export function DealsPage({ data, location }: { data: FinderData | null; locatio
           <a key={l.id} href={`#/deals/${l.id}`} className={loc === l.id ? "active" : ""} aria-current={loc === l.id ? "page" : undefined}>
             <span className="loc-tab-name">{l.name}</span>
             <span className="loc-tab-sub">
-              {l.priced} priced{l.median_nightly ? ` · median ${inrCompact(l.median_nightly)}/n` : ""}
+              {l.in_budget ?? l.priced} in budget{l.median_nightly ? ` · typ. ${inrCompact(l.median_nightly)}/n` : ""}
             </span>
           </a>
         ))}
@@ -91,8 +94,8 @@ export function DealsPage({ data, location }: { data: FinderData | null; locatio
           <input
             id="cap"
             type="range"
-            min={2000}
-            max={40000}
+            min={data.config.min_nightly_inr ?? 2000}
+            max={data.config.stretch_nightly_inr ?? 20000}
             step={500}
             value={cap}
             onChange={(e) => setPrefs({ ...prefs, cap: Number(e.target.value) })}
@@ -144,7 +147,8 @@ export function DealsPage({ data, location }: { data: FinderData | null; locatio
       <p className="result-line">
         <IconFilter size={14} /> {list.length} {list.length === 1 ? "stay" : "stays"}
         {supers ? ` · ${supers} super value` : ""}
-        {hidden ? <span className="muted"> · {hidden} above your price cap or not priced yet</span> : null}
+        {stretches ? <span className="muted"> · incl. {stretches} worth stretching to {inrCompact(data.config.stretch_nightly_inr ?? 20000)}</span> : null}
+        {hidden ? <span className="muted"> · {hidden} hidden by price</span> : null}
         {(prefs.cap || prefs.minRating || prefs.types.length || prefs.superOnly) ? (
           <button type="button" className="link-btn" onClick={() => setPrefs(DEFAULTS)}>
             Reset filters

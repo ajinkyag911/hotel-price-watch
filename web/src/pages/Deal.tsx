@@ -53,6 +53,7 @@ export function DealPage({ data, watch, dealKey }: { data: FinderData | null; wa
           <h1>{h.name}</h1>
           <div className="deal-meta">
             <Rating value={h.rating} count={h.reviews} />
+            {h.stretch && h.super_value && <Pill tone="amber">Worth the stretch</Pill>}
             {h.labels.map((l) => (
               <Pill key={l}>{l}</Pill>
             ))}

@@ -99,7 +99,7 @@ def test_config_validation(cfg) -> None:
 
 def test_catalog_filters_and_ranks_by_bayesian_rating(cfg) -> None:
     fake = FakeXotelo()
-    cat = finder.build_catalog(cfg, cfg.location("goa"), fetch=fake)
+    cat = finder.build_catalog(cfg, cfg.location("goa"), fetch=fake, spacing=0)
     assert any("sort=best_value" in u for u in fake.urls)
     assert any("sort=popularity" in u for u in fake.urls)
     keys = [h["key"] for h in cat["hotels"]]
@@ -121,7 +121,7 @@ def test_check_in_dates_rotate_and_cover_the_window(cfg) -> None:
 
 
 def test_fetch_location_prices_totals_and_counts_failures(cfg) -> None:
-    cat = finder.build_catalog(cfg, cfg.location("goa"), fetch=FakeXotelo())
+    cat = finder.build_catalog(cfg, cfg.location("goa"), fetch=FakeXotelo(), spacing=0)
     fake = FakeXotelo(fail_on={"2"})
     obs = finder.fetch_location(
         cfg,
@@ -166,7 +166,7 @@ def test_merge_cell_tracks_lo_hi_first_prev() -> None:
 
 def _run_pipeline(tmp_path: Path, cfg, today: date, nightly=None) -> dict[str, Any]:
     loc = cfg.location("goa")
-    cat = finder.build_catalog(cfg, loc, fetch=FakeXotelo())
+    cat = finder.build_catalog(cfg, loc, fetch=FakeXotelo(), spacing=0)
     obs = finder.fetch_location(
         cfg,
         loc,
@@ -208,11 +208,15 @@ def test_merge_and_site_contract(tmp_path: Path, cfg) -> None:
         "drop_pct",
         "score",
         "super_value",
+        "stretch",
         "reasons",
         "dates",
         "history",
     }
     assert set(h) == expected
+    assert site["config"]["min_nightly_inr"] == 2000
+    assert site["config"]["stretch_nightly_inr"] == 20000
+    assert goa["in_budget"] == 3  # hotel 2 at ₹20,000/night is in the stretch band
     assert set(h["best"]) == {"check_in", "total", "nightly", "site"}
     assert set(h["dates"][0]) == {"d", "p", "site", "lo", "hi", "first", "prev", "seen"}
     assert [x["score"] for x in site["hotels"]] == sorted(
@@ -226,6 +230,7 @@ def test_merge_and_site_contract(tmp_path: Path, cfg) -> None:
     assert h3["drop_pct"] is None  # one run only: no history to compare against
     h2 = next(x for x in site["hotels"] if x["key"] == "g297604-d2")
     assert h2["best"]["nightly"] == 20000
+    assert h2["stretch"] is True
     assert h2["super_value"] is False and any("budget" in r for r in h2["reasons"])
     grid = json.loads((tmp_path / "grid-goa.json").read_text())
     assert set(grid["hotels"]) == {"g297604-d1", "g297604-d2", "g297604-d3", "g297604-d7"}
@@ -381,3 +386,163 @@ def test_find_cli_fetch_merge_build(tmp_path: Path, monkeypatch) -> None:
     assert cli.main([*base, "build"]) == 0
     assert site.exists() and (tmp_path / "docs/data/history.json").exists()
     assert cli.main([*base, "find", "fetch", "--location", "bali"]) == 2
+
+
+# -- budget-aware selection ---------------------------------------------------------------------
+
+
+class BudgetXotelo:
+    """Listings with a given nightly price each; None means the hotel never returns rates."""
+
+    def __init__(self, prices: list[float | None]) -> None:
+        self.prices = prices
+        self.rate_calls: list[str] = []
+
+    def __call__(self, url: str, **kw: Any) -> Any:
+        if "/api/list" in url:
+            offset = int(url.split("offset=")[1].split("&")[0])
+            items = [_listing(100 + i, 4.9 - i * 0.01, 1000) for i in range(len(self.prices))][
+                offset : offset + 100
+            ]
+            return {"error": None, "result": {"total_count": len(self.prices), "list": items}}
+        self.rate_calls.append(url)
+        hid = int(url.split("hotel_key=")[1].split("&")[0].split("-d")[1])
+        nightly = self.prices[hid - 100]
+        rates = [] if nightly is None else [{"name": "Agoda.com", "rate": nightly}]
+        return {"error": None, "result": {"rates": rates}}
+
+
+def _budget_cfg(**kw: Any) -> finder.FinderConfig:
+    return finder.load_finder_config(
+        {
+            **CONFIG,
+            "from": "2026-12-01",
+            "to": "2027-03-31",
+            "hotels_per_location": 10,
+            "max_stretch_hotels": 3,
+            **kw,
+        }
+    )
+
+
+def _band_prices() -> list[float | None]:
+    # Best-rated first: 2 too pricey, 4 stretch, 1 never priced, 2 too cheap, 5 in budget.
+    return [
+        25000,
+        30000,
+        16000,
+        17000,
+        18000,
+        19000,
+        None,
+        1500,
+        1800,
+        5000,
+        6000,
+        7000,
+        8000,
+        9000,
+    ]
+
+
+def test_catalog_keeps_budget_band_and_caps_stretch() -> None:
+    cfg = _budget_cfg()
+    fake = BudgetXotelo(_band_prices())
+    cat = finder.build_catalog(
+        cfg, cfg.location("goa"), fetch=fake, today=date(2026, 11, 14), spacing=0,
+        sleep=lambda s: None,
+    )  # fmt: skip
+    picked = {h["key"]: h for h in cat["hotels"]}
+    nightly = sorted(h["estimate_nightly"] for h in picked.values())
+    # 5 in budget fill first, then 3 stretch (the cap), best-rated stretch first.
+    assert nightly == [5000, 6000, 7000, 8000, 9000, 16000, 17000, 18000]
+    assert all(2000 <= n <= 20000 for n in nightly)
+    st = cat["stats"]
+    assert (st["candidates"], st["probed"], st["in_budget"], st["stretch"]) == (14, 14, 5, 4)
+    assert (st["too_cheap"], st["too_pricey"], st["never_priced"]) == (2, 2, 1)
+    # The never-priced hotel was asked on both probe dates; others answered on the first.
+    assert len(fake.rate_calls) == 15
+    assert "chk_in=2026-12-08" in fake.rate_calls[0]  # first Tuesday 3+ weeks out
+    assert finder.probe_dates(cfg, date(2026, 11, 14)) == [date(2026, 12, 8), date(2027, 1, 5)]
+
+
+def test_catalog_fills_with_in_budget_before_stretch() -> None:
+    cfg = _budget_cfg(hotels_per_location=4)
+    cat = finder.build_catalog(
+        cfg, cfg.location("goa"), fetch=BudgetXotelo(_band_prices()), today=date(2026, 11, 14),
+        spacing=0, sleep=lambda s: None,
+    )  # fmt: skip
+    assert all(h["band"] == "in_budget" for h in cat["hotels"]) and len(cat["hotels"]) == 4
+
+
+def test_catalog_reserves_slots_for_stretch_picks() -> None:
+    # 4 slots, 2 reserved: the 2 best in-budget hotels plus the 2 best-rated stretch hotels.
+    cfg = _budget_cfg(hotels_per_location=4, reserved_stretch_hotels=2)
+    cat = finder.build_catalog(
+        cfg, cfg.location("goa"), fetch=BudgetXotelo(_band_prices()), today=date(2026, 11, 14),
+        spacing=0, sleep=lambda s: None,
+    )  # fmt: skip
+    bands = sorted(h["band"] for h in cat["hotels"])
+    assert bands == ["in_budget", "in_budget", "stretch", "stretch"]
+    with pytest.raises(finder.FinderError, match="reserved_stretch_hotels"):
+        _budget_cfg(reserved_stretch_hotels=9)
+
+
+def test_probes_are_reused_and_observed_prices_win() -> None:
+    cfg = _budget_cfg()
+    first = finder.build_catalog(
+        cfg, cfg.location("goa"), fetch=BudgetXotelo(_band_prices()), today=date(2026, 11, 14),
+        spacing=0, sleep=lambda s: None,
+    )  # fmt: skip
+    # A week later: prices moved, but fresh probes are reused, so only the never-priced hotel is
+    # asked again. Hotel 109 (₹5,000 probe) has been observed at ₹25,000 on 3 dates: swapped out.
+    moved = [p * 3 if p else p for p in _band_prices()]
+    fake = BudgetXotelo(moved)
+    cells = {d: {"p": 100000} for d in ("2027-01-05", "2027-01-12", "2027-01-19")}
+    grid = {"hotels": {"g297604-d109": cells}}
+    second = finder.build_catalog(
+        cfg, cfg.location("goa"), fetch=fake, previous=first, grid=grid,
+        today=date(2026, 11, 21), spacing=0, sleep=lambda s: None,
+    )  # fmt: skip
+    assert len(fake.rate_calls) == 2  # only the never-priced hotel, on both probe dates
+    keys = {h["key"] for h in second["hotels"]}
+    assert "g297604-d109" not in keys
+    assert {h["key"] for h in first["hotels"]} - keys == {"g297604-d109"}
+    by_key = {h["key"]: h for h in second["candidates"]}
+    assert by_key["g297604-d109"]["estimate_source"] == "observed"
+    assert by_key["g297604-d110"]["estimate_source"] == "probe"
+    assert by_key["g297604-d110"]["probed_at"] == next(
+        h["probed_at"] for h in first["candidates"] if h["key"] == "g297604-d110"
+    )
+
+
+def _scored(cfg, *, nightly: float, median_nightly: float, peer: float | None, rating=4.8):
+    h = {
+        "key": "k", "rating": rating, "reviews": 5000, "best": {"check_in": "2027-01-12",
+        "total": nightly * cfg.nights, "nightly": nightly, "site": "Agoda.com"},
+        "median_nightly": median_nightly, "peer_median_nightly": None,
+        "peer_discount_pct": peer, "drop_pct": None, "dates": [], "stretch": False,
+    }  # fmt: skip
+    finder._score(cfg, h, "Goa")
+    return h
+
+
+def test_stretch_super_value_needs_an_exceptional_deal() -> None:
+    cfg = _budget_cfg()
+    great = _scored(cfg, nightly=18000, median_nightly=26000, peer=35)
+    assert great["stretch"] and great["super_value"] and great["score"] >= 75
+    assert great["reasons"][0].startswith("Worth the stretch: 35% below similar hotels")
+    meh = _scored(cfg, nightly=18000, median_nightly=19000, peer=10)
+    assert meh["stretch"] and not meh["super_value"]
+    assert any("Over your ₹15,000/night budget" in r for r in meh["reasons"])
+    pricey = _scored(cfg, nightly=25000, median_nightly=40000, peer=40)
+    assert not pricey["stretch"] and not pricey["super_value"]
+    cheap = _scored(cfg, nightly=1500, median_nightly=3000, peer=40)
+    assert not cheap["super_value"]  # under the ₹2,000 floor
+    ok = _scored(cfg, nightly=9000, median_nightly=12000, peer=30)
+    assert ok["super_value"] and not ok["stretch"]
+
+
+def test_config_rejects_bad_budget_band() -> None:
+    with pytest.raises(finder.FinderError, match="stretch"):
+        finder.load_finder_config({**CONFIG, "stretch_nightly_inr": 10000})

@@ -140,6 +140,8 @@ export interface FinderHotel {
   drop_pct: number | null;
   score: number;
   super_value: boolean;
+  /** Priced above the normal cap but within the stretch budget. */
+  stretch?: boolean;
   reasons: string[];
   dates: FinderDate[];
   history: { t: string; min: number | null }[];
@@ -152,6 +154,7 @@ export interface FinderLocation {
   hotels: number;
   priced: number;
   median_nightly: number | null;
+  in_budget?: number;
   updated_at: string | null;
 }
 
@@ -163,6 +166,8 @@ export interface FinderData {
     from: string;
     to: string;
     max_nightly_inr: number;
+    min_nightly_inr?: number;
+    stretch_nightly_inr?: number;
     min_rating: number;
     min_reviews: number;
   };

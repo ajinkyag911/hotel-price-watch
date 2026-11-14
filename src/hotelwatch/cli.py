@@ -216,10 +216,18 @@ def cmd_find_fetch(args: argparse.Namespace) -> int:
     catalog = finder._read_json(finder.catalog_path(data_dir, loc.id), None)
     if args.max_hotels and catalog:
         catalog = {**catalog, "hotels": catalog["hotels"][: args.max_hotels]}
-    if not finder.catalog_is_fresh(catalog, cfg.catalog_max_age_days, now):
+    if args.refresh_catalog or not finder.catalog_is_fresh(catalog, cfg.catalog_max_age_days, now):
         try:
             catalog = finder.build_catalog(
-                cfg, loc, fetch=finder.fetch_json, max_hotels=args.max_hotels
+                cfg,
+                loc,
+                fetch=finder.fetch_json,
+                previous=catalog,
+                grid=finder._read_json(finder.grid_path(data_dir, loc.id), None),
+                today=now.date(),
+                max_hotels=args.max_hotels,
+                workers=args.workers,
+                spacing=args.spacing,
             )
         except (HttpError, OSError) as exc:
             if not catalog:
@@ -355,6 +363,9 @@ def build_parser() -> argparse.ArgumentParser:
     fetch.add_argument("--stride", type=int, help="price every Nth check-in (default: config)")
     fetch.add_argument("--workers", type=int, default=2)
     fetch.add_argument("--spacing", type=float, default=0.5, help="seconds between requests")
+    fetch.add_argument(
+        "--refresh-catalog", action="store_true", help="re-pick hotels even if the catalog is fresh"
+    )
     fetch.add_argument("--dry-run", action="store_true", help="print instead of writing --out")
     fetch.set_defaults(func=cmd_find_fetch)
     merge = find_sub.add_parser("merge", help="fold observation files into the stored grid")

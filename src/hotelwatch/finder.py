@@ -2,10 +2,11 @@
 
 Pipeline, one location at a time (each step is a CLI subcommand, see ``cli.py``):
 
-1. **Catalog.** Xotelo's ``/api/list`` (TripAdvisor's listings, sorted by best value) gives up to
-   300 properties per place. Keep hotels and resorts that clear the rating and review bar, rank
-   them by a Bayesian rating so a 4.6 with 3,000 reviews beats a 5.0 with 12, keep the top N.
-   Refreshed when older than ``catalog_max_age_days``.
+1. **Catalog.** Xotelo's ``/api/list`` (TripAdvisor's listings, by best value and by popularity)
+   gives the candidates: hotels and resorts that clear the rating and review bar, ranked by a
+   Bayesian rating so a 4.6 with 3,000 reviews beats a 5.0 with 12. Each gets a price estimate
+   (observed, or a one-quote probe) and only hotels inside the budget band are kept, with a
+   capped number in the stretch band. Refreshed when older than ``catalog_max_age_days``.
 2. **Fetch.** Price every catalog hotel for a rotating slice of the check-in window: dates whose
    ordinal is congruent to today's modulo ``date_stride``, so a week of daily runs covers every
    date. Xotelo's ``/api/rates`` returns each travel site's nightly price for the cheapest room;
@@ -49,6 +50,7 @@ PEER_BAND = 0.25
 PEER_CLASS = 2.0  # peers cost between half and double this hotel's usual nightly price
 MIN_PEERS = 2
 SUPER_SCORE = 65
+STRETCH_SCORE = 75  # a stretch-band hotel must be this good to be called a super value
 HISTORY_POINTS = 90
 COUNTRY_CODES = {"india": "IN", "thailand": "TH", "malaysia": "MY"}
 
@@ -86,6 +88,28 @@ class FinderConfig:
     date_stride: int
     catalog_max_age_days: int
     locations: tuple[Location, ...]
+    min_nightly_inr: float = 2000
+    stretch_nightly_inr: float = 20000
+    candidates_per_location: int = 150
+    max_stretch_hotels: int = 8
+    # Slots held back for stretch-band hotels so a strong ₹15–20k deal can surface even where
+    # in-budget hotels alone would fill the list.
+    reserved_stretch_hotels: int = 0
+    probe_max_age_days: int = 30
+    max_probes_per_run: int = 150
+
+    def band(self, nightly: float | None) -> str | None:
+        """Where a nightly price sits against the budget: too_cheap, in_budget, stretch,
+        too_pricey, or None when unknown."""
+        if nightly is None:
+            return None
+        if nightly < self.min_nightly_inr:
+            return "too_cheap"
+        if nightly <= self.max_nightly_inr:
+            return "in_budget"
+        if nightly <= self.stretch_nightly_inr:
+            return "stretch"
+        return "too_pricey"
 
     def location(self, loc_id: str) -> Location:
         for loc in self.locations:
@@ -101,6 +125,8 @@ class FinderConfig:
             "from": self.from_date.isoformat(),
             "to": self.to_date.isoformat(),
             "max_nightly_inr": self.max_nightly_inr,
+            "min_nightly_inr": self.min_nightly_inr,
+            "stretch_nightly_inr": self.stretch_nightly_inr,
             "min_rating": self.min_rating,
             "min_reviews": self.min_reviews,
         }
@@ -130,6 +156,13 @@ def load_finder_config(raw: dict[str, Any]) -> FinderConfig:
             date_stride=int(raw.get("date_stride", 7)),
             catalog_max_age_days=int(raw.get("catalog_max_age_days", 7)),
             locations=locations,
+            min_nightly_inr=float(raw.get("min_nightly_inr", 2000)),
+            stretch_nightly_inr=float(raw.get("stretch_nightly_inr", 20000)),
+            candidates_per_location=int(raw.get("candidates_per_location", 150)),
+            max_stretch_hotels=int(raw.get("max_stretch_hotels", 8)),
+            reserved_stretch_hotels=int(raw.get("reserved_stretch_hotels", 0)),
+            probe_max_age_days=int(raw.get("probe_max_age_days", 30)),
+            max_probes_per_run=int(raw.get("max_probes_per_run", 150)),
         )
     except (KeyError, TypeError, ValueError) as exc:
         raise FinderError(f"finder.json: {exc}") from exc
@@ -139,6 +172,16 @@ def load_finder_config(raw: dict[str, Any]) -> FinderConfig:
         raise FinderError("finder.json: 'to' must not be before 'from'")
     if cfg.date_stride < 1 or cfg.hotels_per_location < 1:
         raise FinderError("finder.json: date_stride and hotels_per_location must be positive")
+    if not 0 <= cfg.min_nightly_inr < cfg.max_nightly_inr <= cfg.stretch_nightly_inr:
+        raise FinderError(
+            "finder.json: need 0 <= min_nightly_inr < max_nightly_inr <= stretch_nightly_inr"
+        )
+    if not 0 <= cfg.reserved_stretch_hotels <= cfg.max_stretch_hotels:
+        raise FinderError(
+            "finder.json: reserved_stretch_hotels must be between 0 and max_stretch_hotels"
+        )
+    if cfg.candidates_per_location < 1 or cfg.max_stretch_hotels < 0:
+        raise FinderError("finder.json: candidates_per_location must be positive")
     if not locations:
         raise FinderError("finder.json: at least one location is required")
     ids = [loc.id for loc in locations]
@@ -233,20 +276,33 @@ def _hotel_from_listing(item: dict[str, Any]) -> dict[str, Any] | None:
     }
 
 
-def build_catalog(
+def list_candidates(
     cfg: FinderConfig,
     loc: Location,
     fetch: FetchJson = fetch_json,
-    pages: int = 3,
     page_size: int = 100,
-    max_hotels: int | None = None,
+    max_pages: int = 10,
     sorts: tuple[str, ...] = ("best_value", "popularity"),
-) -> dict[str, Any]:
+) -> tuple[list[dict[str, Any]], int]:
+    """Hotels clearing the quality bar, best Bayesian rating first, up to
+    ``candidates_per_location``. Returns (candidates, listings seen)."""
     seen: dict[str, dict[str, Any]] = {}
+    types = {t.casefold() for t in cfg.types}
+
+    def passing() -> list[dict[str, Any]]:
+        return [
+            h
+            for h in seen.values()
+            if h["rating"] >= cfg.min_rating
+            and h["reviews"] >= cfg.min_reviews
+            and h["type"].casefold() in types
+        ]
+
     # Two orderings reach different hotels: "best_value" favours deals, "popularity" the
-    # well-reviewed places small islands like Langkawi need to fill a shortlist.
+    # well-reviewed places small islands like Langkawi need to fill a shortlist. Page each until
+    # the pool is big enough or the listing runs out.
     for sort in sorts:
-        for page in range(pages):
+        for page in range(max_pages):
             query = urllib.parse.urlencode(
                 {
                     "location_key": loc.location_key,
@@ -268,20 +324,147 @@ def build_catalog(
             total = int(result.get("total_count") or 0)
             if len(items) < page_size or (page + 1) * page_size >= total:
                 break
-    types = {t.casefold() for t in cfg.types}
-    passing = [
-        h
-        for h in seen.values()
-        if h["rating"] >= cfg.min_rating
-        and h["reviews"] >= cfg.min_reviews
-        and h["type"].casefold() in types
-    ]
-    passing.sort(key=lambda h: (-bayes_rating(h["rating"], h["reviews"]), h["name"]))
-    keep = passing[: max_hotels or cfg.hotels_per_location]
+            if len(passing()) >= cfg.candidates_per_location * 2:
+                break  # enough to choose from; the second ordering still adds variety
+    pool = passing()
+    pool.sort(key=lambda h: (-bayes_rating(h["rating"], h["reviews"]), h["name"]))
+    return pool[: cfg.candidates_per_location], len(seen)
+
+
+def probe_dates(cfg: FinderConfig, today: date) -> list[date]:
+    """A representative mid-week check-in three or more weeks out, plus a fallback a month later
+    for hotels with nothing on the first date."""
+    start = max(cfg.from_date, today + timedelta(days=21))
+    first = start + timedelta(days=(1 - start.weekday()) % 7)  # Tuesday
+    out = [d for d in (first, first + timedelta(days=28)) if d <= cfg.to_date]
+    if not out and start <= cfg.to_date:
+        out = [start]
+    return out
+
+
+def _grid_usual_nightly(cells: dict[str, Any], nights: int, today: date) -> float | None:
+    priced = [c["p"] for d, c in cells.items() if d >= today.isoformat() and c.get("p")]
+    if len(priced) < 3:
+        return None
+    return round(median(priced) / nights)
+
+
+def build_catalog(
+    cfg: FinderConfig,
+    loc: Location,
+    fetch: FetchJson = fetch_json,
+    *,
+    previous: dict[str, Any] | None = None,
+    grid: dict[str, Any] | None = None,
+    today: date | None = None,
+    max_hotels: int | None = None,
+    workers: int = 2,
+    spacing: float = 0.5,
+    sleep=time.sleep,
+) -> dict[str, Any]:
+    """Pick the hotels to watch in one place: quality first, then budget.
+
+    Every candidate gets a price estimate: its observed usual nightly price when the grid has
+    three or more priced dates, else a probe (one quote on a representative date, kept for
+    ``probe_max_age_days``). Hotels priced between ``min_nightly_inr`` and
+    ``stretch_nightly_inr`` are kept, best Bayesian rating first, with at most
+    ``max_stretch_hotels`` above ``max_nightly_inr``. Hotels that never return a price are
+    skipped. Re-running weekly swaps out hotels whose prices drift out of the band.
+    """
+    today = today or datetime.now(UTC).date()
+    now = datetime.now(UTC)
+    limit = max_hotels or cfg.hotels_per_location
+    candidates, listed = list_candidates(cfg, loc, fetch)
+
+    old_probes: dict[str, dict[str, Any]] = {}
+    for h in (previous or {}).get("candidates") or (previous or {}).get("hotels") or []:
+        if h.get("probed_at"):
+            old_probes[h["key"]] = h
+    grid_cells = (grid or {}).get("hotels") or {}
+
+    def fresh_probe(key: str) -> dict[str, Any] | None:
+        old = old_probes.get(key)
+        if not old or old.get("probe_nightly") is None:
+            return None  # never priced last time: worth asking again
+        try:
+            age = now - datetime.fromisoformat(old["probed_at"])
+        except (KeyError, ValueError):
+            return None
+        return old if age < timedelta(days=cfg.probe_max_age_days) else None
+
+    to_probe: list[dict[str, Any]] = []
+    for h in candidates:
+        observed = _grid_usual_nightly(grid_cells.get(h["key"], {}), cfg.nights, today)
+        old = fresh_probe(h["key"])
+        if old:
+            h["probe_nightly"], h["probed_at"] = old["probe_nightly"], old["probed_at"]
+        if observed is not None:
+            h["estimate_nightly"], h["estimate_source"] = observed, "observed"
+        elif old:
+            h["estimate_nightly"], h["estimate_source"] = old["probe_nightly"], "probe"
+        else:
+            to_probe.append(h)
+    skipped_probes = to_probe[cfg.max_probes_per_run :]
+    to_probe = to_probe[: cfg.max_probes_per_run]
+
+    dates = probe_dates(cfg, today)
+    pacer = Pacer(spacing, sleep)
+
+    def probe(h: dict[str, Any]) -> None:
+        h["probe_nightly"] = None
+        for d in dates:
+            try:
+                obs = price_one(fetch, h["key"], d, cfg, pacer)
+            except (HttpError, OSError, ValueError) as exc:
+                log.warning("%s probe %s %s: %s", loc.id, h["key"], d, exc)
+                continue
+            if obs["p"] is not None:
+                h["probe_nightly"] = round(obs["p"] / cfg.nights)
+                break
+        h["probed_at"] = now_iso()
+        if h["probe_nightly"] is not None:
+            h["estimate_nightly"], h["estimate_source"] = h["probe_nightly"], "probe"
+
+    if to_probe and dates:
+        with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
+            list(pool.map(probe, to_probe))
+
+    bands: dict[str | None, list[dict[str, Any]]] = {}
+    for h in candidates:
+        h["band"] = cfg.band(h.get("estimate_nightly"))
+        bands.setdefault(h["band"], []).append(h)
+    in_budget = bands.get("in_budget", [])
+    stretch = bands.get("stretch", [])
+    # In-budget hotels fill the list first, apart from reserved_stretch_hotels slots held for
+    # the best stretch picks; stretch then takes any room left, never more than
+    # max_stretch_hotels. Places with few in-budget hotels get a shorter list.
+    reserved = min(cfg.reserved_stretch_hotels, len(stretch))
+    chosen = in_budget[: limit - reserved]
+    chosen += stretch[: min(cfg.max_stretch_hotels, limit - len(chosen))]
+    chosen.sort(key=lambda h: (-bayes_rating(h["rating"], h["reviews"]), h["name"]))
     log.info(
-        "%s: %d listed, %d pass the bar, keeping %d", loc.id, len(seen), len(passing), len(keep)
-    )
-    return {"location": loc.id, "fetched_at": now_iso(), "hotels": keep}
+        "%s: %d listed, %d candidates, %d probed (%d deferred), %d in budget, %d stretch, "
+        "dropped %d too cheap, %d too pricey, %d never priced; keeping %d (%d stretch)",
+        loc.id, listed, len(candidates), len(to_probe), len(skipped_probes), len(in_budget),
+        len(stretch), len(bands.get("too_cheap", [])), len(bands.get("too_pricey", [])),
+        len(bands.get(None, [])), len(chosen), sum(1 for h in chosen if h["band"] == "stretch"),
+    )  # fmt: skip
+    return {
+        "location": loc.id,
+        "fetched_at": now_iso(),
+        "stats": {
+            "listed": listed,
+            "candidates": len(candidates),
+            "probed": len(to_probe),
+            "in_budget": len(in_budget),
+            "stretch": len(stretch),
+            "too_cheap": len(bands.get("too_cheap", [])),
+            "too_pricey": len(bands.get("too_pricey", [])),
+            "never_priced": len(bands.get(None, [])),
+        },
+        "hotels": chosen,
+        "candidates": candidates,
+    }
 
 
 def catalog_is_fresh(catalog: dict[str, Any] | None, max_age_days: int, now: datetime) -> bool:
@@ -596,6 +779,7 @@ def _hotel_block(
         "drop_pct": drop_pct,
         "score": 0,
         "super_value": False,
+        "stretch": False,
         "reasons": [],
         "dates": dates,
         "history": [{"t": r["run_at"], "min": r["min"]} for r in history[-HISTORY_POINTS:]],
@@ -617,13 +801,22 @@ def _score(cfg: FinderConfig, h: dict[str, Any], loc_name: str) -> None:
         + 15 * _clamp(math.log10(max(h["reviews"], 1)) / 4)
     )
     h["score"] = round(max(0.0, min(100.0, score))) if h["best"] else 0
-    within_budget = bool(h["best"]) and h["best"]["nightly"] <= cfg.max_nightly_inr
+    band = cfg.band(h["best"]["nightly"]) if h["best"] else None
+    within_budget = band == "in_budget"
+    h["stretch"] = band == "stretch"
     # Super value: in budget, strong overall, and a real price edge (vs comparable hotels, vs
-    # its own usual price on other dates, or vs its own history).
-    h["super_value"] = (
-        within_budget
-        and h["score"] >= SUPER_SCORE
-        and (peer_disc >= 20 or under >= 15 or drop >= 10)
+    # its own usual price on other dates, or vs its own history). A stretch-band stay (over the
+    # budget but under the stretch limit) only counts when the deal is exceptional.
+    stretch_worth_it = (
+        h["stretch"] and h["score"] >= STRETCH_SCORE and (peer_disc >= 25 or under >= 20)
+    )
+    h["super_value"] = bool(
+        (
+            within_budget
+            and h["score"] >= SUPER_SCORE
+            and (peer_disc >= 20 or under >= 15 or drop >= 10)
+        )
+        or stretch_worth_it
     )
     reasons = []
     if h["peer_discount_pct"] is not None and h["peer_discount_pct"] >= 5:
@@ -647,7 +840,14 @@ def _score(cfg: FinderConfig, h: dict[str, Any], loc_name: str) -> None:
             )
     if h["rating"] >= 4.7:
         reasons.append(f"Rated {_stars(h['rating'])} by {h['reviews']:,} guests")
-    if h["best"] and not within_budget:
+    if stretch_worth_it:
+        why = (
+            f"{round(peer_disc)}% below similar hotels"
+            if peer_disc >= 25
+            else f"{round(under)}% under its usual on {_fmt_day(h['best']['check_in'])}"
+        )
+        reasons.insert(0, f"Worth the stretch: {why}")
+    elif band in ("stretch", "too_pricey"):
         reasons.append(f"Over your ₹{cfg.max_nightly_inr:,.0f}/night budget")
     h["reasons"] = reasons
 
@@ -697,6 +897,8 @@ def build_finder_site(cfg: FinderConfig, finder_dir: Path, today: date | None = 
         for h in blocks:
             _score(cfg, h, loc.name)
         priced = [h for h in blocks if h["best"]]
+        in_band = [h for h in priced if cfg.band(h["median_nightly"]) == "in_budget"]
+        usual = in_band or priced
         locations.append(
             {
                 "id": loc.id,
@@ -704,8 +906,11 @@ def build_finder_site(cfg: FinderConfig, finder_dir: Path, today: date | None = 
                 "country": loc.country,
                 "hotels": len(blocks),
                 "priced": len(priced),
+                "in_budget": sum(
+                    1 for h in priced if cfg.band(h["best"]["nightly"]) == "in_budget"
+                ),
                 "median_nightly": (
-                    round(median(h["median_nightly"] for h in priced)) if priced else None
+                    round(median(h["median_nightly"] for h in usual)) if usual else None
                 ),
                 "updated_at": (grid or {}).get("updated_at"),
             }

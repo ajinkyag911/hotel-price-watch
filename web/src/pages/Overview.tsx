@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import type { FinderData, HotelGroup, WatchData } from "../lib/types";
-import { changeFeed, groupHotels, hotelHash, isOtaSource, priceText } from "../lib/data";
+import { changeFeed, groupHotels, hotelHash, isOtaSource, priceText, visibleDeal } from "../lib/data";
 import { ago, fmtDate, fmtShortDay, inr, inrCompact, localDate, todayIso } from "../lib/format";
 import { DealCard } from "../components/DealCard";
 import { Feed } from "../components/Feed";
@@ -80,7 +80,8 @@ export function OverviewPage({ watch, finder }: { watch: WatchData; finder: Find
   const groups = useMemo(() => groupHotels(watch), [watch]);
   const feed = useMemo(() => changeFeed(watch), [watch]);
   const today = todayIso();
-  const topDeals = (finder?.hotels ?? []).filter((h) => h.best && h.best.nightly <= (finder?.config.max_nightly_inr ?? Infinity)).slice(0, 4);
+  const normalMax = finder?.config.max_nightly_inr ?? 15000;
+  const topDeals = (finder?.hotels ?? []).filter((h) => visibleDeal(h, normalMax, normalMax)).slice(0, 4);
   const supers = (finder?.hotels ?? []).filter((h) => h.super_value).length;
   const alerts = watch.targets.filter((t) => t.stats.below_alert);
   const nextStay = [...watch.targets].filter((t) => t.check_in >= today && !isOtaSource(t)).sort((a, b) => a.check_in.localeCompare(b.check_in))[0];
@@ -167,7 +168,7 @@ export function OverviewPage({ watch, finder }: { watch: WatchData; finder: Find
                 <span className="dest-name">{l.name}</span>
                 <span className="dest-sub">{l.country}</span>
                 <span className="dest-stat">
-                  {l.priced} priced · median {inrCompact(l.median_nightly)}/night
+                  {l.in_budget ?? l.priced} in budget · typically {inrCompact(l.median_nightly)}/night
                 </span>
                 <IconArrowRight size={16} />
               </a>

@@ -53,11 +53,14 @@ only talks to engines that answer a plain HTTP client.
 
 `finder.json` names the places to search (Goa, Phuket, Langkawi), the stay (4 nights, 2 adults,
 check-ins 1 Dec 2026 → 31 Mar 2027) and the bar a hotel must clear (TripAdvisor 4.3+ from 200+
-reviews, hotels and resorts, ₹15,000/night budget). The `Deal finder` workflow runs daily:
+reviews, hotels and resorts) and the budget: ₹2,000–₹15,000 a night, stretching to ₹20,000 only
+for an exceptional deal. The `Deal finder` workflow runs daily:
 
 ```
 finder.json ─► hotelwatch find fetch --location goa   (one job per place, in parallel)
-                 catalog: top 30 by Bayesian rating, refreshed weekly ─► data/finder/catalog-goa.json
+                 catalog (weekly): 150 candidates by Bayesian rating, each with a price estimate,
+                   then the best-rated 30 within budget (≤8 in the ₹15–20k stretch band)
+                   ─► data/finder/catalog-goa.json
                  prices: every 7th check-in, rotating daily, so a week covers the window
              ─► hotelwatch find merge obs-*.json      ─► data/finder/grid-<place>.json
                                                        ─► data/finder/history.jsonl
@@ -69,13 +72,22 @@ each travel site, as a stay total in INR; taxes may be extra. Each hotel gets a 
 
 | Weight | Signal |
 |---|---|
-| 40 | price vs similar-rated hotels (±0.25★) in the same place, up to 40% cheaper |
-| 25 | rating, 4.3 → 5.0 |
-| 20 | best date vs the hotel's own typical lowest price, up to 20% under (needs 2+ runs) |
+| 30 | usual price vs similar hotels in the same place (±0.25★ and ½×–2× the price), up to 30% cheaper |
+| 20 | best date vs the hotel's own usual price on other dates, up to 25% under |
+| 15 | best date vs the hotel's typical lowest price across runs, up to 15% under (needs 2+ runs) |
+| 20 | rating, 4.3 → 4.9 |
 | 15 | how many reviews back the rating |
 
-A **super value** is a stay within budget scoring 75+, or 30%+ under its peers at 4.5★ or
-better. `reasons` spells out why in plain words for the page.
+**Choosing the 30.** Each candidate's price estimate is its observed usual nightly price once
+the grid holds 3+ priced dates, otherwise a *probe*: one 4-night quote on the first Tuesday 3+
+weeks out (a month later as a fallback), kept for 30 days. Hotels under ₹2,000 or over ₹20,000
+a night, and hotels that never return a price, are left out. In-budget hotels fill the list
+first; stretch-band hotels (₹15,001–₹20,000) only take leftover room, at most 8. The weekly
+refresh swaps out hotels whose prices drift out of the band.
+
+A **super value** is an in-budget stay with a strong score and a real price edge; a stretch-band
+stay qualifies only when it scores 75+ and is 25%+ under its peers or 20%+ under its own usual
+price ("Worth the stretch: …"). `reasons` spells out why in plain words for the page.
 
 **Track a hotel.** The page's Track button opens a prefilled issue titled `Track: <hotel>` with a
 JSON block. The `Track a hotel` workflow acts only on issues by the repository owner, validates

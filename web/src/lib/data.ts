@@ -1,6 +1,7 @@
 import type {
   ChangeKind,
   FinderData,
+  FinderHotel,
   HotelGroup,
   Scan,
   ScanRow,
@@ -233,6 +234,16 @@ export function changeFeed(data: WatchData, onlyKey?: string): FeedGroup[] {
     );
   }
   return groups.sort((a, b) => b.time - a.time);
+}
+
+// ---- deal finder visibility ----
+
+/** A deal shows when it fits the cap, or when it's a stretch-band stay good enough to be worth it
+ *  (the finder only marks those super value) and the cap is at least the normal budget. */
+export function visibleDeal(h: FinderHotel, cap: number, normalMax: number) {
+  if (!h.best) return false;
+  if (h.best.nightly <= cap) return true;
+  return Boolean(h.stretch && h.super_value && cap >= normalMax && h.best.nightly <= (cap > normalMax ? cap : Infinity));
 }
 
 // ---- repo / track links ----
