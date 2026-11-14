@@ -1,20 +1,53 @@
 {
  "location": "phuket",
- "fetched_at": "2026-11-14T12:18:37+00:00",
+ "fetched_at": "2026-11-14T13:02:44+00:00",
+ "stats": {
+  "listed": 1373,
+  "candidates": 150,
+  "probed": 33,
+  "in_budget": 47,
+  "stretch": 33,
+  "too_cheap": 0,
+  "too_pricey": 62,
+  "never_priced": 8
+ },
  "hotels": [
   {
-   "key": "g293920-d501009",
-   "name": "Chanalai Flora Resort",
+   "key": "g293920-d13140255",
+   "name": "Hotel Clover Patong Phuket",
    "type": "Hotel",
    "rating": 4.9,
-   "reviews": 4046,
-   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d501009-Reviews-Chanalai_Flora_Resort-Kata_Beach_Karon_Phuket.html",
-   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/b1/b0/25/chanalai-flora-resort.jpg",
-   "lat": 7.815472,
-   "lng": 98.301575,
+   "reviews": 3241,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d13140255-Reviews-Hotel_Clover_Patong_Phuket-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/de/24/53/surf-hotel-patong.jpg",
+   "lat": 7.895781,
+   "lng": 98.29673,
+   "labels": [],
+   "probe_nightly": 12009,
+   "probed_at": "2026-11-14T12:46:30+00:00",
+   "estimate_nightly": 13775,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d1379794",
+   "name": "Chanalai Romantica Resort",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 2341,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d1379794-Reviews-Chanalai_Romantica_Resort-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/32/66/b0/chanalai-romantica-resort.jpg",
+   "lat": 7.819165,
+   "lng": 98.30025,
    "labels": [
-    "All inclusive"
-   ]
+    "All inclusive",
+    "Breakfast included"
+   ],
+   "probe_nightly": 16968,
+   "probed_at": "2026-11-14T12:46:31+00:00",
+   "estimate_nightly": 16968,
+   "estimate_source": "probe",
+   "band": "stretch"
   },
   {
    "key": "g293920-d26797773",
@@ -28,7 +61,12 @@
    "lng": 98.293884,
    "labels": [
     "All inclusive"
-   ]
+   ],
+   "probe_nightly": 19459,
+   "probed_at": "2026-11-14T13:01:18+00:00",
+   "estimate_nightly": 19459,
+   "estimate_source": "probe",
+   "band": "stretch"
   },
   {
    "key": "g293920-d14076704",
@@ -40,7 +78,558 @@
    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/ab/04/34/hotel-indigo-phuket-patong.jpg",
    "lat": 7.899389,
    "lng": 98.29978,
-   "labels": []
+   "labels": [],
+   "probe_nightly": 14445,
+   "probed_at": "2026-11-14T13:01:18+00:00",
+   "estimate_nightly": 14445,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d12725009",
+   "name": "The Marina Phuket Hotel",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 5567,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d12725009-Reviews-The_Marina_Phuket_Hotel-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/77/f6/5d/caption.jpg",
+   "lat": 7.899594,
+   "lng": 98.30387,
+   "labels": [],
+   "estimate_nightly": 11192,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d878006",
+   "name": "M Social Hotel Phuket",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 1196,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d878006-Reviews-M_Social_Hotel_Phuket-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/dd/b7/c6/caption.jpg",
+   "lat": 7.890149,
+   "lng": 98.2989,
+   "labels": [],
+   "probe_nightly": 15612,
+   "probed_at": "2026-11-14T12:46:34+00:00",
+   "estimate_nightly": 15612,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d642305",
+   "name": "BYD Lofts Boutique Hotel & Serviced Apartments",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 2903,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d642305-Reviews-BYD_Lofts_Boutique_Hotel_Serviced_Apartments-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/cc/f0/db/byd-lofts-main-building.jpg",
+   "lat": 7.90092,
+   "lng": 98.29963,
+   "labels": [],
+   "probe_nightly": 13988,
+   "probed_at": "2026-11-14T12:46:37+00:00",
+   "estimate_nightly": 19547,
+   "estimate_source": "observed",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d586602",
+   "name": "Pacific Club Resort",
+   "type": "Resort",
+   "rating": 4.8,
+   "reviews": 2806,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g10804710-d586602-Reviews-Pacific_Club_Resort-Karon_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/30/3a/4c/51/7.jpg",
+   "lat": 7.856964,
+   "lng": 98.2959,
+   "labels": [],
+   "probe_nightly": 14912,
+   "probed_at": "2026-11-14T12:46:40+00:00",
+   "estimate_nightly": 14940,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d5985109",
+   "name": "Chanalai Hillside Resort",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 2753,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d5985109-Reviews-Chanalai_Hillside_Resort-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/b7/7f/bf/hotel-ground.jpg",
+   "lat": 7.85432,
+   "lng": 98.29534,
+   "labels": [],
+   "estimate_nightly": 10334,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d634706",
+   "name": "Kantary Bay Hotel Phuket",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 2575,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1182846-d634706-Reviews-Kantary_Bay_Hotel_Phuket-Cape_Panwa_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/64/79/2a/kantary-bay-phuket.jpg",
+   "lat": 7.805115,
+   "lng": 98.40634,
+   "labels": [
+    "Breakfast included"
+   ],
+   "estimate_nightly": 8295,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d1526109",
+   "name": "Novotel Phuket Kata Avista Resort And Spa",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 1921,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d1526109-Reviews-Novotel_Phuket_Kata_Avista_Resort_And_Spa-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/a7/9c/a6/best-resort-swimming.jpg",
+   "lat": 7.826001,
+   "lng": 98.29461,
+   "labels": [],
+   "probe_nightly": 17231,
+   "probed_at": "2026-11-14T12:46:43+00:00",
+   "estimate_nightly": 17231,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d26855204",
+   "name": "The Marin Phuket",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 807,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d26855204-Reviews-The_Marin_Phuket-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/25/70/31/caption.jpg",
+   "lat": 7.960594,
+   "lng": 98.286224,
+   "labels": [
+    "Breakfast included"
+   ],
+   "estimate_nightly": 14792,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d2542406",
+   "name": "Kalima Resort & Spa Phuket",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 1571,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d2542406-Reviews-Kalima_Resort_Spa_Phuket-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/27/a9/31/06/kalima-resort-spa-phuket.jpg",
+   "lat": 7.917433,
+   "lng": 98.28447,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 13517,
+   "probed_at": "2026-11-14T13:01:20+00:00",
+   "estimate_nightly": 13517,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d8275148",
+   "name": "Ramada by Wyndham Phuket Deevana Patong",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 3824,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d8275148-Reviews-Ramada_by_Wyndham_Phuket_Deevana_Patong-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/b5/ef/f4/ramada-by-wyndham-phuket.jpg",
+   "lat": 7.901343,
+   "lng": 98.30153,
+   "labels": [],
+   "probe_nightly": 8068,
+   "probed_at": "2026-11-14T12:46:47+00:00",
+   "estimate_nightly": 8658,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d4262323",
+   "name": "Navatara Phuket Resort",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 893,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297934-d4262323-Reviews-Navatara_Phuket_Resort-Rawai_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/fd/86/a0/navatara-phuket-resort.jpg",
+   "lat": 7.769615,
+   "lng": 98.3158,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 7728,
+   "probed_at": "2026-11-14T12:46:52+00:00",
+   "estimate_nightly": 9535,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d3792194",
+   "name": "Absolute Twin Sands Resort & Spa",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 2084,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d3792194-Reviews-Absolute_Twin_Sands_Resort_Spa-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/00/b7/02/new-social-media-cover.jpg",
+   "lat": 7.88399,
+   "lng": 98.27445,
+   "labels": [],
+   "estimate_nightly": 9982,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d9865117",
+   "name": "Crest Resort & Pool Villas",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 2084,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d9865117-Reviews-Crest_Resort_Pool_Villas-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/8b/a3/44/crest-resort-pool-villas.jpg",
+   "lat": 7.88219,
+   "lng": 98.27658,
+   "labels": [
+    "Breakfast included"
+   ],
+   "estimate_nightly": 11406,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d21280235",
+   "name": "Wekata Luxury",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 742,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d21280235-Reviews-Wekata_Luxury-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/25/07/27/a6/wekata-luxury.jpg",
+   "lat": 7.82425,
+   "lng": 98.29972,
+   "labels": [],
+   "estimate_nightly": 8794,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d19858880",
+   "name": "Island Escape Burasari",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 1715,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215781-d19858880-Reviews-Island_Escape_Burasari-Phuket_Town_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/22/d5/b3/b1/island-escape-by-burasari.jpg",
+   "lat": 7.944099,
+   "lng": 98.43672,
+   "labels": [
+    "All inclusive"
+   ],
+   "estimate_nightly": 9458,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d27430541",
+   "name": "The Proud Karon Beach Phuket Trademark Collection By Wyndham",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 660,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d27430541-Reviews-The_Proud_Karon_Beach_Phuket_Trademark_Collection_By_Wyndham-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/34/92/c3/caption.jpg",
+   "lat": 7.853362,
+   "lng": 98.29514,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 12056,
+   "probed_at": "2026-11-14T12:47:07+00:00",
+   "estimate_nightly": 11297,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d557954",
+   "name": "Baan Laimai Beach Resort & Spa",
+   "type": "Resort",
+   "rating": 4.6,
+   "reviews": 7520,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d557954-Reviews-Baan_Laimai_Beach_Resort_Spa-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/cf/dc/5a/baan-laimai-beach-resort.jpg",
+   "lat": 7.889817,
+   "lng": 98.29316,
+   "labels": [],
+   "probe_nightly": 8468,
+   "probed_at": "2026-11-14T12:47:29+00:00",
+   "estimate_nightly": 10463,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d2590339",
+   "name": "Novotel Phuket Vintage Park Resort",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 4801,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d2590339-Reviews-Novotel_Phuket_Vintage_Park_Resort-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/30/b6/64/fc/novotel-phuket-vintage.jpg",
+   "lat": 7.898879,
+   "lng": 98.30055,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 13719,
+   "probed_at": "2026-11-14T12:47:39+00:00",
+   "estimate_nightly": 14992,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d23752072",
+   "name": "Anona Beachfront Phuket Resort",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 483,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d23752072-Reviews-Anona_Beachfront_Phuket_Resort-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/26/02/0a/e7/oceanfront-suite-private.jpg",
+   "lat": 7.889375,
+   "lng": 98.29289,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 12399,
+   "probed_at": "2026-11-14T12:47:51+00:00",
+   "estimate_nightly": 11457,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d10728427",
+   "name": "AtEase Phuket Patong",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 705,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d10728427-Reviews-AtEase_Phuket_Patong-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/84/73/66/caption.jpg",
+   "lat": 7.903387,
+   "lng": 98.31348,
+   "labels": [],
+   "probe_nightly": 6971,
+   "probed_at": "2026-11-14T12:47:55+00:00",
+   "estimate_nightly": 6524,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d6802617",
+   "name": "The Yama Hotel Phuket",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 1951,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d6802617-Reviews-The_Yama_Hotel_Phuket-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/d9/13/5f/swimming-pool.jpg",
+   "lat": 7.820165,
+   "lng": 98.30974,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": 10384,
+   "probed_at": "2026-11-14T12:48:00+00:00",
+   "estimate_nightly": 13556,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d455314",
+   "name": "Baan Yin Dee Boutique Resort",
+   "type": "Resort",
+   "rating": 4.6,
+   "reviews": 1855,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d455314-Reviews-Baan_Yin_Dee_Boutique_Resort-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/dd/04/f7/baan-yin-dee-boutique.jpg",
+   "lat": 7.882347,
+   "lng": 98.28372,
+   "labels": [],
+   "probe_nightly": 10473,
+   "probed_at": "2026-11-14T12:48:02+00:00",
+   "estimate_nightly": 10296,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d19508329",
+   "name": "Skyview Resort Phuket Patong Beach",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 401,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d19508329-Reviews-Skyview_Resort_Phuket_Patong_Beach-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/12/a6/b6/skyview-resort-phuket.jpg",
+   "lat": 7.902056,
+   "lng": 98.312515,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 8617,
+   "probed_at": "2026-11-14T12:48:08+00:00",
+   "estimate_nightly": 8611,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d28147689",
+   "name": "Wyndham Garden Phuket Kamala",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 369,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d28147689-Reviews-Wyndham_Garden_Phuket_Kamala-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/1c/a6/c5/outdoor-swimming-pool.jpg",
+   "lat": 7.964289,
+   "lng": 98.285126,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 13174,
+   "probed_at": "2026-11-14T12:48:11+00:00",
+   "estimate_nightly": 14441,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d8497908",
+   "name": "Bandara Beach Resort Phuket",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 1231,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1182846-d8497908-Reviews-Bandara_Beach_Resort_Phuket-Cape_Panwa_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/b9/2c/26/bandara-phuket-beach.jpg",
+   "lat": 7.81174,
+   "lng": 98.38879,
+   "labels": [],
+   "probe_nightly": 8111,
+   "probed_at": "2026-11-14T12:48:14+00:00",
+   "estimate_nightly": 11072,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d599731",
+   "name": "CC's Hideaway",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 1220,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d599731-Reviews-CC_s_Hideaway-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/4f/ad/d7/cc-s-hideaway.jpg",
+   "lat": 7.829782,
+   "lng": 98.30468,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": 9608,
+   "probed_at": "2026-11-14T12:48:17+00:00",
+   "estimate_nightly": 11662,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  }
+ ],
+ "candidates": [
+  {
+   "key": "g293920-d501009",
+   "name": "Chanalai Flora Resort",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 4046,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d501009-Reviews-Chanalai_Flora_Resort-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/b1/b0/25/chanalai-flora-resort.jpg",
+   "lat": 7.815472,
+   "lng": 98.301575,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": 20876,
+   "probed_at": "2026-11-14T13:01:17+00:00",
+   "estimate_nightly": 20876,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d13140255",
+   "name": "Hotel Clover Patong Phuket",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 3241,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d13140255-Reviews-Hotel_Clover_Patong_Phuket-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/de/24/53/surf-hotel-patong.jpg",
+   "lat": 7.895781,
+   "lng": 98.29673,
+   "labels": [],
+   "probe_nightly": 12009,
+   "probed_at": "2026-11-14T12:46:30+00:00",
+   "estimate_nightly": 13775,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d1379794",
+   "name": "Chanalai Romantica Resort",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 2341,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d1379794-Reviews-Chanalai_Romantica_Resort-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/32/66/b0/chanalai-romantica-resort.jpg",
+   "lat": 7.819165,
+   "lng": 98.30025,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ],
+   "probe_nightly": 16968,
+   "probed_at": "2026-11-14T12:46:31+00:00",
+   "estimate_nightly": 16968,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d26797773",
+   "name": "Courtyard by Marriott Phuket, Patong Beach Resort",
+   "type": "Resort",
+   "rating": 4.9,
+   "reviews": 2193,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d26797773-Reviews-Courtyard_by_Marriott_Phuket_Patong_Beach_Resort-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/35/1e/43/31/family-friendly-resort.jpg",
+   "lat": 7.886727,
+   "lng": 98.293884,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": 19459,
+   "probed_at": "2026-11-14T13:01:18+00:00",
+   "estimate_nightly": 19459,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d14076704",
+   "name": "Hotel Indigo Phuket Patong by IHG",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 2036,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d14076704-Reviews-Hotel_Indigo_Phuket_Patong_by_IHG-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/ab/04/34/hotel-indigo-phuket-patong.jpg",
+   "lat": 7.899389,
+   "lng": 98.29978,
+   "labels": [],
+   "probe_nightly": 14445,
+   "probed_at": "2026-11-14T13:01:18+00:00",
+   "estimate_nightly": 14445,
+   "estimate_source": "probe",
+   "band": "in_budget"
   },
   {
    "key": "g293920-d1634352",
@@ -55,7 +644,12 @@
    "labels": [
     "All inclusive",
     "Breakfast included"
-   ]
+   ],
+   "probe_nightly": 29588,
+   "probed_at": "2026-11-14T13:01:19+00:00",
+   "estimate_nightly": 29588,
+   "estimate_source": "probe",
+   "band": "too_pricey"
   },
   {
    "key": "g293920-d12725009",
@@ -67,7 +661,114 @@
    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/77/f6/5d/caption.jpg",
    "lat": 7.899594,
    "lng": 98.30387,
-   "labels": []
+   "labels": [],
+   "estimate_nightly": 11192,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d878006",
+   "name": "M Social Hotel Phuket",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 1196,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d878006-Reviews-M_Social_Hotel_Phuket-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/dd/b7/c6/caption.jpg",
+   "lat": 7.890149,
+   "lng": 98.2989,
+   "labels": [],
+   "probe_nightly": 15612,
+   "probed_at": "2026-11-14T12:46:34+00:00",
+   "estimate_nightly": 15612,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d1145465",
+   "name": "Anantara Mai Khao Phuket Villas",
+   "type": "Resort",
+   "rating": 4.8,
+   "reviews": 4573,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1223683-d1145465-Reviews-Anantara_Mai_Khao_Phuket_Villas-Mai_Khao_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/32/87/1c/0b/villa.jpg",
+   "lat": 8.169215,
+   "lng": 98.295555,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 37364,
+   "probed_at": "2026-11-14T12:46:34+00:00",
+   "estimate_nightly": 37364,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d12629455",
+   "name": "Avista Grande Phuket Karon - Mgallery Collection",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 3371,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g10804710-d12629455-Reviews-Avista_Grande_Phuket_Karon_Mgallery_Collection-Karon_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/30/b0/ec/5d/hero-shot.jpg",
+   "lat": 7.831495,
+   "lng": 98.29649,
+   "labels": [],
+   "probe_nightly": 30356,
+   "probed_at": "2026-11-14T12:46:37+00:00",
+   "estimate_nightly": 30356,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d642305",
+   "name": "BYD Lofts Boutique Hotel & Serviced Apartments",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 2903,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d642305-Reviews-BYD_Lofts_Boutique_Hotel_Serviced_Apartments-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/cc/f0/db/byd-lofts-main-building.jpg",
+   "lat": 7.90092,
+   "lng": 98.29963,
+   "labels": [],
+   "probe_nightly": 13988,
+   "probed_at": "2026-11-14T12:46:37+00:00",
+   "estimate_nightly": 19547,
+   "estimate_source": "observed",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d16711842",
+   "name": "InterContinental Phuket Resort by IHG",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 2825,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d16711842-Reviews-InterContinental_Phuket_Resort_by_IHG-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/f3/d6/40/caption.jpg",
+   "lat": 7.962113,
+   "lng": 98.28439,
+   "labels": [],
+   "probe_nightly": 62125,
+   "probed_at": "2026-11-14T12:46:40+00:00",
+   "estimate_nightly": 62125,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d586602",
+   "name": "Pacific Club Resort",
+   "type": "Resort",
+   "rating": 4.8,
+   "reviews": 2806,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g10804710-d586602-Reviews-Pacific_Club_Resort-Karon_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/30/3a/4c/51/7.jpg",
+   "lat": 7.856964,
+   "lng": 98.2959,
+   "labels": [],
+   "probe_nightly": 14912,
+   "probed_at": "2026-11-14T12:46:40+00:00",
+   "estimate_nightly": 14940,
+   "estimate_source": "observed",
+   "band": "in_budget"
   },
   {
    "key": "g293920-d5985109",
@@ -79,7 +780,10 @@
    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/b7/7f/bf/hotel-ground.jpg",
    "lat": 7.85432,
    "lng": 98.29534,
-   "labels": []
+   "labels": [],
+   "estimate_nightly": 10334,
+   "estimate_source": "observed",
+   "band": "in_budget"
   },
   {
    "key": "g293920-d634706",
@@ -93,7 +797,10 @@
    "lng": 98.40634,
    "labels": [
     "Breakfast included"
-   ]
+   ],
+   "estimate_nightly": 8295,
+   "estimate_source": "observed",
+   "band": "in_budget"
   },
   {
    "key": "g293920-d32867706",
@@ -107,7 +814,29 @@
    "lng": 98.386154,
    "labels": [
     "Breakfast included"
-   ]
+   ],
+   "probe_nightly": 21296,
+   "probed_at": "2026-11-14T13:01:19+00:00",
+   "estimate_nightly": 21296,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d1526109",
+   "name": "Novotel Phuket Kata Avista Resort And Spa",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 1921,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d1526109-Reviews-Novotel_Phuket_Kata_Avista_Resort_And_Spa-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/a7/9c/a6/best-resort-swimming.jpg",
+   "lat": 7.826001,
+   "lng": 98.29461,
+   "labels": [],
+   "probe_nightly": 17231,
+   "probed_at": "2026-11-14T12:46:43+00:00",
+   "estimate_nightly": 17231,
+   "estimate_source": "probe",
+   "band": "stretch"
   },
   {
    "key": "g293920-d7380294",
@@ -121,7 +850,12 @@
    "lng": 98.39091,
    "labels": [
     "Breakfast included"
-   ]
+   ],
+   "probe_nightly": 36802,
+   "probed_at": "2026-11-14T13:01:20+00:00",
+   "estimate_nightly": 36802,
+   "estimate_source": "probe",
+   "band": "too_pricey"
   },
   {
    "key": "g293920-d26855204",
@@ -135,7 +869,10 @@
    "lng": 98.286224,
    "labels": [
     "Breakfast included"
-   ]
+   ],
+   "estimate_nightly": 14792,
+   "estimate_source": "observed",
+   "band": "in_budget"
   },
   {
    "key": "g293920-d2542406",
@@ -149,7 +886,29 @@
    "lng": 98.28447,
    "labels": [
     "Breakfast included"
-   ]
+   ],
+   "probe_nightly": 13517,
+   "probed_at": "2026-11-14T13:01:20+00:00",
+   "estimate_nightly": 13517,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d305178",
+   "name": "Amari Phuket",
+   "type": "Resort",
+   "rating": 4.7,
+   "reviews": 11041,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d305178-Reviews-Amari_Phuket-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/33/48/c1/ab/caption.jpg",
+   "lat": 7.886679,
+   "lng": 98.28569,
+   "labels": [],
+   "probe_nightly": 19618,
+   "probed_at": "2026-11-14T12:46:43+00:00",
+   "estimate_nightly": 19618,
+   "estimate_source": "probe",
+   "band": "stretch"
   },
   {
    "key": "g293920-d503191",
@@ -163,7 +922,12 @@
    "lng": 98.27704,
    "labels": [
     "Breakfast included"
-   ]
+   ],
+   "probe_nightly": 91554,
+   "probed_at": "2026-11-14T13:01:21+00:00",
+   "estimate_nightly": 91554,
+   "estimate_source": "probe",
+   "band": "too_pricey"
   },
   {
    "key": "g293920-d519702",
@@ -175,7 +939,12 @@
    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/44/88/e7/royal-villa.jpg",
    "lat": 8.16589,
    "lng": 98.29509,
-   "labels": []
+   "labels": [],
+   "probe_nightly": 32278,
+   "probed_at": "2026-11-14T13:01:21+00:00",
+   "estimate_nightly": 32278,
+   "estimate_source": "probe",
+   "band": "too_pricey"
   },
   {
    "key": "g293920-d315568",
@@ -189,7 +958,12 @@
    "lng": 98.27234,
    "labels": [
     "All inclusive"
-   ]
+   ],
+   "probe_nightly": 28145,
+   "probed_at": "2026-11-14T13:01:22+00:00",
+   "estimate_nightly": 28145,
+   "estimate_source": "probe",
+   "band": "too_pricey"
   },
   {
    "key": "g293920-d12298464",
@@ -201,7 +975,12 @@
    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2f/ce/74/7c/caption.jpg",
    "lat": 7.815679,
    "lng": 98.38633,
-   "labels": []
+   "labels": [],
+   "probe_nightly": 16830,
+   "probed_at": "2026-11-14T13:01:22+00:00",
+   "estimate_nightly": 16830,
+   "estimate_source": "probe",
+   "band": "stretch"
   },
   {
    "key": "g293920-d3183240",
@@ -215,7 +994,32 @@
    "lng": 98.27795,
    "labels": [
     "Breakfast included"
-   ]
+   ],
+   "probe_nightly": 19786,
+   "probed_at": "2026-11-14T13:01:23+00:00",
+   "estimate_nightly": 19786,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d3399014",
+   "name": "Mandarava Resort and Spa",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 4838,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g10804710-d3399014-Reviews-Mandarava_Resort_and_Spa-Karon_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1e/19/f6/a3/mandarava-resort-and.jpg",
+   "lat": 7.856407,
+   "lng": 98.29595,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ],
+   "probe_nightly": 16174,
+   "probed_at": "2026-11-14T12:46:46+00:00",
+   "estimate_nightly": 16174,
+   "estimate_source": "probe",
+   "band": "stretch"
   },
   {
    "key": "g293920-d6390760",
@@ -229,7 +1033,12 @@
    "lng": 98.296555,
    "labels": [
     "All inclusive"
-   ]
+   ],
+   "probe_nightly": 15447,
+   "probed_at": "2026-11-14T13:01:23+00:00",
+   "estimate_nightly": 15447,
+   "estimate_source": "probe",
+   "band": "stretch"
   },
   {
    "key": "g293920-d447430",
@@ -241,7 +1050,123 @@
    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/98/d7/6d/jacuzzi-with-beach-view.jpg",
    "lat": 7.814266,
    "lng": 98.29923,
-   "labels": []
+   "labels": [],
+   "probe_nightly": 36998,
+   "probed_at": "2026-11-14T13:01:24+00:00",
+   "estimate_nightly": 36998,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d8275148",
+   "name": "Ramada by Wyndham Phuket Deevana Patong",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 3824,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d8275148-Reviews-Ramada_by_Wyndham_Phuket_Deevana_Patong-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/b5/ef/f4/ramada-by-wyndham-phuket.jpg",
+   "lat": 7.901343,
+   "lng": 98.30153,
+   "labels": [],
+   "probe_nightly": 8068,
+   "probed_at": "2026-11-14T12:46:47+00:00",
+   "estimate_nightly": 8658,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d315551",
+   "name": "The Surin Phuket",
+   "type": "Resort",
+   "rating": 4.7,
+   "reviews": 3394,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224250-d315551-Reviews-The_Surin_Phuket-Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/a4/93/63/caption.jpg",
+   "lat": 7.981185,
+   "lng": 98.27776,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 57361,
+   "probed_at": "2026-11-14T12:46:49+00:00",
+   "estimate_nightly": 57361,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d26687225",
+   "name": "Le Méridien Phuket Mai Khao Beach Resort",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 935,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1223683-d26687225-Reviews-Le_Meridien_Phuket_Mai_Khao_Beach_Resort-Mai_Khao_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/59/fd/42/aerial-view-of-the-resort.jpg",
+   "lat": 8.14659,
+   "lng": 98.300255,
+   "labels": [],
+   "probe_nightly": 21974,
+   "probed_at": "2026-11-14T12:46:50+00:00",
+   "estimate_nightly": 21974,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d4262323",
+   "name": "Navatara Phuket Resort",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 893,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297934-d4262323-Reviews-Navatara_Phuket_Resort-Rawai_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/fd/86/a0/navatara-phuket-resort.jpg",
+   "lat": 7.769615,
+   "lng": 98.3158,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 7728,
+   "probed_at": "2026-11-14T12:46:52+00:00",
+   "estimate_nightly": 9535,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d578956",
+   "name": "The Pavilions Phuket",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 2517,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224250-d578956-Reviews-The_Pavilions_Phuket-Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/bc/fa/39/caption.jpg",
+   "lat": 8.022835,
+   "lng": 98.30165,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ],
+   "probe_nightly": 17038,
+   "probed_at": "2026-11-14T12:46:53+00:00",
+   "estimate_nightly": 17038,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d1739625",
+   "name": "The Shore At Katathani",
+   "type": "Resort",
+   "rating": 4.7,
+   "reviews": 2341,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g7847985-d1739625-Reviews-The_Shore_At_Katathani-Kata_Noi_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/19/a8/d1/9b/the-shore-at-katathani.jpg",
+   "lat": 7.803555,
+   "lng": 98.3,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 87640,
+   "probed_at": "2026-11-14T12:46:55+00:00",
+   "estimate_nightly": 87640,
+   "estimate_source": "probe",
+   "band": "too_pricey"
   },
   {
    "key": "g293920-d2337076",
@@ -255,7 +1180,31 @@
    "lng": 98.45841,
    "labels": [
     "Breakfast included"
-   ]
+   ],
+   "probe_nightly": 42948,
+   "probed_at": "2026-11-14T13:01:24+00:00",
+   "estimate_nightly": 42948,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d29358301",
+   "name": "Radisson RED Phuket Patong Beach",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 501,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d29358301-Reviews-Radisson_RED_Phuket_Patong_Beach-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/30/35/ba/8b/caption.jpg",
+   "lat": 7.887551,
+   "lng": 98.2939,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 15121,
+   "probed_at": "2026-11-14T12:46:56+00:00",
+   "estimate_nightly": 15121,
+   "estimate_source": "probe",
+   "band": "stretch"
   },
   {
    "key": "g293920-d2615515",
@@ -269,7 +1218,31 @@
    "lng": 98.40763,
    "labels": [
     "Breakfast included"
-   ]
+   ],
+   "probe_nightly": 26490,
+   "probed_at": "2026-11-14T13:01:25+00:00",
+   "estimate_nightly": 26490,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d641478",
+   "name": "Anantara Layan Phuket Resort",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 2207,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224250-d641478-Reviews-Anantara_Layan_Phuket_Resort-Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/30/0f/36/aerial-view-of-anantara.jpg",
+   "lat": 8.035707,
+   "lng": 98.28445,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 59810,
+   "probed_at": "2026-11-14T12:46:58+00:00",
+   "estimate_nightly": 59810,
+   "estimate_source": "probe",
+   "band": "too_pricey"
   },
   {
    "key": "g293920-d1370724",
@@ -283,7 +1256,12 @@
    "lng": 98.274994,
    "labels": [
     "Breakfast included"
-   ]
+   ],
+   "probe_nightly": 67241,
+   "probed_at": "2026-11-14T13:01:25+00:00",
+   "estimate_nightly": 67241,
+   "estimate_source": "probe",
+   "band": "too_pricey"
   },
   {
    "key": "g293920-d3792194",
@@ -295,7 +1273,10 @@
    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/00/b7/02/new-social-media-cover.jpg",
    "lat": 7.88399,
    "lng": 98.27445,
-   "labels": []
+   "labels": [],
+   "estimate_nightly": 9982,
+   "estimate_source": "observed",
+   "band": "in_budget"
   },
   {
    "key": "g293920-d9865117",
@@ -309,7 +1290,10 @@
    "lng": 98.27658,
    "labels": [
     "Breakfast included"
-   ]
+   ],
+   "estimate_nightly": 11406,
+   "estimate_source": "observed",
+   "band": "in_budget"
   },
   {
    "key": "g293920-d566487",
@@ -321,7 +1305,50 @@
    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/80/9e/d9/outdoor-pool.jpg",
    "lat": 8.080786,
    "lng": 98.28851,
-   "labels": []
+   "labels": [],
+   "probe_nightly": 28632,
+   "probed_at": "2026-11-14T13:01:26+00:00",
+   "estimate_nightly": 28632,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d4909040",
+   "name": "Kata Rocks",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 754,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d4909040-Reviews-Kata_Rocks-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/de/10/5c/1-bedroom-ocean-loft.jpg",
+   "lat": 7.812541,
+   "lng": 98.297165,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 66502,
+   "probed_at": "2026-11-14T12:47:01+00:00",
+   "estimate_nightly": 66502,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d19819026",
+   "name": "Four Points by Sheraton Phuket Patong Beach Resort",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 1850,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d19819026-Reviews-Four_Points_by_Sheraton_Phuket_Patong_Beach_Resort-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/35/0d/1c/61/the-deck-beach-club-pool.jpg",
+   "lat": 7.90465,
+   "lng": 98.29732,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 17026,
+   "probed_at": "2026-11-14T12:47:01+00:00",
+   "estimate_nightly": 17026,
+   "estimate_source": "probe",
+   "band": "stretch"
   },
   {
    "key": "g293920-d21280235",
@@ -333,7 +1360,10 @@
    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/25/07/27/a6/wekata-luxury.jpg",
    "lat": 7.82425,
    "lng": 98.29972,
-   "labels": []
+   "labels": [],
+   "estimate_nightly": 8794,
+   "estimate_source": "observed",
+   "band": "in_budget"
   },
   {
    "key": "g293920-d1138064",
@@ -347,7 +1377,12 @@
    "lng": 98.28022,
    "labels": [
     "Breakfast included"
-   ]
+   ],
+   "probe_nightly": 39839,
+   "probed_at": "2026-11-14T13:01:29+00:00",
+   "estimate_nightly": 39839,
+   "estimate_source": "probe",
+   "band": "too_pricey"
   },
   {
    "key": "g293920-d19858880",
@@ -361,7 +1396,10 @@
    "lng": 98.43672,
    "labels": [
     "All inclusive"
-   ]
+   ],
+   "estimate_nightly": 9458,
+   "estimate_source": "observed",
+   "band": "in_budget"
   },
   {
    "key": "g293920-d302529",
@@ -373,7 +1411,29 @@
    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/35/13/a1/15/the-nai-harn-phuket-overview.jpg",
    "lat": 7.778529,
    "lng": 98.3032,
-   "labels": []
+   "labels": [],
+   "probe_nightly": 29880,
+   "probed_at": "2026-11-14T13:01:29+00:00",
+   "estimate_nightly": 29880,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d308518",
+   "name": "Marriott's Phuket Beach Club",
+   "type": "Resort",
+   "rating": 4.7,
+   "reviews": 1643,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1223683-d308518-Reviews-Marriott_s_Phuket_Beach_Club-Mai_Khao_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/9a/9c/12/hotel-overview.jpg",
+   "lat": 8.168163,
+   "lng": 98.29459,
+   "labels": [],
+   "probe_nightly": 44477,
+   "probed_at": "2026-11-14T12:47:04+00:00",
+   "estimate_nightly": 44477,
+   "estimate_source": "probe",
+   "band": "too_pricey"
   },
   {
    "key": "g293920-d455972",
@@ -387,7 +1447,12 @@
    "lng": 98.29503,
    "labels": [
     "Breakfast included"
-   ]
+   ],
+   "probe_nightly": 38006,
+   "probed_at": "2026-11-14T12:47:05+00:00",
+   "estimate_nightly": 38006,
+   "estimate_source": "probe",
+   "band": "too_pricey"
   },
   {
    "key": "g293920-d13320321",
@@ -399,7 +1464,1786 @@
    "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/fc/57/ef/hotel-exterior.jpg",
    "lat": 7.887911,
    "lng": 98.30386,
-   "labels": []
+   "labels": [],
+   "probe_nightly": 24092,
+   "probed_at": "2026-11-14T13:01:32+00:00",
+   "estimate_nightly": 24092,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d27430541",
+   "name": "The Proud Karon Beach Phuket Trademark Collection By Wyndham",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 660,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d27430541-Reviews-The_Proud_Karon_Beach_Phuket_Trademark_Collection_By_Wyndham-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/34/92/c3/caption.jpg",
+   "lat": 7.853362,
+   "lng": 98.29514,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 12056,
+   "probed_at": "2026-11-14T12:47:07+00:00",
+   "estimate_nightly": 11297,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d5511185",
+   "name": "COMO Point Yamu",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 1421,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g2315811-d5511185-Reviews-COMO_Point_Yamu-Pa_Khlok_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/7b/6a/f5/photo6jpg.jpg",
+   "lat": 7.985909,
+   "lng": 98.42156,
+   "labels": [],
+   "probe_nightly": 24777,
+   "probed_at": "2026-11-14T12:47:08+00:00",
+   "estimate_nightly": 24777,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d23684775",
+   "name": "Sinae Phuket",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 646,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g2315815-d23684775-Reviews-Sinae_Phuket-Ratsada_Phuket_Town_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/21/64/49/77/the-charm-of-siray-bay.jpg",
+   "lat": 7.872229,
+   "lng": 98.432,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 21971,
+   "probed_at": "2026-11-14T12:47:10+00:00",
+   "estimate_nightly": 21971,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d5039224",
+   "name": "Patong Mansion Hotel",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 1180,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d5039224-Reviews-Patong_Mansion_Hotel-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/a3/00/ba/swimming-pool-on-top.jpg",
+   "lat": 7.899009,
+   "lng": 98.30459,
+   "labels": [],
+   "probe_nightly": null,
+   "probed_at": "2026-11-14T13:01:45+00:00",
+   "band": null
+  },
+  {
+   "key": "g293920-d1503568",
+   "name": "Mövenpick Phuket Bangtao",
+   "type": "Resort",
+   "rating": 4.7,
+   "reviews": 1176,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g2400063-d1503568-Reviews-Movenpick_Phuket_Bangtao-Bang_Tao_Beach_Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/22/1c/1a/a8/caption.jpg",
+   "lat": 8.009165,
+   "lng": 98.293205,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 27138,
+   "probed_at": "2026-11-14T12:47:13+00:00",
+   "estimate_nightly": 27138,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d501408",
+   "name": "Mom Tri's Villa Royale",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 1147,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g7847985-d501408-Reviews-Mom_Tri_s_Villa_Royale-Kata_Noi_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/fb/bb/ac/a-look-from-above.jpg",
+   "lat": 7.810267,
+   "lng": 98.29753,
+   "labels": [],
+   "probe_nightly": 57722,
+   "probed_at": "2026-11-14T12:47:16+00:00",
+   "estimate_nightly": 57722,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d19116177",
+   "name": "Pamookkoo Resort",
+   "type": "Resort",
+   "rating": 4.7,
+   "reviews": 1129,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d19116177-Reviews-Pamookkoo_Resort-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/be/d6/9d/overview-hotel.jpg",
+   "lat": 7.818301,
+   "lng": 98.30064,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 16584,
+   "probed_at": "2026-11-14T12:47:20+00:00",
+   "estimate_nightly": 16584,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d7856400",
+   "name": "Keemala",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 1127,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d7856400-Reviews-Keemala-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/b8/c4/8b/caption.jpg",
+   "lat": 7.939344,
+   "lng": 98.28157,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 79728,
+   "probed_at": "2026-11-14T12:47:23+00:00",
+   "estimate_nightly": 79728,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d19055858",
+   "name": "Wyndham Grand Nai Harn Beach Phuket",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 1125,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1231757-d19055858-Reviews-Wyndham_Grand_Nai_Harn_Beach_Phuket-Nai_Harn_Rawai_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/33/60/dd/1c/caption.jpg",
+   "lat": 7.783116,
+   "lng": 98.311104,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 17504,
+   "probed_at": "2026-11-14T12:47:26+00:00",
+   "estimate_nightly": 17504,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d16798306",
+   "name": "OZO Phuket",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 1094,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d16798306-Reviews-OZO_Phuket-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/33/46/b3/1d/caption.jpg",
+   "lat": 7.824925,
+   "lng": 98.297005,
+   "labels": [],
+   "probe_nightly": 18539,
+   "probed_at": "2026-11-14T12:47:26+00:00",
+   "estimate_nightly": 18539,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d19906625",
+   "name": "Hilton Garden Inn Phuket Bang Tao",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 546,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224250-d19906625-Reviews-Hilton_Garden_Inn_Phuket_Bang_Tao-Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/e6/60/66/pool.jpg",
+   "lat": 7.996313,
+   "lng": 98.299644,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 22678,
+   "probed_at": "2026-11-14T12:47:36+00:00",
+   "estimate_nightly": 22678,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d557954",
+   "name": "Baan Laimai Beach Resort & Spa",
+   "type": "Resort",
+   "rating": 4.6,
+   "reviews": 7520,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d557954-Reviews-Baan_Laimai_Beach_Resort_Spa-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/cf/dc/5a/baan-laimai-beach-resort.jpg",
+   "lat": 7.889817,
+   "lng": 98.29316,
+   "labels": [],
+   "probe_nightly": 8468,
+   "probed_at": "2026-11-14T12:47:29+00:00",
+   "estimate_nightly": 10463,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d608086",
+   "name": "OUTRIGGER Surin Beach Resort",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 365,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224250-d608086-Reviews-OUTRIGGER_Surin_Beach_Resort-Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/a4/5b/d8/outrigger-surin-beach.jpg",
+   "lat": 7.976963,
+   "lng": 98.28042,
+   "labels": [],
+   "probe_nightly": 20905,
+   "probed_at": "2026-11-14T12:47:32+00:00",
+   "estimate_nightly": 20905,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d315573",
+   "name": "The Slate Phuket",
+   "type": "Resort",
+   "rating": 4.6,
+   "reviews": 5641,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215773-d315573-Reviews-The_Slate_Phuket-Nai_Yang_Sakhu_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/f6/7f/ff/caption.jpg",
+   "lat": 8.086414,
+   "lng": 98.29903,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 43130,
+   "probed_at": "2026-11-14T12:47:35+00:00",
+   "estimate_nightly": 43130,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d308958",
+   "name": "Chanalai Garden Resort",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 4999,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d308958-Reviews-Chanalai_Garden_Resort-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/8d/d9/37/chanalai-garden-resort.jpg",
+   "lat": 7.813336,
+   "lng": 98.29917,
+   "labels": [],
+   "probe_nightly": 15930,
+   "probed_at": "2026-11-14T12:47:38+00:00",
+   "estimate_nightly": 15930,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d2590339",
+   "name": "Novotel Phuket Vintage Park Resort",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 4801,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d2590339-Reviews-Novotel_Phuket_Vintage_Park_Resort-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/30/b6/64/fc/novotel-phuket-vintage.jpg",
+   "lat": 7.898879,
+   "lng": 98.30055,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 13719,
+   "probed_at": "2026-11-14T12:47:39+00:00",
+   "estimate_nightly": 14992,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d1461817",
+   "name": "Pullman Phuket Panwa Beach Resort",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 4792,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1182846-d1461817-Reviews-Pullman_Phuket_Panwa_Beach_Resort-Cape_Panwa_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/2f/9a/4f/pullman-phuket-panwa.jpg",
+   "lat": 7.810258,
+   "lng": 98.40254,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": 18325,
+   "probed_at": "2026-11-14T12:47:41+00:00",
+   "estimate_nightly": 18325,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d3217202",
+   "name": "Pullman Phuket Arcadia Naithon Beach",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 4662,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g2315813-d3217202-Reviews-Pullman_Phuket_Arcadia_Naithon_Beach-Sakhu_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/33/5b/49/3e/pullman-phuket-arcadia.jpg",
+   "lat": 8.063786,
+   "lng": 98.276825,
+   "labels": [],
+   "probe_nightly": 32289,
+   "probed_at": "2026-11-14T12:47:42+00:00",
+   "estimate_nightly": 32289,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d302772",
+   "name": "Banyan Tree Phuket",
+   "type": "Resort",
+   "rating": 4.6,
+   "reviews": 4643,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g15274191-d302772-Reviews-Banyan_Tree_Phuket-Cherngtalay_Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/f2/da/45/caption.jpg",
+   "lat": 8.014129,
+   "lng": 98.295555,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 66773,
+   "probed_at": "2026-11-14T12:47:44+00:00",
+   "estimate_nightly": 66773,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d16731325",
+   "name": "Mövenpick Myth Hotel Patong Phuket",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 880,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d16731325-Reviews-Movenpick_Myth_Hotel_Patong_Phuket-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/ae/57/58/movenpick-myth-hotel.jpg",
+   "lat": 7.902773,
+   "lng": 98.30158,
+   "labels": [],
+   "probe_nightly": 16759,
+   "probed_at": "2026-11-14T12:47:45+00:00",
+   "estimate_nightly": 16759,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d1026083",
+   "name": "Ayara Kamala Resort & Spa",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 861,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d1026083-Reviews-Ayara_Kamala_Resort_Spa-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/bc/3d/1b/ayara-kamala-resort-spa.jpg",
+   "lat": 7.943102,
+   "lng": 98.26357,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 19974,
+   "probed_at": "2026-11-14T12:47:49+00:00",
+   "estimate_nightly": 19974,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d305851",
+   "name": "SAii Laguna Phuket",
+   "type": "Resort",
+   "rating": 4.6,
+   "reviews": 3443,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224250-d305851-Reviews-SAii_Laguna_Phuket-Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/23/bf/13/96/saii-laguna-phuket.jpg",
+   "lat": 7.996368,
+   "lng": 98.29322,
+   "labels": [],
+   "probe_nightly": 32016,
+   "probed_at": "2026-11-14T12:47:48+00:00",
+   "estimate_nightly": 32016,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d23752072",
+   "name": "Anona Beachfront Phuket Resort",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 483,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d23752072-Reviews-Anona_Beachfront_Phuket_Resort-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/26/02/0a/e7/oceanfront-suite-private.jpg",
+   "lat": 7.889375,
+   "lng": 98.29289,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 12399,
+   "probed_at": "2026-11-14T12:47:51+00:00",
+   "estimate_nightly": 11457,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d1066939",
+   "name": "Twinpalms Surin Beach",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 2926,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g27538745-d1066939-Reviews-Twinpalms_Surin_Beach-Kamala_Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2f/f1/91/31/caption.jpg",
+   "lat": 7.977259,
+   "lng": 98.28051,
+   "labels": [],
+   "probe_nightly": 36756,
+   "probed_at": "2026-11-14T12:47:52+00:00",
+   "estimate_nightly": 36756,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d929148",
+   "name": "SALA Phuket Mai Khao Beach Resort",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 2353,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1223683-d929148-Reviews-SALA_Phuket_Mai_Khao_Beach_Resort-Mai_Khao_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/d3/b2/0b/sala-phuket-mai-khao.jpg",
+   "lat": 8.158018,
+   "lng": 98.296135,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 28841,
+   "probed_at": "2026-11-14T12:47:57+00:00",
+   "estimate_nightly": 28841,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d10728427",
+   "name": "AtEase Phuket Patong",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 705,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d10728427-Reviews-AtEase_Phuket_Patong-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/84/73/66/caption.jpg",
+   "lat": 7.903387,
+   "lng": 98.31348,
+   "labels": [],
+   "probe_nightly": 6971,
+   "probed_at": "2026-11-14T12:47:55+00:00",
+   "estimate_nightly": 6524,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d482416",
+   "name": "The Racha",
+   "type": "Resort",
+   "rating": 4.6,
+   "reviews": 1970,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224325-d482416-Reviews-The_Racha-Ko_Racha_Yai_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/e4/8f/41/one-of-the-world-s-most.jpg",
+   "lat": 7.6075,
+   "lng": 98.36833,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ],
+   "probe_nightly": 38260,
+   "probed_at": "2026-11-14T12:47:59+00:00",
+   "estimate_nightly": 38260,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d6802617",
+   "name": "The Yama Hotel Phuket",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 1951,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d6802617-Reviews-The_Yama_Hotel_Phuket-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/d9/13/5f/swimming-pool.jpg",
+   "lat": 7.820165,
+   "lng": 98.30974,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": 10384,
+   "probed_at": "2026-11-14T12:48:00+00:00",
+   "estimate_nightly": 13556,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d455314",
+   "name": "Baan Yin Dee Boutique Resort",
+   "type": "Resort",
+   "rating": 4.6,
+   "reviews": 1855,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d455314-Reviews-Baan_Yin_Dee_Boutique_Resort-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/dd/04/f7/baan-yin-dee-boutique.jpg",
+   "lat": 7.882347,
+   "lng": 98.28372,
+   "labels": [],
+   "probe_nightly": 10473,
+   "probed_at": "2026-11-14T12:48:02+00:00",
+   "estimate_nightly": 10296,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d17849519",
+   "name": "Stay Wellbeing & Lifestyle Resort",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 670,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297934-d17849519-Reviews-Stay_Wellbeing_Lifestyle_Resort-Rawai_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2f/71/d6/a8/stay-wellbeing-lifestyle.jpg",
+   "lat": 7.810584,
+   "lng": 98.33011,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 18303,
+   "probed_at": "2026-11-14T12:48:05+00:00",
+   "estimate_nightly": 18303,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d4302438",
+   "name": "Anantara Vacation Club Mai Khao Phuket",
+   "type": "Resort",
+   "rating": 4.6,
+   "reviews": 1732,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1223683-d4302438-Reviews-Anantara_Vacation_Club_Mai_Khao_Phuket-Mai_Khao_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/dd/0e/f1/divi-in-movie.jpg",
+   "lat": 8.165281,
+   "lng": 98.29603,
+   "labels": [],
+   "probe_nightly": 43763,
+   "probed_at": "2026-11-14T12:48:05+00:00",
+   "estimate_nightly": 43763,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d5861493",
+   "name": "Hyatt Regency Phuket Resort",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 1686,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d5861493-Reviews-Hyatt_Regency_Phuket_Resort-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/ce/52/19/infinity-pool.jpg",
+   "lat": 7.947233,
+   "lng": 98.27039,
+   "labels": [],
+   "probe_nightly": 24768,
+   "probed_at": "2026-11-14T12:48:08+00:00",
+   "estimate_nightly": 24768,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d19508329",
+   "name": "Skyview Resort Phuket Patong Beach",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 401,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d19508329-Reviews-Skyview_Resort_Phuket_Patong_Beach-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/12/a6/b6/skyview-resort-phuket.jpg",
+   "lat": 7.902056,
+   "lng": 98.312515,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 8617,
+   "probed_at": "2026-11-14T12:48:08+00:00",
+   "estimate_nightly": 8611,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d28147689",
+   "name": "Wyndham Garden Phuket Kamala",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 369,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d28147689-Reviews-Wyndham_Garden_Phuket_Kamala-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/1c/a6/c5/outdoor-swimming-pool.jpg",
+   "lat": 7.964289,
+   "lng": 98.285126,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 13174,
+   "probed_at": "2026-11-14T12:48:11+00:00",
+   "estimate_nightly": 14441,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d1231031",
+   "name": "Paresa Resort Phuket",
+   "type": "Resort",
+   "rating": 4.6,
+   "reviews": 1259,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d1231031-Reviews-Paresa_Resort_Phuket-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/26/df/70/b8/paresa-resort-phuket.jpg",
+   "lat": 7.933028,
+   "lng": 98.26274,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 57824,
+   "probed_at": "2026-11-14T12:48:11+00:00",
+   "estimate_nightly": 57824,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d8497908",
+   "name": "Bandara Beach Resort Phuket",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 1231,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1182846-d8497908-Reviews-Bandara_Beach_Resort_Phuket-Cape_Panwa_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/b9/2c/26/bandara-phuket-beach.jpg",
+   "lat": 7.81174,
+   "lng": 98.38879,
+   "labels": [],
+   "probe_nightly": 8111,
+   "probed_at": "2026-11-14T12:48:14+00:00",
+   "estimate_nightly": 11072,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d599731",
+   "name": "CC's Hideaway",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 1220,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d599731-Reviews-CC_s_Hideaway-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/4f/ad/d7/cc-s-hideaway.jpg",
+   "lat": 7.829782,
+   "lng": 98.30468,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": 9608,
+   "probed_at": "2026-11-14T12:48:17+00:00",
+   "estimate_nightly": 11662,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d25064968",
+   "name": "Zenmaya Oceanfront Phuket",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 353,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d25064968-Reviews-Zenmaya_Oceanfront_Phuket-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/c5/44/b2/caption.jpg",
+   "lat": 7.922455,
+   "lng": 98.279,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 17445,
+   "probed_at": "2026-11-14T12:48:18+00:00",
+   "estimate_nightly": 17445,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d32878360",
+   "name": "Tribe Phuket Patong",
+   "type": "Hotel",
+   "rating": 4.9,
+   "reviews": 261,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d32878360-Reviews-Tribe_Phuket_Patong-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/75/39/17/caption.jpg",
+   "lat": 7.898128,
+   "lng": 98.30268,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 8862,
+   "probed_at": "2026-11-14T12:48:20+00:00",
+   "estimate_nightly": 10884,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d1171320",
+   "name": "The Baray Villa",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 524,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d1171320-Reviews-The_Baray_Villa-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/06/e7/87/hotel-entrance.jpg",
+   "lat": 7.821456,
+   "lng": 98.30083,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": null,
+   "probed_at": "2026-11-14T13:01:47+00:00",
+   "band": null
+  },
+  {
+   "key": "g293920-d16656493",
+   "name": "Zenseana Resort & Spa",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 950,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297931-d16656493-Reviews-Zenseana_Resort_Spa-Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/22/43/ec/fc/zenseana-resort-and-spa.jpg",
+   "lat": 7.905131,
+   "lng": 98.300255,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 9428,
+   "probed_at": "2026-11-14T12:48:23+00:00",
+   "estimate_nightly": 8957,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d478107",
+   "name": "Pen Villa Hotel",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 324,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224250-d478107-Reviews-Pen_Villa_Hotel-Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/93/4a/f8/pen-villa-hotel.jpg",
+   "lat": 7.977784,
+   "lng": 98.28408,
+   "labels": [],
+   "probe_nightly": null,
+   "probed_at": "2026-11-14T13:01:59+00:00",
+   "band": null
+  },
+  {
+   "key": "g293920-d9994226",
+   "name": "Andaman Beach Hotel Phuket - Handwritten Collection",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 481,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d9994226-Reviews-Andaman_Beach_Hotel_Phuket_Handwritten_Collection-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2f/a8/a0/0f/swimmingpool-and-cabana.jpg",
+   "lat": 7.907042,
+   "lng": 98.29919,
+   "labels": [],
+   "probe_nightly": 10288,
+   "probed_at": "2026-11-14T12:48:36+00:00",
+   "estimate_nightly": 14163,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d1216191",
+   "name": "Casa E Mare",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 322,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d1216191-Reviews-Casa_E_Mare-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/de/4d/34/casa-e-mare.jpg",
+   "lat": 7.815425,
+   "lng": 98.30453,
+   "labels": [],
+   "probe_nightly": 6791,
+   "probed_at": "2026-11-14T12:48:39+00:00",
+   "estimate_nightly": 10430,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d595720",
+   "name": "Club Med Phuket",
+   "type": "Resort (All-Inclusive)",
+   "rating": 4.5,
+   "reviews": 8073,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d595720-Reviews-Club_Med_Phuket-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/33/df/83/0d/caption.jpg",
+   "lat": 7.822375,
+   "lng": 98.29802,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ],
+   "probe_nightly": null,
+   "probed_at": "2026-11-14T13:02:02+00:00",
+   "band": null
+  },
+  {
+   "key": "g293920-d505067",
+   "name": "Deevana Patong Resort & Spa",
+   "type": "Resort",
+   "rating": 4.5,
+   "reviews": 7468,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d505067-Reviews-Deevana_Patong_Resort_Spa-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/72/f3/87/deevana-patong-resort.jpg",
+   "lat": 7.900877,
+   "lng": 98.302444,
+   "labels": [],
+   "probe_nightly": 8266,
+   "probed_at": "2026-11-14T12:48:42+00:00",
+   "estimate_nightly": 9614,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d15023535",
+   "name": "The Nature Phuket",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 833,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d15023535-Reviews-The_Nature_Phuket-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/80/8f/76/the-nature-phuket.jpg",
+   "lat": 7.914989,
+   "lng": 98.29287,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 10315,
+   "probed_at": "2026-11-14T12:48:42+00:00",
+   "estimate_nightly": 11252,
+   "estimate_source": "observed",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d299572",
+   "name": "Novotel Phuket Resort",
+   "type": "Resort",
+   "rating": 4.5,
+   "reviews": 5868,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d299572-Reviews-Novotel_Phuket_Resort-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/7a/5d/6e/caption.jpg",
+   "lat": 7.908014,
+   "lng": 98.29768,
+   "labels": [],
+   "probe_nightly": 15402,
+   "probed_at": "2026-11-14T12:48:45+00:00",
+   "estimate_nightly": 15402,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d315550",
+   "name": "Burasari Resort",
+   "type": "Resort",
+   "rating": 4.5,
+   "reviews": 5845,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d315550-Reviews-Burasari_Resort-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/d4/e9/ed/main-photo.jpg",
+   "lat": 7.887962,
+   "lng": 98.29283,
+   "labels": [],
+   "probe_nightly": 12227,
+   "probed_at": "2026-11-14T12:48:45+00:00",
+   "estimate_nightly": 12227,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d315556",
+   "name": "Holiday Inn Resort Phuket By IHG",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 5556,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d315556-Reviews-Holiday_Inn_Resort_Phuket_By_IHG-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/bc/81/8e/holiday-inn-resort-phuket.jpg",
+   "lat": 7.888072,
+   "lng": 98.29413,
+   "labels": [],
+   "probe_nightly": 13216,
+   "probed_at": "2026-11-14T12:48:48+00:00",
+   "estimate_nightly": 13216,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d15327152",
+   "name": "LIV Hotel Phuket Patong Beachfront",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 304,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d15327152-Reviews-LIV_Hotel_Phuket_Patong_Beachfront-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/22/12/6a/b5/liv-hotel-phuket-beachfront.jpg",
+   "lat": 7.885784,
+   "lng": 98.2889,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 16441,
+   "probed_at": "2026-11-14T12:48:48+00:00",
+   "estimate_nightly": 16441,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d305747",
+   "name": "Thavorn Beach Village Resort & Spa",
+   "type": "Resort",
+   "rating": 4.5,
+   "reviews": 5026,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d305747-Reviews-Thavorn_Beach_Village_Resort_Spa-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/7a/56/9c/caption.jpg",
+   "lat": 7.92636,
+   "lng": 98.27358,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 16672,
+   "probed_at": "2026-11-14T12:48:52+00:00",
+   "estimate_nightly": 16672,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d26686894",
+   "name": "Villa Escape By Burasari",
+   "type": "Resort",
+   "rating": 4.9,
+   "reviews": 228,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g26351411-d26686894-Reviews-Villa_Escape_By_Burasari-Coconut_Island_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/3c/7c/f8/caption.jpg",
+   "lat": 7.942871,
+   "lng": 98.43618,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": null,
+   "probed_at": "2026-11-14T13:02:14+00:00",
+   "band": null
+  },
+  {
+   "key": "g293920-d1138025",
+   "name": "Amata Patong",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 3898,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d1138025-Reviews-Amata_Patong-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/34/87/53/28/caption.jpg",
+   "lat": 7.890293,
+   "lng": 98.29685,
+   "labels": [],
+   "probe_nightly": 8097,
+   "probed_at": "2026-11-14T12:48:55+00:00",
+   "estimate_nightly": 8097,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d1222500",
+   "name": "The Bell Pool Villa Resort Phuket",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 749,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d1222500-Reviews-The_Bell_Pool_Villa_Resort_Phuket-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/01/b9/1c/ac/luxury-villas-at-the.jpg",
+   "lat": 7.949778,
+   "lng": 98.292915,
+   "labels": [],
+   "probe_nightly": 28404,
+   "probed_at": "2026-11-14T12:48:58+00:00",
+   "estimate_nightly": 28404,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d1770227",
+   "name": "Nap Patong",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 2586,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d1770227-Reviews-Nap_Patong-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2f/0b/c2/13/caption.jpg",
+   "lat": 7.899878,
+   "lng": 98.29896,
+   "labels": [],
+   "probe_nightly": 10281,
+   "probed_at": "2026-11-14T12:49:01+00:00",
+   "estimate_nightly": 10281,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d299499",
+   "name": "Best Western Premier Bangtao Beach Resort & Spa",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 2571,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224250-d299499-Reviews-Best_Western_Premier_Bangtao_Beach_Resort_Spa-Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/23/53/0a/86/pool-family-wing.jpg",
+   "lat": 7.985347,
+   "lng": 98.286865,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": 23361,
+   "probed_at": "2026-11-14T12:49:04+00:00",
+   "estimate_nightly": 23361,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d305911",
+   "name": "Impiana Resort Patong Phuket",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 2495,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d305911-Reviews-Impiana_Resort_Patong_Phuket-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/44/e1/7c/impiana-resort-patong.jpg",
+   "lat": 7.896656,
+   "lng": 98.29602,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 13619,
+   "probed_at": "2026-11-14T12:49:06+00:00",
+   "estimate_nightly": 13619,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d11744431",
+   "name": "Rosewood Phuket",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 387,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d11744431-Reviews-Rosewood_Phuket-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/73/df/e4/rosewood-phuket.jpg",
+   "lat": 7.885727,
+   "lng": 98.27325,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 170406,
+   "probed_at": "2026-11-14T12:49:07+00:00",
+   "estimate_nightly": 170406,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d1550005",
+   "name": "Sawaddi Patong Resort & Spa by Tolani",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 2381,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d1550005-Reviews-Sawaddi_Patong_Resort_Spa_by_Tolani-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/2e/6a/9a/sawaddi-patong-resort.jpg",
+   "lat": 7.895489,
+   "lng": 98.30371,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 6498,
+   "probed_at": "2026-11-14T12:49:12+00:00",
+   "estimate_nightly": 6498,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d1023500",
+   "name": "Summer Breeze Hotel",
+   "type": "Small Hotel",
+   "rating": 4.7,
+   "reviews": 381,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d1023500-Reviews-Summer_Breeze_Hotel-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/62/01/e7/summer-breeze-hotel.jpg",
+   "lat": 7.892792,
+   "lng": 98.299385,
+   "labels": [],
+   "probe_nightly": 5598,
+   "probed_at": "2026-11-14T13:02:05+00:00",
+   "estimate_nightly": 5598,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d24046777",
+   "name": "Metadee Concept Hotel",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 2201,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d24046777-Reviews-Metadee_Concept_Hotel-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/ea/15/d3/caption.jpg",
+   "lat": 7.818861,
+   "lng": 98.303,
+   "labels": [],
+   "probe_nightly": 21455,
+   "probed_at": "2026-11-14T12:49:10+00:00",
+   "estimate_nightly": 21455,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d3963101",
+   "name": "Thanyapura Sports & Health Resort Phuket",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 632,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297937-d3963101-Reviews-Thanyapura_Sports_Health_Resort_Phuket-Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/03/24/cf/thanyapura-sports-health.jpg",
+   "lat": 8.049137,
+   "lng": 98.35119,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 9665,
+   "probed_at": "2026-11-14T12:49:13+00:00",
+   "estimate_nightly": 9665,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d535970",
+   "name": "Beyond Karon",
+   "type": "Resort",
+   "rating": 4.5,
+   "reviews": 2020,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g10804710-d535970-Reviews-Beyond_Karon-Karon_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/04/96/3e/caption.jpg",
+   "lat": 7.829563,
+   "lng": 98.295,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": 28617,
+   "probed_at": "2026-11-14T12:49:15+00:00",
+   "estimate_nightly": 28617,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d1214283",
+   "name": "The Vijitt Resort Phuket",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 1852,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297934-d1214283-Reviews-The_Vijitt_Resort_Phuket-Rawai_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/07/0a/65/caption.jpg",
+   "lat": 7.79269,
+   "lng": 98.33277,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 15323,
+   "probed_at": "2026-11-14T12:49:16+00:00",
+   "estimate_nightly": 15323,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d506557",
+   "name": "Sawasdee Village",
+   "type": "Resort",
+   "rating": 4.5,
+   "reviews": 1850,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d506557-Reviews-Sawasdee_Village-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/dd/ef/72/sawasdee-village.jpg",
+   "lat": 7.821329,
+   "lng": 98.30073,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 25223,
+   "probed_at": "2026-11-14T12:49:18+00:00",
+   "estimate_nightly": 25223,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d23280699",
+   "name": "Courtyard by Marriott Phuket Town",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 355,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g2315818-d23280699-Reviews-Courtyard_by_Marriott_Phuket_Town-Talat_Yai_Phuket_Town_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/21/5d/47/20/courtyard-by-marriott.jpg",
+   "lat": 7.880792,
+   "lng": 98.39296,
+   "labels": [],
+   "probe_nightly": 10202,
+   "probed_at": "2026-11-14T12:49:19+00:00",
+   "estimate_nightly": 10202,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d3502247",
+   "name": "Sunsuri Phuket",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 1670,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1231757-d3502247-Reviews-Sunsuri_Phuket-Nai_Harn_Rawai_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/b3/6d/f3/main-pool-with-sha.jpg",
+   "lat": 7.779279,
+   "lng": 98.307755,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 19532,
+   "probed_at": "2026-11-14T12:49:21+00:00",
+   "estimate_nightly": 19532,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d305835",
+   "name": "Orchidacea Resort",
+   "type": "Resort",
+   "rating": 4.5,
+   "reviews": 1657,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d305835-Reviews-Orchidacea_Resort-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/0f/58/78/swimming-pool.jpg",
+   "lat": 7.812277,
+   "lng": 98.298706,
+   "labels": [],
+   "probe_nightly": 25110,
+   "probed_at": "2026-11-14T13:02:13+00:00",
+   "estimate_nightly": 25110,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d12009343",
+   "name": "Wyndham Grand Phuket Kalim Bay",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 1569,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d12009343-Reviews-Wyndham_Grand_Phuket_Kalim_Bay-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/33/91/cf/2d/taken-from-our-top-floor.jpg",
+   "lat": 7.923203,
+   "lng": 98.27924,
+   "labels": [],
+   "probe_nightly": 12291,
+   "probed_at": "2026-11-14T12:49:24+00:00",
+   "estimate_nightly": 12291,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d3243560",
+   "name": "Mellow Space Boutique Rooms",
+   "type": "Small Hotel",
+   "rating": 4.8,
+   "reviews": 248,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d3243560-Reviews-Mellow_Space_Boutique_Rooms-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/02/c8/75/7a/mellow-space-boutique.jpg",
+   "lat": 7.834457,
+   "lng": 98.29874,
+   "labels": [],
+   "probe_nightly": null,
+   "probed_at": "2026-11-14T13:02:28+00:00",
+   "band": null
+  },
+  {
+   "key": "g293920-d305846",
+   "name": "Mangosteen Ayurveda & Wellness Resort",
+   "type": "Resort",
+   "rating": 4.6,
+   "reviews": 552,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297934-d305846-Reviews-Mangosteen_Ayurveda_Wellness_Resort-Rawai_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/33/be/0b/2b/mangosteen-ayurveda-wellness.jpg",
+   "lat": 7.794875,
+   "lng": 98.32908,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": null,
+   "probed_at": "2026-11-14T13:02:29+00:00",
+   "band": null
+  },
+  {
+   "key": "g293920-d4107395",
+   "name": "Kata Sea View Villas",
+   "type": "Villa",
+   "rating": 4.8,
+   "reviews": 241,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d4107395-Reviews-Kata_Sea_View_Villas-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/6b/12/e7/pool.jpg",
+   "lat": 7.820727,
+   "lng": 98.31045,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 22278,
+   "probed_at": "2026-11-14T13:02:31+00:00",
+   "estimate_nightly": 22278,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d1098621",
+   "name": "La Flora Resort Patong",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 1260,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d1098621-Reviews-La_Flora_Resort_Patong-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/33/f5/42/6c/caption.jpg",
+   "lat": 7.895339,
+   "lng": 98.29588,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 19392,
+   "probed_at": "2026-11-14T12:49:37+00:00",
+   "estimate_nightly": 19392,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d26858017",
+   "name": "Wyndham Garden Naithon Phuket",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 321,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1231756-d26858017-Reviews-Wyndham_Garden_Naithon_Phuket-Nai_Thon_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/2e/41/7a/caption.jpg",
+   "lat": 8.058514,
+   "lng": 98.27983,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 15305,
+   "probed_at": "2026-11-14T12:49:42+00:00",
+   "estimate_nightly": 15305,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d10400876",
+   "name": "Novotel Phuket City Phokeethra",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 491,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g2315818-d10400876-Reviews-Novotel_Phuket_City_Phokeethra-Talat_Yai_Phuket_Town_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/cb/40/85/facade.jpg",
+   "lat": 7.879067,
+   "lng": 98.395,
+   "labels": [],
+   "probe_nightly": 10692,
+   "probed_at": "2026-11-14T12:49:49+00:00",
+   "estimate_nightly": 10692,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d624359",
+   "name": "Sri Panwa Phuket Luxury Pool Villa Hotel",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 1104,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1182846-d624359-Reviews-Sri_Panwa_Phuket_Luxury_Pool_Villa_Hotel-Cape_Panwa_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/6e/05/fb/the-habita.jpg",
+   "lat": 7.801941,
+   "lng": 98.410995,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 39925,
+   "probed_at": "2026-11-14T12:49:45+00:00",
+   "estimate_nightly": 39925,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d1100013",
+   "name": "Marriott's Mai Khao Resort - Phuket",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 1013,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1223683-d1100013-Reviews-Marriott_s_Mai_Khao_Resort_Phuket-Mai_Khao_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/f6/2b/36/caption.jpg",
+   "lat": 8.17087,
+   "lng": 98.2965,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": 38278,
+   "probed_at": "2026-11-14T12:49:48+00:00",
+   "estimate_nightly": 38278,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d12536535",
+   "name": "The SIS Kata",
+   "type": "Resort",
+   "rating": 4.5,
+   "reviews": 994,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d12536535-Reviews-The_SIS_Kata-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2f/c7/a8/2b/caption.jpg",
+   "lat": 7.812475,
+   "lng": 98.299995,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ],
+   "probe_nightly": 14137,
+   "probed_at": "2026-11-14T12:49:51+00:00",
+   "estimate_nightly": 14137,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d23650176",
+   "name": "Melia Phuket Mai Khao",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 429,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1223683-d23650176-Reviews-Melia_Phuket_Mai_Khao-Mai_Khao_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/df/9d/a1/meliaphuketmaikhao-sol.jpg",
+   "lat": 8.148997,
+   "lng": 98.30088,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ],
+   "probe_nightly": 30806,
+   "probed_at": "2026-11-14T12:49:52+00:00",
+   "estimate_nightly": 30806,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d26817900",
+   "name": "Sole Mio Boutique Hotel & Wellness",
+   "type": "Hotel",
+   "rating": 4.8,
+   "reviews": 207,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224250-d26817900-Reviews-Sole_Mio_Boutique_Hotel_Wellness-Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/30/c8/34/ff/caption.jpg",
+   "lat": 7.992445,
+   "lng": 98.29334,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 15132,
+   "probed_at": "2026-11-14T12:49:54+00:00",
+   "estimate_nightly": 15132,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d13489919",
+   "name": "Kudo Hotel & Beach Club",
+   "type": "Hotel",
+   "rating": 4.7,
+   "reviews": 272,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d13489919-Reviews-Kudo_Hotel_Beach_Club-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/4c/20/c3/caption.jpg",
+   "lat": 7.894819,
+   "lng": 98.29565,
+   "labels": [],
+   "probe_nightly": 32491,
+   "probed_at": "2026-11-14T12:49:55+00:00",
+   "estimate_nightly": 32491,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d1022121",
+   "name": "Villa Zolitude Resort and Spa",
+   "type": "Resort",
+   "rating": 4.5,
+   "reviews": 828,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1389361-d1022121-Reviews-Villa_Zolitude_Resort_and_Spa-Chalong_Phuket_Town_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/02/62/7e/caption.jpg",
+   "lat": 7.86624,
+   "lng": 98.33061,
+   "labels": [],
+   "probe_nightly": 24084,
+   "probed_at": "2026-11-14T12:49:57+00:00",
+   "estimate_nightly": 24084,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d1185987",
+   "name": "The Pe La Resort, Phuket",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 407,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1379324-d1185987-Reviews-The_Pe_La_Resort_Phuket-Kamala_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/30/8f/9e/79/caption.jpg",
+   "lat": 7.945946,
+   "lng": 98.279305,
+   "labels": [],
+   "probe_nightly": 11050,
+   "probed_at": "2026-11-14T12:50:08+00:00",
+   "estimate_nightly": 11050,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d967908",
+   "name": "Homm Suites Laguna",
+   "type": "Resort",
+   "rating": 4.5,
+   "reviews": 818,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224250-d967908-Reviews-Homm_Suites_Laguna-Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/30/30/16/ec/swimming-pool.jpg",
+   "lat": 8.003389,
+   "lng": 98.29871,
+   "labels": [],
+   "probe_nightly": 15486,
+   "probed_at": "2026-11-14T12:50:00+00:00",
+   "estimate_nightly": 15486,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d634552",
+   "name": "Phuket Airport Hotel",
+   "type": "Resort",
+   "rating": 4.5,
+   "reviews": 719,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215773-d634552-Reviews-Phuket_Airport_Hotel-Nai_Yang_Sakhu_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/33/56/e8/04/caption.jpg",
+   "lat": 8.100965,
+   "lng": 98.306595,
+   "labels": [],
+   "probe_nightly": 7199,
+   "probed_at": "2026-11-14T12:50:03+00:00",
+   "estimate_nightly": 7199,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d540134",
+   "name": "Katathani Phuket Beach Resort",
+   "type": "Resort",
+   "rating": 4.4,
+   "reviews": 6804,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g7847985-d540134-Reviews-Katathani_Phuket_Beach_Resort-Kata_Noi_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/a1/4a/b1/katathani-phuket-beach.jpg",
+   "lat": 7.807484,
+   "lng": 98.299675,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": null,
+   "probed_at": "2026-11-14T13:02:44+00:00",
+   "band": null
+  },
+  {
+   "key": "g293920-d305270",
+   "name": "Pullman Phuket Karon Beach Resort",
+   "type": "Resort",
+   "rating": 4.4,
+   "reviews": 6329,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d305270-Reviews-Pullman_Phuket_Karon_Beach_Resort-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/29/12/ff/52/pullman-phuket-arcadia.jpg",
+   "lat": 7.838384,
+   "lng": 98.29548,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": 16340,
+   "probed_at": "2026-11-14T12:50:11+00:00",
+   "estimate_nightly": 16340,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d609715",
+   "name": "Centara Karon Resort Phuket",
+   "type": "Resort",
+   "rating": 4.4,
+   "reviews": 6108,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d609715-Reviews-Centara_Karon_Resort_Phuket-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/03/2a/50/69/centara-karon-resort.jpg",
+   "lat": 7.849124,
+   "lng": 98.29599,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ],
+   "probe_nightly": 24984,
+   "probed_at": "2026-11-14T12:50:14+00:00",
+   "estimate_nightly": 24984,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d1793896",
+   "name": "Centara Grand Beach Resort Phuket",
+   "type": "Hotel",
+   "rating": 4.4,
+   "reviews": 5803,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d1793896-Reviews-Centara_Grand_Beach_Resort_Phuket-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/33/39/a9/6d/caption.jpg",
+   "lat": 7.857856,
+   "lng": 98.2904,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ],
+   "probe_nightly": 23642,
+   "probed_at": "2026-11-14T12:50:17+00:00",
+   "estimate_nightly": 23642,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d13498555",
+   "name": "Grand Kata VIP",
+   "type": "Hotel",
+   "rating": 4.6,
+   "reviews": 359,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1210687-d13498555-Reviews-Grand_Kata_VIP-Kata_Beach_Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/25/0e/04/35/grand-kata-vip.jpg",
+   "lat": 7.824481,
+   "lng": 98.29933,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 12856,
+   "probed_at": "2026-11-14T12:50:20+00:00",
+   "estimate_nightly": 12856,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d302525",
+   "name": "Le Méridien Phuket Beach Resort",
+   "type": "Resort",
+   "rating": 4.4,
+   "reviews": 4731,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d302525-Reviews-Le_Meridien_Phuket_Beach_Resort-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/cd/cd/67/a-luxurious-beach-getaway.jpg",
+   "lat": 7.864976,
+   "lng": 98.28229,
+   "labels": [
+    "All inclusive"
+   ],
+   "probe_nightly": 29466,
+   "probed_at": "2026-11-14T12:50:21+00:00",
+   "estimate_nightly": 29466,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d448627",
+   "name": "DoubleTree by Hilton Phuket Banthai Resort",
+   "type": "Resort",
+   "rating": 4.4,
+   "reviews": 4649,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d448627-Reviews-DoubleTree_by_Hilton_Phuket_Banthai_Resort-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/1a/0a/1f/one-of-the-three-outdoor.jpg",
+   "lat": 7.890758,
+   "lng": 98.294716,
+   "labels": [],
+   "probe_nightly": 21446,
+   "probed_at": "2026-11-14T12:50:23+00:00",
+   "estimate_nightly": 21446,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d1186184",
+   "name": "Barcelo Coconut Island",
+   "type": "Villa",
+   "rating": 4.4,
+   "reviews": 4332,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g26351411-d1186184-Reviews-Barcelo_Coconut_Island-Coconut_Island_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/30/e0/d5/0a/the-5-star-barcelo-coconut.jpg",
+   "lat": 7.940702,
+   "lng": 98.42288,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ],
+   "probe_nightly": 17604,
+   "probed_at": "2026-11-14T13:02:34+00:00",
+   "estimate_nightly": 17604,
+   "estimate_source": "probe",
+   "band": "stretch"
+  },
+  {
+   "key": "g293920-d587262",
+   "name": "Cape Panwa Hotel",
+   "type": "Hotel",
+   "rating": 4.4,
+   "reviews": 4094,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1182846-d587262-Reviews-Cape_Panwa_Hotel-Cape_Panwa_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/23/5e/97/6d/cape-panwa-hotel.jpg",
+   "lat": 7.807415,
+   "lng": 98.40922,
+   "labels": [
+    "All inclusive",
+    "Breakfast included"
+   ],
+   "probe_nightly": 27104,
+   "probed_at": "2026-11-14T12:50:24+00:00",
+   "estimate_nightly": 27104,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d12792594",
+   "name": "Beyond  Patong",
+   "type": "Hotel",
+   "rating": 4.5,
+   "reviews": 634,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g297930-d12792594-Reviews-Beyond_Patong-Patong_Kathu_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/ba/3c/79/beyond-hotel-patong.jpg",
+   "lat": 7.897439,
+   "lng": 98.2973,
+   "labels": [],
+   "probe_nightly": 10178,
+   "probed_at": "2026-11-14T12:50:26+00:00",
+   "estimate_nightly": 10178,
+   "estimate_source": "probe",
+   "band": "in_budget"
+  },
+  {
+   "key": "g293920-d301365",
+   "name": "Dusit Thani Laguna Phuket",
+   "type": "Resort",
+   "rating": 4.4,
+   "reviews": 3069,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1224250-d301365-Reviews-Dusit_Thani_Laguna_Phuket-Choeng_Thale_Thalang_District_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/32/7a/0d/44/area-view.jpg",
+   "lat": 8.001707,
+   "lng": 98.29371,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 35520,
+   "probed_at": "2026-11-14T12:50:27+00:00",
+   "estimate_nightly": 35520,
+   "estimate_source": "probe",
+   "band": "too_pricey"
+  },
+  {
+   "key": "g293920-d305735",
+   "name": "Thavorn Palm Beach Resort",
+   "type": "Resort",
+   "rating": 4.4,
+   "reviews": 2955,
+   "url": "https://www.tripadvisor.com/Hotel_Review-g1215780-d305735-Reviews-Thavorn_Palm_Beach_Resort-Karon_Phuket.html",
+   "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/09/6c/16/caption.jpg",
+   "lat": 7.83609,
+   "lng": 98.296425,
+   "labels": [
+    "Breakfast included"
+   ],
+   "probe_nightly": 25328,
+   "probed_at": "2026-11-14T12:50:29+00:00",
+   "estimate_nightly": 25328,
+   "estimate_source": "probe",
+   "band": "too_pricey"
   }
  ]
 }
