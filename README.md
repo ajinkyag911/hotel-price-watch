@@ -5,7 +5,7 @@ date windows to find the cheapest check-in, keeps the history, charts it, alerts
 drops, and finds super-value stays in Goa, Phuket and Langkawi. Runs on GitHub Actions; the app
 is served by GitHub Pages. No server, no cost.
 
-Live: https://ajinkyag911.github.io/hotel-price-watch/
+Live: https://ajinkyag911.github.io/stayhawk/
 
 ## How it works
 

@@ -252,7 +252,7 @@ export function repoInfo() {
   const m = location.hostname.match(/^([^.]+)\.github\.io$/);
   const repo = location.pathname.split("/").filter(Boolean)[0];
   if (m && repo) return { owner: m[1], repo };
-  return { owner: "ajinkyag911", repo: "hotel-price-watch" };
+  return { owner: "ajinkyag911", repo: "stayhawk" };
 }
 
 export const repoUrl = () => {
