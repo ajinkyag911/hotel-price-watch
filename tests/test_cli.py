@@ -175,3 +175,25 @@ def test_show_without_history(workspace: Path, capsys) -> None:
     out = capsys.readouterr().out
     assert "no readings yet" in out
     assert "no results yet" in out
+
+
+class BlockedFake(FakeProvider):
+    def fetch(self, target) -> Reading:
+        from hotelwatch.http import BlockedError
+
+        self.calls += 1
+        raise BlockedError("HTTP 403 (bot check) from u")
+
+
+def test_run_blocked_does_not_fail_the_job(workspace: Path, monkeypatch) -> None:
+    monkeypatch.setattr(cli, "get_provider", lambda name: BlockedFake())
+    assert cli.main(_argv(workspace, "run")) == 0
+
+
+def test_scan_blocked_out_keeps_previous_results(workspace: Path, monkeypatch) -> None:
+    monkeypatch.setattr(cli, "get_provider", lambda name: FakeProvider(price=50000.0))
+    assert cli.main(_argv(workspace, "scan")) == 0
+    monkeypatch.setattr(cli, "get_provider", lambda name: BlockedFake())
+    assert cli.main(_argv(workspace, "scan")) == 0
+    rows = (workspace / "data/scans.jsonl").read_text().strip().splitlines()
+    assert len(rows) == 1  # the blocked run was not stored

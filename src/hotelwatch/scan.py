@@ -8,10 +8,16 @@ from datetime import datetime
 from typing import Any
 
 from hotelwatch.fx import Converter
+from hotelwatch.http import BlockedError
 from hotelwatch.models import Reading, ScanTarget
 from hotelwatch.providers.base import Provider, ProviderError
 
 log = logging.getLogger(__name__)
+
+# After this many dates in a row are refused by the site's bot check, skip the rest of the window
+# for this run: the block is site-wide, and hammering it only lengthens the job (and risks the
+# job timeout taking every other scan's results down with it).
+MAX_CONSECUTIVE_BLOCKS = 3
 
 
 @dataclass(frozen=True)
@@ -33,6 +39,7 @@ class ScanResult:
     points: tuple[ScanPoint, ...]
     failures: int
     fx_rate: float | None = None
+    blocked: int = 0  # dates refused or skipped because of a bot check; not stored
 
     def to_record(self) -> dict[str, Any]:
         return {
@@ -52,14 +59,34 @@ def run_scan(scan: ScanTarget, provider: Provider, fx: Converter | None = None) 
     failures = 0
     currency = ""
     basis = "before_tax"
-    for check_in in scan.check_in_dates():
+    dates = scan.check_in_dates()
+    streak = 0
+    blocked = 0
+    for i, check_in in enumerate(dates):
         target = scan.target_for(check_in)
         try:
             reading: Reading = provider.fetch(target)
+        except BlockedError as exc:
+            failures += 1
+            blocked += 1
+            streak += 1
+            log.warning("%s %s: %s", scan.id, check_in, exc)
+            if streak >= MAX_CONSECUTIVE_BLOCKS:
+                skipped = len(dates) - i - 1
+                failures += skipped
+                blocked += skipped
+                log.warning(
+                    "%s: blocked %d times in a row; skipping the other %d date(s) this run",
+                    scan.id, streak, skipped,
+                )  # fmt: skip
+                break
+            continue
         except (ProviderError, RuntimeError) as exc:
             failures += 1
             log.warning("%s %s: %s", scan.id, check_in, exc)
+            streak = 0
             continue
+        streak = 0
         currency = currency or reading.currency
         basis = reading.price_basis
         points.append(
@@ -80,4 +107,5 @@ def run_scan(scan: ScanTarget, provider: Provider, fx: Converter | None = None) 
         points=tuple(points),
         failures=failures,
         fx_rate=fx.rate(currency) if fx and currency else None,
+        blocked=blocked,
     )

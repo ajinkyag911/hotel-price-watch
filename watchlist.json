@@ -50,6 +50,30 @@
       "adults": 2,
       "children": [],
       "country": "TH"
+    },
+    {
+      "id": "tolani-ota-cheapest-2027-01-06",
+      "name": "Tolani Resort Koh Samui · cheapest room on Booking.com, Agoda, Trip.com",
+      "url": "https://www.tripadvisor.com/Hotel_Review-g2314594-d1090119-Reviews-Tolani_Resort_Koh_Samui-Maret_Ko_Samui_Surat_Thani_Province.html",
+      "provider": "xotelo",
+      "room": "Cheapest room",
+      "check_in": "2027-01-06",
+      "check_out": "2027-01-11",
+      "adults": 2,
+      "children": [],
+      "country": "TH"
+    },
+    {
+      "id": "tolani-ota-cheapest-2027-01-09",
+      "name": "Tolani Resort Koh Samui · cheapest room on Booking.com, Agoda, Trip.com",
+      "url": "https://www.tripadvisor.com/Hotel_Review-g2314594-d1090119-Reviews-Tolani_Resort_Koh_Samui-Maret_Ko_Samui_Surat_Thani_Province.html",
+      "provider": "xotelo",
+      "room": "Cheapest room",
+      "check_in": "2027-01-09",
+      "check_out": "2027-01-14",
+      "adults": 2,
+      "children": [],
+      "country": "TH"
     }
   ],
   "scans": [
@@ -101,6 +125,18 @@
       "to": "2027-01-31",
       "adults": 2,
       "country": "IN"
+    },
+    {
+      "id": "tolani-ota-cheapest-5n",
+      "name": "Tolani Resort Koh Samui · cheapest room on Booking.com, Agoda, Trip.com",
+      "url": "https://www.tripadvisor.com/Hotel_Review-g2314594-d1090119-Reviews-Tolani_Resort_Koh_Samui-Maret_Ko_Samui_Surat_Thani_Province.html",
+      "provider": "xotelo",
+      "room": "Cheapest room",
+      "nights": 5,
+      "from": "2026-12-01",
+      "to": "2027-02-28",
+      "adults": 2,
+      "country": "TH"
     }
   ]
 }

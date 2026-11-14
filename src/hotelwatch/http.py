@@ -37,12 +37,24 @@ class HttpError(RuntimeError):
     pass
 
 
+class BlockedError(HttpError):
+    """The site's bot check (e.g. a Cloudflare challenge) refused us. We never try to solve or
+    get around it; callers may retry later, fall back to another source, or skip."""
+
+
+def _is_challenge(exc: urllib.error.HTTPError) -> bool:
+    headers = exc.headers or {}
+    return exc.code in (403, 503) and (headers.get("cf-mitigated") or "").lower() == "challenge"
+
+
 def _with_retries(send: Callable[[], bytes], what: str, retries: int, backoff: float) -> bytes:
     last_exc: Exception | None = None
     for attempt in range(1, retries + 1):
         try:
             return send()
         except urllib.error.HTTPError as exc:
+            if _is_challenge(exc):
+                raise BlockedError(f"HTTP {exc.code} (bot check) from {what}") from exc
             if exc.code in RETRY_STATUSES and attempt < retries:
                 last_exc = exc
             else:

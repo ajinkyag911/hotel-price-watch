@@ -5,10 +5,12 @@ from __future__ import annotations
 from hotelwatch.providers.base import Provider, ProviderError
 from hotelwatch.providers.propertyibe import PropertyIbeProvider
 from hotelwatch.providers.swiftbook import SwiftbookProvider
+from hotelwatch.providers.xotelo import XoteloProvider
 
 _PROVIDERS: dict[str, type[Provider]] = {
     SwiftbookProvider.name: SwiftbookProvider,
     PropertyIbeProvider.name: PropertyIbeProvider,
+    XoteloProvider.name: XoteloProvider,
 }
 
 
@@ -34,6 +36,7 @@ __all__ = [
     "Provider",
     "ProviderError",
     "SwiftbookProvider",
+    "XoteloProvider",
     "detect_provider",
     "get_provider",
 ]

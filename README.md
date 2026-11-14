@@ -25,6 +25,10 @@ watchlist.json ─┬─► hotelwatch run   (every 6 h) ──► data/history.
   * `swiftbook` — STAAH SwiftBook (`swiftbook.io/inst/#home?propertyId=…`). Prices before tax.
   * `propertyibe` — the "propertyibe2" JavaServer Faces engine (e.g. `booking.tolanihotels.com/propertyibe2/`).
     Prices include taxes and fees.
+  * `xotelo` — the free [Xotelo](https://xotelo.com) API over TripAdvisor's rate comparison; the
+    `url` is the hotel's TripAdvisor page. Gives the **cheapest room** on each travel site
+    (Booking.com, Agoda, Trip.com…) as a stay total; `rate_plan` can pin one site. A fallback for
+    hotels whose own engine can't be read. Taxes may be extra, depending on the site.
 
   Each reading carries `price_basis` (`before_tax` or `after_tax`) and the page labels it.
   Add an engine by implementing `fetch(target) -> Reading` in `src/hotelwatch/providers/` and
@@ -92,3 +96,8 @@ python3 -m http.server -d docs 8765         # view the page at http://localhost:
   Override with the `SWIFTBOOK_API_KEY` environment variable if it rotates.
 * The propertyibe provider keeps one server session per property and waits 0.6 s between
   requests, so a 90-day scan takes a couple of minutes.
+* **Bot checks.** When a site answers with a bot check (a Cloudflare challenge, `cf-mitigated:
+  challenge`), the provider still retries as usual but never tries to solve or get around it.
+  A spot target that stays blocked is logged as a warning and retried next run; it doesn't fail
+  the job. A scan stops after 3 blocked dates in a row, and a scan blocked outright isn't stored,
+  so the page keeps the previous prices. The Xotelo targets keep Tolani's prices flowing meanwhile.

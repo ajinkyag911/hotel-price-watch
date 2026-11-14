@@ -12,6 +12,7 @@ from pathlib import Path
 from hotelwatch import __version__
 from hotelwatch.alerts import evaluate, send_ntfy, write_alerts
 from hotelwatch.fx import Converter
+from hotelwatch.http import BlockedError
 from hotelwatch.models import Reading, Watchlist, WatchlistError, load_watchlist
 from hotelwatch.providers import ProviderError, get_provider
 from hotelwatch.scan import ScanResult, run_scan
@@ -78,12 +79,19 @@ def cmd_run(args: argparse.Namespace) -> int:
     readings: list[Reading] = []
     alerts = []
     failures = 0
+    blocked = 0
 
     for t in wl.targets:
         prior = [r for r in history if r["target_id"] == t.id]
         try:
             provider = providers.setdefault(t.provider, get_provider(t.provider))
             reading = provider.fetch(t)  # type: ignore[attr-defined]
+        except BlockedError as exc:
+            # The site's bot check refused us even after retries. Not a bug on our side, so it
+            # doesn't fail the run; the next run retries and any fallback target keeps data flowing.
+            blocked += 1
+            log.warning("%s: blocked by the site's bot check, will retry next run (%s)", t.id, exc)
+            continue
         except (ProviderError, RuntimeError) as exc:
             failures += 1
             log.error("%s: %s", t.id, exc)
@@ -113,7 +121,9 @@ def cmd_run(args: argparse.Namespace) -> int:
     write_alerts(args.alerts, alerts)
     if alerts and send_ntfy(alerts):
         log.info("sent %d alert(s) via ntfy", len(alerts))
-    log.info("wrote %d reading(s); %d failure(s)", len(readings), failures)
+    log.info("wrote %d reading(s); %d failure(s); %d blocked", len(readings), failures, blocked)
+    if blocked:
+        print(f"::warning::{blocked} target(s) blocked by a site bot check; will retry next run")
     return 1 if failures else 0
 
 
@@ -150,12 +160,19 @@ def cmd_scan(args: argparse.Namespace) -> int:
             print(json.dumps(r.to_record(), indent=1, ensure_ascii=False))
         return 0
 
-    append_scan_results(args.scans, results)
+    # A scan the bot check blocked outright has nothing to say; storing it would make the page
+    # read "nothing available" instead of keeping the last real prices.
+    blocked_out = [r for r in results if not r.points and r.blocked]
+    for r in blocked_out:
+        log.warning("%s: blocked by the site's bot check; keeping the previous results", r.scan_id)
+        print(f"::warning::{r.scan_id} blocked by a site bot check; will retry next run")
+    kept = [r for r in results if r not in blocked_out]
+    append_scan_results(args.scans, kept)
     _rebuild_site(args, wl)
-    total_failures = sum(r.failures for r in results)
-    log.info("wrote %d scan result(s); %d failed date(s)", len(results), total_failures)
-    # Partial failures are tolerated; a scan with no data at all is a job failure.
-    return 1 if any(not r.points for r in results) else 0
+    total_failures = sum(r.failures for r in kept)
+    log.info("wrote %d scan result(s); %d failed date(s)", len(kept), total_failures)
+    # Partial failures are tolerated; a scan with no data at all (and not blocked) is a job failure.
+    return 1 if any(not r.points for r in kept) else 0
 
 
 def cmd_build(args: argparse.Namespace) -> int:

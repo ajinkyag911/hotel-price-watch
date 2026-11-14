@@ -85,3 +85,27 @@ def test_run_scan_attaches_rate_for_currency() -> None:
     )  # fmt: skip
     fx = Converter(lambda url, **kw: {"rates": {"INR": 2.75}})
     assert run_scan(s, DateProvider(), fx).fx_rate == 2.75
+
+
+class BlockedProvider(DateProvider):
+    def __init__(self) -> None:
+        self.calls = 0
+
+    def fetch(self, target) -> Reading:
+        from hotelwatch.http import BlockedError
+
+        self.calls += 1
+        raise BlockedError("HTTP 403 (bot check) from u")
+
+
+def test_run_scan_stops_after_repeated_blocks() -> None:
+    from hotelwatch.scan import MAX_CONSECUTIVE_BLOCKS
+
+    s = ScanTarget(
+        id="s", name="n", url="u", provider="fake", room="r", nights=2,
+        from_date=date(2027, 1, 1), to_date=date(2027, 1, 31),
+    )  # fmt: skip
+    p = BlockedProvider()
+    result = run_scan(s, p)
+    assert p.calls == MAX_CONSECUTIVE_BLOCKS
+    assert result.points == () and result.failures == 31 and result.blocked == 31
